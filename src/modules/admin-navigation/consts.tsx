@@ -3,7 +3,7 @@ import { AdminNewsIconSvg } from 'src/UI/icons/adminNewsIconSVG'
 import { AdminSupportIconSvg } from 'src/UI/icons/adminSupportIconSVG'
 import { AdminEventsIconSvg } from 'src/UI/icons/adminEventsIconSVG'
 import { AdminSettingsIconSvg } from 'src/UI/icons/adminSettingsIconSVG'
-import { AdminAboutIconSvg } from 'src/UI/icons/adminFederationIconSVG'
+// import { AdminAboutIconSvg } from 'src/UI/icons/adminFederationIconSVG'
 import { AdminLibraryIconSvg } from 'src/UI/icons/adminLibraryIconSVG'
 import { AdminDepartmentsIconSvg } from 'src/UI/icons/adminDepartmentsIconSVG'
 import { AdminPartnersIconSvg } from 'src/UI/icons/adminPartnersIconSvg'
@@ -16,8 +16,8 @@ export const adminMenuItems: NavigationItem[] = [
 		link: 'news/news-list',
 	},
 	{
-		title: 'Атманов Угол',
-		icon: <AdminAboutIconSvg />,
+		title: 'Об этноспорте',
+		icon: <AdminLibraryIconSvg />,
 		link: 'atmans',
 	},
 	{

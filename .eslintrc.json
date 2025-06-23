@@ -37,7 +37,14 @@
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto", // Решает проблему с LF/CRLF (актуально для Windows)
+        "semi": false,        // Пример: отключает точки с запятой, если у вас такой стиль
+        "singleQuote": true   // Пример: использует одинарные кавычки
+      }
+    ],
     "react/prop-types": 0,
     "@typescript-eslint/triple-slash-reference": 0,
     "@typescript-eslint/no-confusing-void-expression": 0,
@@ -62,6 +69,11 @@
       }
     ],
     "@typescript-eslint/explicit-function-return-type": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect" // Автоматически определяет версию React из `node_modules`
+    }
   },
   "ignorePatterns": [
     "vite.config.ts",
