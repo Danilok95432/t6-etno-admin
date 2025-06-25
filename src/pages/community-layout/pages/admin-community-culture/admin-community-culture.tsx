@@ -98,6 +98,8 @@ export const AdminCommunityCulture: FC = () => {
 		}
 	}
 
+	console.log(cultureCommunityData)
+
 	useEffect(() => {
 		if (cultureCommunityData) {
 			methods.reset({ ...cultureCommunityData })
@@ -107,13 +109,13 @@ export const AdminCommunityCulture: FC = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Традиции Атманова угла</title>
+				<title>Русский этноспорт</title>
 			</Helmet>
 
-			<AdminContent title='Традиции Атманова угла' $backgroundColor='#ffffff'>
+			<AdminContent title='Русский этноспорт' $backgroundColor='#ffffff'>
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
-						<QuillEditor $heightEditor='310px' name='topDesc' label='Текст-анонс*' />
+						<QuillEditor $heightEditor='310px' name='topDesc' label='Текст-анонс' />
 						<ReactDropzone
 							margin='30px 0 0 0'
 							label={`Галерея изображений (${cultureCommunityData?.photos?.length} из 8)`}

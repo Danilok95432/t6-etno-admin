@@ -28,7 +28,7 @@ export const TraditionInfo = () => {
 			</Helmet>
 			<AdminContent className={styles.traditionInfoPage}>
 				<Link
-					to={`/${AdminRoute.AdminAtmans}/${AdminRoute.AdminAtmansTraditions}`}
+					to={`/${AdminRoute.AdminAbout}/${AdminRoute.AdminAbout}`}
 					className={adminStyles.adminReturnLink}
 				>
 					Возврат к списку элементов
@@ -115,7 +115,7 @@ export const TraditionInfo = () => {
 					</form>
 				</FormProvider>
 				<Link
-					to={`/${AdminRoute.AdminAtmans}/${AdminRoute.AdminAtmansTraditions}`}
+					to={`/${AdminRoute.AdminAbout}/${AdminRoute.AdminAbout}`}
 					className={adminStyles.adminReturnLink}
 				>
 					Возврат к списку элементов

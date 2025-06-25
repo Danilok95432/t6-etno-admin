@@ -81,12 +81,12 @@ export const CultureElements: FC<CultureElementsProps> = ({ cultures = [] }) => 
 	}
 
 	const rowClickHandler = (id: string) => {
-		navigate(`/culture/culture-info/${id}`)
+		navigate(`/etnosport/etnosport-info/${id}`)
 	}
 
 	const handleAddCultureClick = async () => {
 		const newId = await addCulture()
-		navigate(`/culture/culture-info/${newId}`)
+		navigate(`/etnosport/etnosport-info/${newId}`)
 	}
 
 	if (!cultures) return <Loader />

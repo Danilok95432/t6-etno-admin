@@ -21,14 +21,14 @@ type MainSectionProps = {
 	photo?: ImageItemWithText[]
 	photos?: ImageItemWithText[]
 	chainedEvent?: SelOption[]
-	chainedObjects?: MultiSelOption[]
+	chainedVids?: MultiSelOption[]
 }
 
 export const MainSection: FC<MainSectionProps> = ({
 	galleryOptions,
 	photo,
 	photos,
-	chainedObjects,
+	chainedVids,
 	chainedEvent,
 }) => {
 	const { id = '0' } = useParams()
@@ -66,12 +66,10 @@ export const MainSection: FC<MainSectionProps> = ({
 				margin='0 0 20px 0'
 			/>
 			<ControlledMultipleSelect
-				name='objlist'
-				label='Связанные объекты'
-				selectOptions={
-					chainedObjects ?? [{ label: 'Выберите объект', value: '0', selected: false }]
-				}
-				placeholder='Выберите объекты'
+				name='vidslist'
+				label='Связанные виды'
+				selectOptions={chainedVids ?? [{ label: 'Выберите вид', value: '0', selected: false }]}
+				placeholder='Выберите виды'
 				margin='0 0 20px 0'
 			/>
 			<ControlledInput name='relatedNews' label='Связанная новость' margin='0 0 20px 0' />

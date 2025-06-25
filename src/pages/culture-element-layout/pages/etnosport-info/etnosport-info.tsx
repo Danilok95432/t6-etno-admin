@@ -1,38 +1,48 @@
-import { Link, useParams } from 'react-router-dom'
+import {
+	type CultureInfoInputs,
+	cultureInfoSchema,
+} from 'src/pages/culture-element-layout/pages/etnosport-info/schema'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
+import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { AdminRoute } from 'src/routes/admin-routes/consts'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useCallback, useEffect, useState } from 'react'
 
-import { AddButton } from 'src/UI/AddButton/AddButton'
-import { AddImageCulturePlusSVG } from 'src/UI/icons/addImageCulturePlusSVG'
-import { AdminButton } from 'src/UI/AdminButton/AdminButton'
+import {
+	useGetCultureInfoQuery,
+	useSaveCultureInfoCommunityMutation,
+} from 'src/store/cultures/cultures.api'
+import { transformToFormData } from 'src/helpers/utils'
+
 import { AdminContent } from 'src/components/admin-content/admin-content'
+import { AdminRoute } from 'src/routes/admin-routes/consts'
 import { ControlledInput } from 'src/components/controlled-input/controlled-input'
 import { ReactDropzone } from 'src/components/react-dropzone/react-dropzone'
 import { QuillEditor } from 'src/components/quill-editor/quill-editor'
+import { AddButton } from 'src/UI/AddButton/AddButton'
 import { FlexRow } from 'src/components/flex-row/flex-row'
+import { AdminButton } from 'src/UI/AdminButton/AdminButton'
+import { AddImageCulturePlusSVG } from 'src/UI/icons/addImageCulturePlusSVG'
 
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
 import styles from './index.module.scss'
-import { useGetGameInfoQuery, useSaveGameInfoCommunityMutation } from 'src/store/games/games.api'
-import { useCallback, useEffect, useState } from 'react'
-import { type ImageItemWithText } from 'src/types/photos'
-import { useGetNewIdImageQuery } from 'src/store/uploadImages/uploadImages.api'
 import { useActions } from 'src/hooks/actions/actions'
+import { useGetNewIdImageQuery } from 'src/store/uploadImages/uploadImages.api'
 import { ImageModal } from 'src/modals/images-modal/images-modal'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { type ImageItemWithText } from 'src/types/photos'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
-import { transformToFormData } from 'src/helpers/utils'
-import { type GameInfoInputs, gameInfoSchema } from './schema'
+import { ControlledSelect } from 'src/components/controlled-select/controlled-select'
 
-export const GameInfo = () => {
+export const EtnosportInfo = () => {
 	const { id = '0' } = useParams()
-	const { data: gameInfoData } = useGetGameInfoQuery(id)
-	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(gameInfoData?.photos ?? [])
-	const [saveGameInfo] = useSaveGameInfoCommunityMutation()
+	const { data: cultureInfoData } = useGetCultureInfoQuery(id)
+	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(
+		cultureInfoData?.photos ?? [],
+	)
+	const [saveCultureInfo] = useSaveCultureInfoCommunityMutation()
 
 	const { refetch: getNewId } = useGetNewIdImageQuery({
-		imgtype: 'games_photo',
+		imgtype: 'traditions_photo',
 		idItem: id,
 	})
 	const addImage = async () => {
@@ -62,7 +72,7 @@ export const GameInfo = () => {
 		openModal(
 			<ImageModal
 				id={newId}
-				imgtype='game_photo'
+				imgtype='cultures_photo'
 				syncAddHandler={syncAddImagesHandler}
 				syncEditHandler={syncEditImagesHandler}
 			/>,
@@ -70,12 +80,12 @@ export const GameInfo = () => {
 	}
 
 	useEffect(() => {
-		setLocaleImages(gameInfoData?.photos ?? [])
-	}, [gameInfoData?.photos])
+		setLocaleImages(cultureInfoData?.photos ?? [])
+	}, [cultureInfoData?.photos])
 
-	const methods = useForm<GameInfoInputs>({
+	const methods = useForm<CultureInfoInputs>({
 		mode: 'onBlur',
-		resolver: yupResolver(gameInfoSchema),
+		resolver: yupResolver(cultureInfoSchema),
 		defaultValues: {
 			logo: [],
 			photos: [],
@@ -84,9 +94,9 @@ export const GameInfo = () => {
 
 	const { isSent, markAsSent } = useIsSent(methods.control)
 
-	const onSubmit: SubmitHandler<GameInfoInputs> = async (data) => {
+	const onSubmit: SubmitHandler<CultureInfoInputs> = async (data) => {
 		try {
-			const res = await saveGameInfo(transformToFormData(data))
+			const res = await saveCultureInfo(transformToFormData(data))
 			if (res) markAsSent(true)
 		} catch (e) {
 			console.error(e)
@@ -94,19 +104,19 @@ export const GameInfo = () => {
 	}
 
 	useEffect(() => {
-		if (gameInfoData) {
-			methods.reset({ ...gameInfoData })
+		if (cultureInfoData) {
+			methods.reset({ ...cultureInfoData })
 		}
-	}, [gameInfoData])
+	}, [cultureInfoData])
 
 	return (
 		<>
 			<Helmet>
-				<title>Одна игра</title>
+				<title>Информация</title>
 			</Helmet>
-			<AdminContent className={styles.gameInfoPage}>
+			<AdminContent className={styles.cultureInfoPage}>
 				<Link
-					to={`/${AdminRoute.AdminAtmans}/${AdminRoute.AdminAtmansGames}`}
+					to={`/${AdminRoute.AdminAbout}/${AdminRoute.AdminAboutEtnosport}`}
 					className={adminStyles.adminReturnLink}
 				>
 					Возврат к списку элементов
@@ -120,22 +130,28 @@ export const GameInfo = () => {
 							maxWidth='1140px'
 							margin='0 0 20px 0'
 						/>
+						<ControlledSelect
+							name='vid'
+							label='Вид участия *'
+							margin='0 0 20px 0'
+							selectOptions={[{ label: 'Не выбрано', value: '0' }]}
+							className={styles.selectVid}
+						/>
 						<ReactDropzone
-							label='Фотография *'
+							label='Изображение вида *'
 							name='logo'
 							prompt='PNG, JPG, JPEG. 1000 х1000px, не более 3 Мб'
 							accept={{ 'image/png': ['.png'], 'image/jpeg': ['.jpeg'] }}
 							margin='0 0 20px 0'
 							previewVariant='sm-img'
-							imgtype='games'
-							fileImages={gameInfoData?.logo}
+							imgtype='traditions'
+							fileImages={cultureInfoData?.logo}
 						/>
-
 						<QuillEditor
 							name='topDesc'
-							label='Текст-анонс'
-							$heightEditor='105px'
+							label='Первый текстовый блок'
 							$maxWidth='1140px'
+							$heightEditor='105px'
 						/>
 						<ReactDropzone
 							margin='30px 0 20px 0'
@@ -148,8 +164,8 @@ export const GameInfo = () => {
 							fileImages={localeImages}
 							syncAdd={syncAddImagesHandler}
 							syncEdit={syncEditImagesHandler}
-							imgtype='games_photo'
-							dzAreaClassName={styles.gameGalleryController}
+							imgtype='traditions_photo'
+							dzAreaClassName={styles.cultureGalleryController}
 							multiple
 							customOpenModal={
 								<AddButton
@@ -172,7 +188,7 @@ export const GameInfo = () => {
 						/>
 						<QuillEditor
 							name='bottomDesc'
-							label='Текст статьи'
+							label='Второй текстовый блок'
 							$heightEditor='105px'
 							$maxWidth='1140px'
 						/>
@@ -186,6 +202,12 @@ export const GameInfo = () => {
 						</FlexRow>
 					</form>
 				</FormProvider>
+				<Link
+					to={`/${AdminRoute.AdminAbout}/${AdminRoute.AdminAboutEtnosport}`}
+					className={adminStyles.adminReturnLink}
+				>
+					Возврат к списку элементов
+				</Link>
 			</AdminContent>
 		</>
 	)

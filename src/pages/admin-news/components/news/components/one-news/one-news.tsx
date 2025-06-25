@@ -45,8 +45,8 @@ export const OneNews = () => {
 	const onSubmit: SubmitHandler<OneNewsInputs> = async (data) => {
 		const dateFormat = formatDate(data.itemdate)
 		let selectedObj = ''
-		if (typeof data.objlist !== 'string' && data.objlist) {
-			selectedObj = data.objlist
+		if (typeof data.vidslist !== 'string' && data.vidslist) {
+			selectedObj = data.vidslist
 				.filter((opt) => opt.selected)
 				.map((opt) => opt.value)
 				.join(',')
@@ -67,7 +67,8 @@ export const OneNews = () => {
 			hidden: booleanToNumberString(data.hidden),
 			id_event:
 				typeof data.events === 'string' ? data.events : data.events ? data.events[0].value : '0',
-			objlist: typeof data.objlist === 'string' ? data.objlist : data.objlist ? selectedObj : '0',
+			vidslist:
+				typeof data.vidslist === 'string' ? data.vidslist : data.vidslist ? selectedObj : '0',
 		}
 		const newsInfoFormData = transformToFormData(serverData)
 		const newsId = id
@@ -100,7 +101,7 @@ export const OneNews = () => {
 									photo={newsInfoData?.photo}
 									photos={newsInfoData?.photos}
 									chainedEvent={newsInfoData?.events}
-									chainedObjects={newsInfoData?.objlist}
+									chainedVids={newsInfoData?.vidslist}
 								/>
 								<SeoSection />
 							</div>

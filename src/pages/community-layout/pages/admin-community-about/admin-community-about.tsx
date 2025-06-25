@@ -59,9 +59,9 @@ export const AdminCommunityAbout: FC = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Атманов Угол</title>
+				<title>Русский Этноспорт</title>
 			</Helmet>
-			<AdminContent title='Атманов Угол' link='https://атманов-угол.рф/about'>
+			<AdminContent title='Атманов угол' link='https://атманов-угол.рф/about'>
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
 						<TitleSection logo={aboutCommunityData?.logo} />

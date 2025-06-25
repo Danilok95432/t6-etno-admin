@@ -15,10 +15,10 @@ import { type MultiSelOption, type SelOption } from 'src/types/select'
 type MainSectionProps = {
 	photo?: ImageItemWithText[]
 	chainedEvent?: SelOption[]
-	chainedObjects?: MultiSelOption[]
+	chainedVids?: MultiSelOption[]
 }
 
-export const MainSection: FC<MainSectionProps> = ({ photo, chainedObjects, chainedEvent }) => {
+export const MainSection: FC<MainSectionProps> = ({ photo, chainedVids, chainedEvent }) => {
 	return (
 		<AdminSection isBlock={false}>
 			<ControlledInput
@@ -46,11 +46,9 @@ export const MainSection: FC<MainSectionProps> = ({ photo, chainedObjects, chain
 			/>
 			<ControlledMultipleSelect
 				name='objlist'
-				label='Связанные объекты'
-				selectOptions={
-					chainedObjects ?? [{ label: 'Выберите объект', value: '0', selected: false }]
-				}
-				placeholder='Выберите объекты'
+				label='Связанные виды'
+				selectOptions={chainedVids ?? [{ label: 'Выберите виды', value: '0', selected: false }]}
+				placeholder='Выберите виды'
 				margin='0 0 20px 0'
 			/>
 			<ControlledInput

@@ -82,7 +82,7 @@ export const communityApi = createApi({
 		}),
 		getCultureCommunity: build.query<CultureCommunityResponse, null>({
 			query: () => ({
-				url: `home/tradition/edit`,
+				url: `vids/list`,
 			}),
 			providesTags: ['CommunityCulture'],
 		}),

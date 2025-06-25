@@ -28,5 +28,5 @@ export type VideoInfoResponse = {
 	date: Date
 	photo: ImageItemWithText[]
 	events: SelOption[]
-	objlist: MultiSelOption[]
+	vidslist: MultiSelOption[]
 }

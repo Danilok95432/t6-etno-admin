@@ -4,22 +4,22 @@ import { TabNavigation } from 'src/components/tab-navigation/tab-navigation'
 
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
 
-export const GameElementLayout = () => {
+export const FunElementLayout = () => {
 	const { id } = useParams()
 	const gameTabs: TabNavigationItem[] = [
 		{
 			title: 'Информация',
-			link: `/game/game-info/${id ?? 'new'}`,
+			link: `/fun/fun-info/${id ?? 'new'}`,
 		},
 		{
-			title: 'История',
-			link: `/game/game-history/${id ?? 'new'}`,
+			title: 'Правила',
+			link: `/fun/fun-rules/${id ?? 'new'}`,
 		},
 	]
 	return (
 		<>
 			<div className={adminStyles.adminTitleTab}>
-				<h1>Одна игра</h1>
+				<h1>Одна исконная забава</h1>
 				<TabNavigation navItems={gameTabs} />
 			</div>
 			<Outlet />

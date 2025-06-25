@@ -4,23 +4,23 @@ import type { TabNavigationItem } from 'src/types/navigation'
 
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
 
-export const CultureElementLayout = () => {
+export const EtnosportElementLayout = () => {
 	const { id } = useParams()
-	const cultureTabs: TabNavigationItem[] = [
+	const etnoTabs: TabNavigationItem[] = [
 		{
 			title: 'Информация',
-			link: `/culture/culture-info/${id ?? 'new'}`,
+			link: `/etnosport/etnosport-info/${id ?? 'new'}`,
 		},
 		{
-			title: 'История',
-			link: `/culture/culture-history/${id ?? 'new'}`,
+			title: 'Правила',
+			link: `/etnosport/etnosport-rules/${id ?? 'new'}`,
 		},
 	]
 	return (
 		<>
 			<div className={adminStyles.adminTitleTab}>
-				<h1>Одна традиция</h1>
-				<TabNavigation navItems={cultureTabs} />
+				<h1>Один вид этноспорта</h1>
+				<TabNavigation navItems={etnoTabs} />
 			</div>
 			<Outlet />
 		</>

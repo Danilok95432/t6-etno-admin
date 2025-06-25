@@ -18,7 +18,7 @@ export const adminMenuItems: NavigationItem[] = [
 	{
 		title: 'Об этноспорте',
 		icon: <AdminLibraryIconSvg />,
-		link: 'atmans',
+		link: 'about',
 	},
 	{
 		title: 'Объекты',

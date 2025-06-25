@@ -98,7 +98,7 @@ export const AdminEventContacts: FC = () => {
 				</form>
 			</FormProvider>
 			<Link
-				to={`/${AdminRoute.AdminAtmans}/${AdminRoute.AdminEventsList}`}
+				to={`/${AdminRoute.AdminAbout}/${AdminRoute.AdminEventsList}`}
 				className={adminStyles.adminReturnLink}
 			>
 				Возврат к списку событий

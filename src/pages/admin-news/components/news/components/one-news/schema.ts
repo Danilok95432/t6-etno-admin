@@ -14,7 +14,7 @@ export type OneNewsInputs = {
 	itemdate: string
 	news_gallerys?: SelOption[]
 	events?: string | SelOption[]
-	objlist?: string | MultiSelOption[]
+	vidslist?: string | MultiSelOption[]
 	relatedNews?: string
 	id_gallery?: string
 	short: string

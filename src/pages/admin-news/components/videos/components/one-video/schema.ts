@@ -10,7 +10,7 @@ export type OneVideoInputs = {
 	vkexport: string
 	photo?: ImageItemWithText[]
 	events?: string | SelOption[]
-	objlist?: string | MultiSelOption[]
+	vidslist?: string | MultiSelOption[]
 	hidden?: boolean
 	key?: boolean
 }

@@ -30,5 +30,5 @@ export type NewsInfoResponse = {
 	photo?: ImageItemWithText[]
 	photos: ImageItemWithText[]
 	events: SelOption[]
-	objlist: MultiSelOption[]
+	vidslist: MultiSelOption[]
 }

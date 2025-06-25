@@ -42,8 +42,8 @@ export const OneVideo = () => {
 	const onSubmit: SubmitHandler<OneVideoInputs> = async (data) => {
 		const dateFormat = formatDate(data.itemdate)
 		let selectedObj = ''
-		if (typeof data.objlist !== 'string' && data.objlist) {
-			selectedObj = data.objlist
+		if (typeof data.vidslist !== 'string' && data.vidslist) {
+			selectedObj = data.vidslist
 				.filter((opt) => opt.selected)
 				.map((opt) => opt.value)
 				.join(',')
@@ -60,7 +60,8 @@ export const OneVideo = () => {
 			hidden: booleanToNumberString(data.hidden),
 			id_event:
 				typeof data.events === 'string' ? data.events : data.events ? data.events[0].value : '0',
-			objlist: typeof data.objlist === 'string' ? data.objlist : data.objlist ? selectedObj : '0',
+			vidslist:
+				typeof data.vidslist === 'string' ? data.vidslist : data.vidslist ? selectedObj : '0',
 		}
 		const videoInfoFormData = transformToFormData(serverData)
 		const videoId = id
@@ -91,7 +92,7 @@ export const OneVideo = () => {
 								<MainSection
 									photo={videoInfoData?.photo}
 									chainedEvent={videoInfoData?.events}
-									chainedObjects={videoInfoData?.objlist}
+									chainedVids={videoInfoData?.vidslist}
 								/>
 							</div>
 							<div className={styles.oneVideoContentRight}>

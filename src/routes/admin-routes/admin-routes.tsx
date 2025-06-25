@@ -29,16 +29,11 @@ import { AdminEventHistory } from 'src/pages/one-event-layout/pages/admin-event-
 
 import { CommunityLayout } from 'src/pages/community-layout/community-layout'
 import { AdminCommunityAbout } from 'src/pages/community-layout/pages/admin-community-about/admin-community-about'
-import { AdminCommunityHistory } from 'src/pages/community-layout/pages/admin-community-history/admin-community-history'
-import { AdminCommunityLocation } from 'src/pages/community-layout/pages/admin-community-location/admin-community-location'
-import { AdminCommunityCulture } from 'src/pages/community-layout/pages/admin-community-culture/admin-community-culture'
-import { AdminCommunityTraditions } from 'src/pages/community-layout/pages/admin-community-traditions/admin-community-traditions'
 import { AdminCommunityGames } from 'src/pages/community-layout/pages/admin-community-games/admin-community-games'
-import { AdminCommunityDocuments } from 'src/pages/community-layout/pages/admin-community-documents/admin-community-documents'
 
-import { CultureElementLayout } from 'src/pages/culture-element-layout/culture-element-layout'
-import { CultureInfo } from 'src/pages/culture-element-layout/pages/culture-info/culture-info'
-import { CultureHistory } from 'src/pages/culture-element-layout/pages/culture-history/culture-history'
+import { EtnosportElementLayout } from 'src/pages/culture-element-layout/etnosport-element-layout'
+import { EtnosportInfo } from 'src/pages/culture-element-layout/pages/etnosport-info/etnosport-info'
+import { EtnosportRules } from 'src/pages/culture-element-layout/pages/etnosport-rules/etnosport-rules'
 
 import { AdminObjects } from 'src/pages/admin-objects/admin-objects'
 import { AdminPartnersLayout } from 'src/pages/admin-partners-layout/admin-partners-layout'
@@ -59,14 +54,11 @@ import { PartnersElements } from 'src/pages/admin-partners-layout/components/par
 import { AdminQuestionsLayout } from 'src/pages/admin-questions/admin-questions-layout'
 import { QuestionsElements } from 'src/pages/admin-questions/components/questions-elements/questions-elements'
 import { Question } from 'src/pages/admin-questions/components/question/question'
-import { TraditionInfo } from 'src/pages/tradition-element-layout/pages/tradition-info/tradition-info'
-import { TraditionElementLayout } from 'src/pages/tradition-element-layout/tradition-element-layout'
-import { TraditionHistory } from 'src/pages/tradition-element-layout/pages/tradition-history/tradition-history'
-import { GameHistory } from 'src/pages/game-element-layout/pages/game-history/game-history'
-import { GameInfo } from 'src/pages/game-element-layout/pages/game-info/game-info'
-import { GameElementLayout } from 'src/pages/game-element-layout/game-element-layout'
-import { AdminCommunityNature } from 'src/pages/community-layout/pages/admin-community-nature/admin-community-nature'
+import { FunRules } from 'src/pages/game-element-layout/pages/fun-rules/fun-rules'
+import { FunInfo } from 'src/pages/game-element-layout/pages/fun-info/fun-info'
+import { FunElementLayout } from 'src/pages/game-element-layout/fun-element-layout'
 import { ObjectVideos } from 'src/pages/object-element-layout/pages/object-videos/object-videos'
+import { AdminCommunityCulture } from 'src/pages/community-layout/pages/admin-community-culture/admin-community-culture'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -87,27 +79,18 @@ export const AdminRoutes: FC = () => {
 						<Route path='new' element={<OneRequest />} />
 					</Route>
 				</Route>
-				<Route path={AdminRoute.AdminAtmans} element={<CommunityLayout />}>
+				<Route path={AdminRoute.AdminAbout} element={<CommunityLayout />}>
 					<Route index element={<AdminCommunityAbout />} />
-					<Route path={AdminRoute.AdminAtmansHistory} element={<AdminCommunityHistory />} />
-					<Route path={AdminRoute.AdminAtmansNature} element={<AdminCommunityNature />} />
-					<Route path={AdminRoute.AdminAtmansLocation} element={<AdminCommunityLocation />} />
-					<Route path={AdminRoute.AdminAtmansCulture} element={<AdminCommunityCulture />} />
-					<Route path={AdminRoute.AdminAtmansTraditions} element={<AdminCommunityTraditions />} />
-					<Route path={AdminRoute.AdminAtmansGames} element={<AdminCommunityGames />} />
-					<Route path={AdminRoute.AdminAtmansDocuments} element={<AdminCommunityDocuments />} />
+					<Route path={AdminRoute.AdminAboutEtnosport} element={<AdminCommunityCulture />} />
+					<Route path={AdminRoute.AdminAboutFun} element={<AdminCommunityGames />} />
 				</Route>
-				<Route path={AdminRoute.AdminCultureElement} element={<CultureElementLayout />}>
-					<Route path={`${AdminRoute.AdminCultureInfo}/:id`} element={<CultureInfo />} />
-					<Route path={`${AdminRoute.AdminCultureHistory}/:id`} element={<CultureHistory />} />
+				<Route path={AdminRoute.AdminEtnosportElement} element={<EtnosportElementLayout />}>
+					<Route path={`${AdminRoute.AdminEtnosportInfo}/:id`} element={<EtnosportInfo />} />
+					<Route path={`${AdminRoute.AdminEtnosportRules}/:id`} element={<EtnosportRules />} />
 				</Route>
-				<Route path={AdminRoute.AdminTraditionElement} element={<TraditionElementLayout />}>
-					<Route path={`${AdminRoute.AdminTraditionInfo}/:id`} element={<TraditionInfo />} />
-					<Route path={`${AdminRoute.AdminTraditionHistory}/:id`} element={<TraditionHistory />} />
-				</Route>
-				<Route path={AdminRoute.AdminGameElement} element={<GameElementLayout />}>
-					<Route path={`${AdminRoute.AdminGameInfo}/:id`} element={<GameInfo />} />
-					<Route path={`${AdminRoute.AdminGameHistory}/:id`} element={<GameHistory />} />
+				<Route path={AdminRoute.AdminFunElement} element={<FunElementLayout />}>
+					<Route path={`${AdminRoute.AdminFunInfo}/:id`} element={<FunInfo />} />
+					<Route path={`${AdminRoute.AdminFunRules}/:id`} element={<FunRules />} />
 				</Route>
 				<Route path={AdminRoute.AdminObject} element={<ObjectElementLayout />}>
 					<Route path={`${AdminRoute.AdminObjInfo}/:id`} element={<ObjectInfo />} />
