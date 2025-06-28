@@ -82,13 +82,19 @@ export const communityApi = createApi({
 		}),
 		getCultureCommunity: build.query<CultureCommunityResponse, null>({
 			query: () => ({
+				url: `about_etno/edit`,
+			}),
+			providesTags: ['CommunityCulture'],
+		}),
+		getEtnoListCommunity: build.query<CultureCommunityResponse, null>({
+			query: () => ({
 				url: `vids/list`,
 			}),
 			providesTags: ['CommunityCulture'],
 		}),
 		deleteCultureById: build.mutation<null, string>({
 			query: (cultureId) => ({
-				url: `home/tradition/delete_item`,
+				url: `vids/delete`,
 				method: 'DELETE',
 				body: { id: cultureId },
 			}),
@@ -96,7 +102,7 @@ export const communityApi = createApi({
 		}),
 		hideCultureById: build.mutation<null, string>({
 			query: (cultureId) => ({
-				url: `home/tradition/hide_item`,
+				url: `vids/hide`,
 				method: 'POST',
 				body: { id: cultureId },
 			}),
@@ -104,7 +110,7 @@ export const communityApi = createApi({
 		}),
 		saveCultureCommunity: build.mutation<null, FieldValues>({
 			query: (formData) => ({
-				url: `home/tradition/save`,
+				url: `about_etno/save`,
 				method: 'POST',
 				body: formData,
 			}),
@@ -112,13 +118,13 @@ export const communityApi = createApi({
 		}),
 		getGameCommunity: build.query<GameCommunityResponse, null>({
 			query: () => ({
-				url: `home/game/edit`,
+				url: `about_vids/edit`,
 			}),
 			providesTags: ['CommunityGame'],
 		}),
 		deleteGameById: build.mutation<null, string>({
 			query: (gameId) => ({
-				url: `home/game/delete_item`,
+				url: `vids/delete`,
 				method: 'DELETE',
 				body: { id: gameId },
 			}),
@@ -126,7 +132,7 @@ export const communityApi = createApi({
 		}),
 		hideGameById: build.mutation<null, string>({
 			query: (gameId) => ({
-				url: `home/game/hide_item`,
+				url: `vids/hide`,
 				method: 'POST',
 				body: { id: gameId },
 			}),
@@ -134,7 +140,7 @@ export const communityApi = createApi({
 		}),
 		saveGameCommunity: build.mutation<null, FieldValues>({
 			query: (formData) => ({
-				url: `home/game/save`,
+				url: `about_vids/save`,
 				method: 'POST',
 				body: formData,
 			}),
@@ -152,6 +158,7 @@ export const {
 	useSaveNatureCommunityMutation,
 	useGetLocationCommunityQuery,
 	useSaveLocationCommunityMutation,
+	useGetEtnoListCommunityQuery,
 	useGetCultureCommunityQuery,
 	useHideCultureByIdMutation,
 	useDeleteCultureByIdMutation,

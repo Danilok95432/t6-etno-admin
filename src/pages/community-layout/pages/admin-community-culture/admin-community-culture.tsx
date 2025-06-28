@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Helmet } from 'react-helmet-async'
 import {
 	useGetCultureCommunityQuery,
+	useGetEtnoListCommunityQuery,
 	useSaveCultureCommunityMutation,
 } from 'src/store/community/community.api'
 import { transformToFormData } from 'src/helpers/utils'
@@ -32,6 +33,7 @@ import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
 
 export const AdminCommunityCulture: FC = () => {
 	const { data: cultureCommunityData } = useGetCultureCommunityQuery(null)
+	const { data: etnoList } = useGetEtnoListCommunityQuery(null)
 	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(
 		cultureCommunityData?.photos ?? [],
 	)

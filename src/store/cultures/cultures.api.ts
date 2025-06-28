@@ -12,7 +12,7 @@ export const culturesApi = createApi({
 	endpoints: (build) => ({
 		getCultureInfo: build.query<CultureInfoResponse, string>({
 			query: (id) => ({
-				url: `home/tradition/edit_item`,
+				url: `/about_etno/edit`,
 				params: {
 					id,
 				},
