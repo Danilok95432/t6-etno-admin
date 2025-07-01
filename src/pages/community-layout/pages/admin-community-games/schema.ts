@@ -1,15 +1,13 @@
 import * as yup from 'yup'
-import { type CultureItem } from 'src/types/community'
 import { type ImageItemWithText } from 'src/types/photos'
 
-export type CommunityGameInputs = {
-	topDesc: string
+export type FunInputs = {
+	anonstext: string
 	photos?: ImageItemWithText[]
-	games?: CultureItem[]
 }
 
-export const gamesSchema = yup.object().shape({
-	topDesc: yup
+export const funSchema = yup.object().shape({
+	anonstext: yup
 		.string()
 		.required('Это поле обязательно')
 		.test('is-empty', 'Введите текст', (value) => {

@@ -14,7 +14,6 @@ import { FlexRow } from 'src/components/flex-row/flex-row'
 
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
 import styles from './index.module.scss'
-import { useGetGameInfoQuery, useSaveGameInfoCommunityMutation } from 'src/store/games/games.api'
 import { useCallback, useEffect, useState } from 'react'
 import { type ImageItemWithText } from 'src/types/photos'
 import { useGetNewIdImageQuery } from 'src/store/uploadImages/uploadImages.api'
@@ -23,16 +22,17 @@ import { ImageModal } from 'src/modals/images-modal/images-modal'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
 import { transformToFormData } from 'src/helpers/utils'
-import { type GameInfoInputs, gameInfoSchema } from './schema'
+import { type funInfoInputs, funInfoSchema } from './schema'
+import { useGetVidInfoQuery, useSaveVidInfoMutation } from 'src/store/vids/vids.api'
 
 export const FunInfo = () => {
 	const { id = '0' } = useParams()
-	const { data: gameInfoData } = useGetGameInfoQuery(id)
-	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(gameInfoData?.photos ?? [])
-	const [saveGameInfo] = useSaveGameInfoCommunityMutation()
+	const { data: vidInfo } = useGetVidInfoQuery(id)
+	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(vidInfo?.mainphoto ?? [])
+	const [saveVidInfo] = useSaveVidInfoMutation()
 
 	const { refetch: getNewId } = useGetNewIdImageQuery({
-		imgtype: 'games_photo',
+		imgtype: 'about_etno',
 		idItem: id,
 	})
 	const addImage = async () => {
@@ -62,7 +62,7 @@ export const FunInfo = () => {
 		openModal(
 			<ImageModal
 				id={newId}
-				imgtype='game_photo'
+				imgtype='about_etno'
 				syncAddHandler={syncAddImagesHandler}
 				syncEditHandler={syncEditImagesHandler}
 			/>,
@@ -70,23 +70,22 @@ export const FunInfo = () => {
 	}
 
 	useEffect(() => {
-		setLocaleImages(gameInfoData?.photos ?? [])
-	}, [gameInfoData?.photos])
+		setLocaleImages(vidInfo?.mainphoto ?? [])
+	}, [vidInfo?.mainphoto])
 
-	const methods = useForm<GameInfoInputs>({
+	const methods = useForm<funInfoInputs>({
 		mode: 'onBlur',
-		resolver: yupResolver(gameInfoSchema),
+		resolver: yupResolver(funInfoSchema),
 		defaultValues: {
-			logo: [],
-			photos: [],
+			mainphoto: [],
 		},
 	})
 
 	const { isSent, markAsSent } = useIsSent(methods.control)
 
-	const onSubmit: SubmitHandler<GameInfoInputs> = async (data) => {
+	const onSubmit: SubmitHandler<funInfoInputs> = async (data) => {
 		try {
-			const res = await saveGameInfo(transformToFormData(data))
+			const res = await saveVidInfo(transformToFormData(data))
 			if (res) markAsSent(true)
 		} catch (e) {
 			console.error(e)
@@ -94,10 +93,10 @@ export const FunInfo = () => {
 	}
 
 	useEffect(() => {
-		if (gameInfoData) {
-			methods.reset({ ...gameInfoData })
+		if (vidInfo) {
+			methods.reset({ ...vidInfo })
 		}
-	}, [gameInfoData])
+	}, [vidInfo])
 
 	return (
 		<>
@@ -122,21 +121,16 @@ export const FunInfo = () => {
 						/>
 						<ReactDropzone
 							label='Фотография *'
-							name='logo'
+							name='mainphoto'
 							prompt='PNG, JPG, JPEG. 1000 х1000px, не более 3 Мб'
 							accept={{ 'image/png': ['.png'], 'image/jpeg': ['.jpeg'] }}
 							margin='0 0 20px 0'
 							previewVariant='sm-img'
-							imgtype='games'
-							fileImages={gameInfoData?.logo}
+							imgtype='about_etno'
+							fileImages={vidInfo?.mainphoto}
 						/>
 
-						<QuillEditor
-							name='topDesc'
-							label='Текст-анонс'
-							$heightEditor='105px'
-							$maxWidth='1140px'
-						/>
+						<QuillEditor name='desc' label='Текст-анонс' $heightEditor='105px' $maxWidth='1140px' />
 						<ReactDropzone
 							margin='30px 0 20px 0'
 							label='Галерея изображений'
@@ -148,7 +142,7 @@ export const FunInfo = () => {
 							fileImages={localeImages}
 							syncAdd={syncAddImagesHandler}
 							syncEdit={syncEditImagesHandler}
-							imgtype='games_photo'
+							imgtype='about_etno'
 							dzAreaClassName={styles.gameGalleryController}
 							multiple
 							customOpenModal={

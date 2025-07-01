@@ -1,23 +1,25 @@
 import { Helmet } from 'react-helmet-async'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { AdminContent } from 'src/components/admin-content/admin-content'
 
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
 import styles from './index.module.scss'
 import { AdminRoute } from 'src/routes/admin-routes/consts'
 import { yupResolver } from '@hookform/resolvers/yup'
-// import { useEffect } from 'react'
-// import { useGetCultureInfoQuery } from 'src/store/cultures/cultures.api'
+import { useEffect } from 'react'
+import { type FunRulesInputs, funRulesSchema } from './schema'
 import { FlexRow } from 'src/components/flex-row/flex-row'
 import { QuillEditor } from 'src/components/quill-editor/quill-editor'
 import { AdminButton } from 'src/UI/AdminButton/AdminButton'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
-import { funRulesSchema, type FunRulesInputs } from './schema'
+import { useGetVidInfoQuery, useSaveVidInfoMutation } from 'src/store/vids/vids.api'
+import { transformToFormData } from 'src/helpers/utils'
 
 export const FunRules = () => {
-	// const { id = '0' } = useParams()
-	// const { data: cultureInfoData } = useGetCultureInfoQuery(id)
+	const { id = '0' } = useParams()
+	const { data: vidInfo } = useGetVidInfoQuery(id)
+	const [saveVidInfo] = useSaveVidInfoMutation()
 	const methods = useForm<FunRulesInputs>({
 		mode: 'onBlur',
 		resolver: yupResolver(funRulesSchema),
@@ -30,19 +32,18 @@ export const FunRules = () => {
 
 	const onSubmit: SubmitHandler<FunRulesInputs> = async (data) => {
 		try {
-			console.log(data)
-			markAsSent(true)
+			const res = await saveVidInfo(transformToFormData(data))
+			if (res) markAsSent(true)
 		} catch (e) {
 			console.error(e)
 		}
 	}
-	/*
+
 	useEffect(() => {
-		if (cultureInfoData) {
-			methods.reset({ ...cultureInfoData })
+		if (vidInfo) {
+			methods.reset({ ...vidInfo })
 		}
-	}, [cultureInfoData])
-	*/
+	}, [vidInfo])
 
 	return (
 		<>
@@ -51,7 +52,7 @@ export const FunRules = () => {
 			</Helmet>
 			<AdminContent className={styles.cultureInfoPage}>
 				<Link
-					to={`/${AdminRoute.AdminAbout}/${AdminRoute.AdminAboutEtnosport}`}
+					to={`/${AdminRoute.AdminAbout}/${AdminRoute.AdminAboutFun}`}
 					className={adminStyles.adminReturnLink}
 				>
 					Возврат к списку элементов
@@ -60,7 +61,7 @@ export const FunRules = () => {
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
 						<QuillEditor
-							name='bottomDesc'
+							name='rules'
 							label='Первый текстовый блок'
 							$heightEditor='450px'
 							$maxWidth='1140px'
@@ -76,7 +77,7 @@ export const FunRules = () => {
 					</form>
 				</FormProvider>
 				<Link
-					to={`/${AdminRoute.AdminAbout}/${AdminRoute.AdminAboutEtnosport}`}
+					to={`/${AdminRoute.AdminAbout}/${AdminRoute.AdminAboutFun}`}
 					className={adminStyles.adminReturnLink}
 				>
 					Возврат к списку элементов

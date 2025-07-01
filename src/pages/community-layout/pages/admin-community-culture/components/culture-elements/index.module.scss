@@ -1,8 +1,8 @@
 .searchRow {
-	max-width: 90% !important;
+	max-width: 100%;
 	grid-template-columns:
-		minmax(300px, 0.8fr)
-		minmax(50px, 0.1fr);
+		minmax(300px, 1fr)
+		minmax(123px, 123px);
 	@media (max-width: 1200px) {
 		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 	}

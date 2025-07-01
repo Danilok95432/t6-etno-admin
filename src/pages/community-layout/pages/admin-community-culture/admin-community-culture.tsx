@@ -1,17 +1,12 @@
 import { useCallback, useEffect, useState, type FC } from 'react'
 import {
-	type CommunityCultureInputs,
-	communityCultureSchema,
+	type EtnoInputs,
+	etnoSchema,
 } from 'src/pages/community-layout/pages/admin-community-culture/schema'
 
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Helmet } from 'react-helmet-async'
-import {
-	useGetCultureCommunityQuery,
-	useGetEtnoListCommunityQuery,
-	useSaveCultureCommunityMutation,
-} from 'src/store/community/community.api'
 import { transformToFormData } from 'src/helpers/utils'
 
 import { AdminContent } from 'src/components/admin-content/admin-content'
@@ -30,17 +25,20 @@ import { useGetNewIdImageQuery } from 'src/store/uploadImages/uploadImages.api'
 import { ImageModal } from 'src/modals/images-modal/images-modal'
 import { type ImageItemWithText } from 'src/types/photos'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
+import {
+	useGetEtnoEditQuery,
+	useGetVidsListQuery,
+	useSaveEtnosportMutation,
+} from 'src/store/vids/vids.api'
 
 export const AdminCommunityCulture: FC = () => {
-	const { data: cultureCommunityData } = useGetCultureCommunityQuery(null)
-	const { data: etnoList } = useGetEtnoListCommunityQuery(null)
-	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(
-		cultureCommunityData?.photos ?? [],
-	)
-	const [saveCultureCommunity] = useSaveCultureCommunityMutation()
+	const { data: etnoData } = useGetEtnoEditQuery(null)
+	const { data: etnoList } = useGetVidsListQuery(null)
+	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(etnoData?.photos ?? [])
+	const [saveEtnosport] = useSaveEtnosportMutation()
 
 	const { refetch: getNewId } = useGetNewIdImageQuery({
-		imgtype: 'about_tradition_photo',
+		imgtype: 'about_etno',
 		idItem: '',
 	})
 	const addImage = async () => {
@@ -70,7 +68,7 @@ export const AdminCommunityCulture: FC = () => {
 		openModal(
 			<ImageModal
 				id={newId}
-				imgtype='about_tradition_photo'
+				imgtype='about_etno'
 				syncAddHandler={syncAddImagesHandler}
 				syncEditHandler={syncEditImagesHandler}
 			/>,
@@ -78,12 +76,12 @@ export const AdminCommunityCulture: FC = () => {
 	}
 
 	useEffect(() => {
-		setLocaleImages(cultureCommunityData?.photos ?? [])
-	}, [cultureCommunityData?.photos])
+		setLocaleImages(etnoData?.photos ?? [])
+	}, [etnoData?.photos])
 
-	const methods = useForm<CommunityCultureInputs>({
+	const methods = useForm<EtnoInputs>({
 		mode: 'onBlur',
-		resolver: yupResolver(communityCultureSchema),
+		resolver: yupResolver(etnoSchema),
 		defaultValues: {
 			photos: [],
 		},
@@ -91,22 +89,20 @@ export const AdminCommunityCulture: FC = () => {
 
 	const { isSent, markAsSent } = useIsSent(methods.control)
 
-	const onSubmit: SubmitHandler<CommunityCultureInputs> = async (data) => {
+	const onSubmit: SubmitHandler<EtnoInputs> = async (data) => {
 		try {
-			const res = await saveCultureCommunity(transformToFormData(data))
+			const res = await saveEtnosport(transformToFormData(data))
 			if (res) markAsSent(true)
 		} catch (e) {
 			console.error(e)
 		}
 	}
 
-	console.log(cultureCommunityData)
-
 	useEffect(() => {
-		if (cultureCommunityData) {
-			methods.reset({ ...cultureCommunityData })
+		if (etnoData) {
+			methods.reset({ ...etnoData })
 		}
-	}, [cultureCommunityData])
+	}, [etnoData])
 
 	return (
 		<>
@@ -117,10 +113,10 @@ export const AdminCommunityCulture: FC = () => {
 			<AdminContent title='Русский этноспорт' $backgroundColor='#ffffff'>
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
-						<QuillEditor $heightEditor='310px' name='topDesc' label='Текст-анонс' />
+						<QuillEditor $heightEditor='310px' name='anonstext' label='Текст-анонс' />
 						<ReactDropzone
 							margin='30px 0 0 0'
-							label={`Галерея изображений (${cultureCommunityData?.photos?.length} из 8)`}
+							label={`Галерея изображений (${etnoData?.photos?.length} из 8)`}
 							previewVariant='img-list'
 							variant='culture'
 							name='photos'
@@ -129,7 +125,7 @@ export const AdminCommunityCulture: FC = () => {
 							fileImages={localeImages}
 							syncAdd={syncAddImagesHandler}
 							syncEdit={syncEditImagesHandler}
-							imgtype='about_tradition_photo'
+							imgtype='about_etno'
 							dzAreaClassName={styles.cultureGalleryController}
 							multiple
 							customOpenModal={
@@ -161,7 +157,7 @@ export const AdminCommunityCulture: FC = () => {
 						</FlexRow>
 					</form>
 				</FormProvider>
-				<CultureElements cultures={cultureCommunityData?.traditions} />
+				<CultureElements vids={etnoList?.vids.filter((vid) => vid.is_etnosport)} />
 			</AdminContent>
 		</>
 	)

@@ -1,6 +1,8 @@
 import * as yup from 'yup'
 
 export type EtnoRulesInputs = {
+	title?: string
+	desc?: string
 	rules: string
 }
 

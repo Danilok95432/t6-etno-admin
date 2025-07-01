@@ -13,6 +13,7 @@ export enum ReducerPath {
 	UploadImages = 'uploadImages/api',
 	UploadFiles = 'uploadFiles/api',
 	Faq = 'faq/api',
+	Vids = 'vids/api'
 }
 
 export const ImagesFormat = ['png', 'jpeg', 'jpg', 'webp', 'gif']

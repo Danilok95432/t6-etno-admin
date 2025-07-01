@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, type FC } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { type CommunityGameInputs, gamesSchema } from './schema'
+import { type FunInputs, funSchema } from './schema'
 
 import { AdminContent } from 'src/components/admin-content/admin-content'
 import { GamesElements } from './components/games-elemets/games-elements'
@@ -11,10 +11,6 @@ import { transformToFormData } from 'src/helpers/utils'
 import { ImageModal } from 'src/modals/images-modal/images-modal'
 import { useActions } from 'src/hooks/actions/actions'
 import { useGetNewIdImageQuery } from 'src/store/uploadImages/uploadImages.api'
-import {
-	useGetGameCommunityQuery,
-	useSaveGameCommunityMutation,
-} from 'src/store/community/community.api'
 import { type ImageItemWithText } from 'src/types/photos'
 import { FlexRow } from 'src/components/flex-row/flex-row'
 import { AdminButton } from 'src/UI/AdminButton/AdminButton'
@@ -24,16 +20,20 @@ import { ReactDropzone } from 'src/components/react-dropzone/react-dropzone'
 import { QuillEditor } from 'src/components/quill-editor/quill-editor'
 
 import styles from './index.module.scss'
+import {
+	useGetFunEditQuery,
+	useGetVidsListQuery,
+	useSaveFunMutation,
+} from 'src/store/vids/vids.api'
 
 export const AdminCommunityGames: FC = () => {
-	const { data: gameCommunityData } = useGetGameCommunityQuery(null)
-	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(
-		gameCommunityData?.photos ?? [],
-	)
-	const [saveGameCommunity] = useSaveGameCommunityMutation()
+	const { data: funData } = useGetFunEditQuery(null)
+	const { data: funList } = useGetVidsListQuery(null)
+	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(funData?.photos ?? [])
+	const [saveGameCommunity] = useSaveFunMutation()
 
 	const { refetch: getNewId } = useGetNewIdImageQuery({
-		imgtype: 'about_game_photo',
+		imgtype: 'about_etno',
 		idItem: '',
 	})
 	const addImage = async () => {
@@ -63,7 +63,7 @@ export const AdminCommunityGames: FC = () => {
 		openModal(
 			<ImageModal
 				id={newId}
-				imgtype='about_game_photo'
+				imgtype='about_etno'
 				syncAddHandler={syncAddImagesHandler}
 				syncEditHandler={syncEditImagesHandler}
 			/>,
@@ -71,12 +71,12 @@ export const AdminCommunityGames: FC = () => {
 	}
 
 	useEffect(() => {
-		setLocaleImages(gameCommunityData?.photos ?? [])
-	}, [gameCommunityData?.photos])
+		setLocaleImages(funData?.photos ?? [])
+	}, [funData?.photos])
 
-	const methods = useForm<CommunityGameInputs>({
+	const methods = useForm<FunInputs>({
 		mode: 'onBlur',
-		resolver: yupResolver(gamesSchema),
+		resolver: yupResolver(funSchema),
 		defaultValues: {
 			photos: [],
 		},
@@ -84,7 +84,7 @@ export const AdminCommunityGames: FC = () => {
 
 	const { isSent, markAsSent } = useIsSent(methods.control)
 
-	const onSubmit: SubmitHandler<CommunityGameInputs> = async (data) => {
+	const onSubmit: SubmitHandler<FunInputs> = async (data) => {
 		try {
 			const res = await saveGameCommunity(transformToFormData(data))
 			if (res) markAsSent(true)
@@ -94,10 +94,10 @@ export const AdminCommunityGames: FC = () => {
 	}
 
 	useEffect(() => {
-		if (gameCommunityData) {
-			methods.reset({ ...gameCommunityData })
+		if (funData) {
+			methods.reset({ ...funData })
 		}
-	}, [gameCommunityData])
+	}, [funData])
 
 	return (
 		<>
@@ -105,14 +105,14 @@ export const AdminCommunityGames: FC = () => {
 				<title>Игры Атманова Угла</title>
 			</Helmet>
 
-			<AdminContent title='Игры Атманова Угла' $backgroundColor='#ffffff'>
+			<AdminContent title='Исконные забавы' $backgroundColor='#ffffff'>
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
-						<QuillEditor $heightEditor='310px' name='topDesc' label='Текст-анонс*' />
+						<QuillEditor $heightEditor='310px' name='anonstext' label='Текст-анонс*' />
 
 						<ReactDropzone
 							margin='30px 0 0 0'
-							label={`Галерея изображений (${gameCommunityData?.photos?.length} из 8)`}
+							label={`Галерея изображений (${funData?.photos?.length} из 8)`}
 							previewVariant='img-list'
 							variant='culture'
 							name='photos'
@@ -121,7 +121,7 @@ export const AdminCommunityGames: FC = () => {
 							fileImages={localeImages}
 							syncAdd={syncAddImagesHandler}
 							syncEdit={syncEditImagesHandler}
-							imgtype='about_game_photo'
+							imgtype='about_etno'
 							dzAreaClassName={styles.gameGalleryController}
 							multiple
 							customOpenModal={
@@ -153,7 +153,7 @@ export const AdminCommunityGames: FC = () => {
 						</FlexRow>
 					</form>
 				</FormProvider>
-				<GamesElements games={gameCommunityData?.games} />
+				<GamesElements vids={funList?.vids.filter((vid) => !vid.is_etnosport)} />
 			</AdminContent>
 		</>
 	)

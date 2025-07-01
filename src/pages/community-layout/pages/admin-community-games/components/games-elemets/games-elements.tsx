@@ -1,33 +1,31 @@
-import { type GameItem } from 'src/types/community'
 import { useNavigate } from 'react-router-dom'
 import { type FC } from 'react'
 import cn from 'classnames'
-
-import {
-	useDeleteGameByIdMutation,
-	useHideGameByIdMutation,
-} from 'src/store/community/community.api'
-import { useGetNewIdGameQuery } from 'src/store/games/games.api'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { GameElementsFiltrationInputs } from './consts'
 
 import { CustomTable } from 'src/components/custom-table/custom-table'
-import { mainFormatDate } from 'src/helpers/utils'
 import { Loader } from 'src/components/loader/loader'
 import { RowController } from 'src/components/row-controller/row-controller'
 import { TableFooter } from 'src/components/table-footer/table-footer'
 import { GridRow } from 'src/components/grid-row/grid-row'
 
 import styles from './index.module.scss'
+import { type VidItem } from 'src/types/about-etnosport'
+import {
+	useDeleteVidByIdMutation,
+	useGetNewIdVidQuery,
+	useHideVidByIdMutation,
+} from 'src/store/vids/vids.api'
 
 type GamesElementsProps = {
-	games?: GameItem[]
+	vids?: VidItem[]
 }
 
-export const GamesElements: FC<GamesElementsProps> = ({ games = [] }) => {
-	const { refetch: getNewId } = useGetNewIdGameQuery(null)
-	const [hideGameById] = useHideGameByIdMutation()
-	const [deleteGameById] = useDeleteGameByIdMutation()
+export const GamesElements: FC<GamesElementsProps> = ({ vids = [] }) => {
+	const { refetch: getNewId } = useGetNewIdVidQuery(null)
+	const [hideGameById] = useHideVidByIdMutation()
+	const [deleteGameById] = useDeleteVidByIdMutation()
 
 	const navigate = useNavigate()
 
@@ -36,24 +34,25 @@ export const GamesElements: FC<GamesElementsProps> = ({ games = [] }) => {
 		return newIdResponse.id
 	}
 
-	const tableTitles = ['Наименование элемента', 'Размещено', '']
-	const formatGameTableData = (gameData: GameItem[]) => {
-		return gameData.map((gameEl) => {
+	const tableTitles = ['Название вида этноспорта', 'Вид участия', 'Размещено', '']
+	const formatVidsTableData = (vidData: VidItem[]) => {
+		return vidData.map((vidEl) => {
 			return {
-				rowId: gameEl.id,
+				rowId: vidEl.id,
 				cells: [
-					<p className={cn({ 'hidden-cell-icon': gameEl.hidden })} key='0'>
-						{gameEl.title}
+					<p className={cn({ 'hidden-cell-icon': vidEl.hidden })} key='0'>
+						{vidEl.title}
 					</p>,
-					<p className={cn({ 'hidden-cell': gameEl.hidden })} key='1'>
-						{mainFormatDate(gameEl.createdate)}
+					<p className={cn({ 'hidden-cell': vidEl.hidden })} key='1'>
+						{vidEl.is_group ? 'Одиночное' : 'Групповое'}
 					</p>,
+					<p className={cn({ 'hidden-cell': vidEl.hidden })} key='2'></p>,
 					<RowController
-						id={gameEl.id}
+						id={vidEl.id}
 						hideHandler={rowHideHandler}
 						removeHandler={rowDeleteHandler}
 						textOfHidden='Скрыть направление'
-						key='5'
+						key='3'
 					/>,
 				],
 			}
@@ -68,15 +67,15 @@ export const GamesElements: FC<GamesElementsProps> = ({ games = [] }) => {
 	}
 
 	const rowClickHandler = (id: string) => {
-		navigate(`/game/game-info/${id}`)
+		navigate(`/fun/fun-info/${id}`)
 	}
 
 	const handleAddGameClick = async () => {
 		const newId = await addGame()
-		navigate(`/game/game-info/${newId}`)
+		navigate(`/fun/fun-info/${newId}`)
 	}
 
-	if (!games) return <Loader />
+	if (!vids) return <Loader />
 
 	return (
 		<div>
@@ -85,12 +84,12 @@ export const GamesElements: FC<GamesElementsProps> = ({ games = [] }) => {
 			</GridRow>
 			<CustomTable
 				className={styles.gameTable}
-				rowData={formatGameTableData(games)}
+				rowData={formatVidsTableData(vids)}
 				colTitles={tableTitles}
 				rowClickHandler={rowClickHandler}
 			/>
 			<TableFooter
-				totalElements={games.length}
+				totalElements={vids.length}
 				addClickHandler={handleAddGameClick}
 				addText='Добавить элемент'
 			/>

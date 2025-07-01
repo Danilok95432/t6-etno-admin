@@ -1,17 +1,12 @@
 import {
-	type CultureInfoInputs,
-	cultureInfoSchema,
+	type VidInfoInputs,
+	vidInfoSchema,
 } from 'src/pages/culture-element-layout/pages/etnosport-info/schema'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useCallback, useEffect, useState } from 'react'
-
-import {
-	useGetCultureInfoQuery,
-	useSaveCultureInfoCommunityMutation,
-} from 'src/store/cultures/cultures.api'
 import { transformToFormData } from 'src/helpers/utils'
 
 import { AdminContent } from 'src/components/admin-content/admin-content'
@@ -32,17 +27,16 @@ import { ImageModal } from 'src/modals/images-modal/images-modal'
 import { type ImageItemWithText } from 'src/types/photos'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
 import { ControlledSelect } from 'src/components/controlled-select/controlled-select'
+import { useGetVidInfoQuery, useSaveVidInfoMutation } from 'src/store/vids/vids.api'
 
 export const EtnosportInfo = () => {
 	const { id = '0' } = useParams()
-	const { data: cultureInfoData } = useGetCultureInfoQuery(id)
-	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(
-		cultureInfoData?.photos ?? [],
-	)
-	const [saveCultureInfo] = useSaveCultureInfoCommunityMutation()
+	const { data: vidInfo } = useGetVidInfoQuery(id)
+	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(vidInfo?.mainphoto ?? [])
+	const [saveCultureInfo] = useSaveVidInfoMutation()
 
 	const { refetch: getNewId } = useGetNewIdImageQuery({
-		imgtype: 'traditions_photo',
+		imgtype: 'about_etno',
 		idItem: id,
 	})
 	const addImage = async () => {
@@ -72,7 +66,7 @@ export const EtnosportInfo = () => {
 		openModal(
 			<ImageModal
 				id={newId}
-				imgtype='cultures_photo'
+				imgtype='about_etno'
 				syncAddHandler={syncAddImagesHandler}
 				syncEditHandler={syncEditImagesHandler}
 			/>,
@@ -80,21 +74,20 @@ export const EtnosportInfo = () => {
 	}
 
 	useEffect(() => {
-		setLocaleImages(cultureInfoData?.photos ?? [])
-	}, [cultureInfoData?.photos])
+		setLocaleImages(vidInfo?.mainphoto ?? [])
+	}, [vidInfo?.mainphoto])
 
-	const methods = useForm<CultureInfoInputs>({
+	const methods = useForm<VidInfoInputs>({
 		mode: 'onBlur',
-		resolver: yupResolver(cultureInfoSchema),
+		resolver: yupResolver(vidInfoSchema),
 		defaultValues: {
-			logo: [],
-			photos: [],
+			mainphoto: [],
 		},
 	})
 
 	const { isSent, markAsSent } = useIsSent(methods.control)
 
-	const onSubmit: SubmitHandler<CultureInfoInputs> = async (data) => {
+	const onSubmit: SubmitHandler<VidInfoInputs> = async (data) => {
 		try {
 			const res = await saveCultureInfo(transformToFormData(data))
 			if (res) markAsSent(true)
@@ -104,10 +97,10 @@ export const EtnosportInfo = () => {
 	}
 
 	useEffect(() => {
-		if (cultureInfoData) {
-			methods.reset({ ...cultureInfoData })
+		if (vidInfo) {
+			methods.reset({ ...vidInfo })
 		}
-	}, [cultureInfoData])
+	}, [vidInfo])
 
 	return (
 		<>
@@ -139,16 +132,16 @@ export const EtnosportInfo = () => {
 						/>
 						<ReactDropzone
 							label='Изображение вида *'
-							name='logo'
+							name='mainphoto'
 							prompt='PNG, JPG, JPEG. 1000 х1000px, не более 3 Мб'
 							accept={{ 'image/png': ['.png'], 'image/jpeg': ['.jpeg'] }}
 							margin='0 0 20px 0'
 							previewVariant='sm-img'
-							imgtype='traditions'
-							fileImages={cultureInfoData?.logo}
+							imgtype='about_etno'
+							fileImages={vidInfo?.mainphoto}
 						/>
 						<QuillEditor
-							name='topDesc'
+							name='desc'
 							label='Первый текстовый блок'
 							$maxWidth='1140px'
 							$heightEditor='105px'
@@ -164,7 +157,7 @@ export const EtnosportInfo = () => {
 							fileImages={localeImages}
 							syncAdd={syncAddImagesHandler}
 							syncEdit={syncEditImagesHandler}
-							imgtype='traditions_photo'
+							imgtype='about_etno'
 							dzAreaClassName={styles.cultureGalleryController}
 							multiple
 							customOpenModal={
