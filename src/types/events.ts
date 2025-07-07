@@ -14,6 +14,20 @@ export type EventItem = {
 	event_level_name: string
 }
 
+export type CicleItem = {
+	id: string
+	cicle_name: string
+	cicle_dates: string
+	cicle_short: string
+	age: string
+	url: string
+	email: string
+	telegram: string
+	phone: string
+	place: string
+	hidden: boolean
+}
+
 export type EventPartners = {
 	id: string
 	id_partner: string
@@ -30,6 +44,10 @@ export type EventPartnersResponse = {
 
 export type EventResponse = {
 	events: EventItem[]
+}
+
+export type CicleResponse = {
+	cicles: CicleItem[]
 }
 
 export type EventNewIdResponse = {
@@ -56,6 +74,24 @@ export type EventInfoResponse = {
 	locations_list?: SelOption[]
 	main?: boolean
 	hidden?: boolean
+}
+
+export type CicleInfoResponse = {
+	cicle_name: string
+	cicle_dates: string
+	cicle_short: string
+	age: string
+	url: string
+	email: string
+	telegram: string
+	phone: string
+	place: string
+	anonstext: string
+	fulltext: string
+	id_cicle_type: SelOption[]
+	hidden: boolean
+	photo: ImageItemWithText[]
+	photos: ImageItemWithText[]
 }
 
 export type pathwaysEvent = {

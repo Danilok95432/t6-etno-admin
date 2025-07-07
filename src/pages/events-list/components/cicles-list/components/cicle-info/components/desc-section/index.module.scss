@@ -1,18 +1,21 @@
-.placeRequest {
-	font-size: 14px;
-	a {
-		font-weight: 600;
-		font-size: 14px;
-		color: #002c47;
-		text-decoration: underline;
-	}
+.titleSectionInner {
+  width: 100%;
 }
 
 .inputWrapper {
 	display: flex;
+  flex-direction: row;
 	align-items: center;
 	column-gap: 10px;
 	width: 100%;
+}
+
+.controlledFormElement {
+	max-width: 1140px;
+}
+
+.tooltip {
+	margin-top: 10px;
 }
 
 .inputWrapperTextArea {
@@ -27,10 +30,18 @@
 	margin-top: 8px;
 }
 
-.tooltip_textAria {
+.tooltip_textArea {
 	margin-top: 30px;
 }
 
-.tooltip_age {
-	margin-top: 30px;
+.tooltip_type {
+	margin-top: -15px;
+}
+
+.tooltip_teg {
+	margin-top: 27px;
+}
+
+.typeLevelWrapper {
+	width: 100%;
 }

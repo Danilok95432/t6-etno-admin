@@ -19,14 +19,20 @@ export const AdminEventVideos: FC = () => {
 			</Helmet>
 			<AdminContent $padding='0' $backgroundColor='#ffffff' className={styles.eventVideosPage}>
 				<Container $padding='35px 35px 0 35px' $paddingMobile='35px'>
-					<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLink}>
+					<Link
+						to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+						className={adminStyles.adminReturnLink}
+					>
 						Возврат к списку событий
 					</Link>
 					<h3 className={styles.title}>Видеолента</h3>
 				</Container>
 				<EventVideosList />
 				<Container $padding='20px 35px' $paddingMobile='50px 35px' $position='unset'>
-					<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLinkAbs}>
+					<Link
+						to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+						className={adminStyles.adminReturnLinkAbs}
+					>
 						Возврат к списку событий
 					</Link>
 				</Container>

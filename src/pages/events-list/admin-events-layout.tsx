@@ -1,27 +1,24 @@
-import { Helmet } from 'react-helmet-async'
-
+import { TabNavigation } from 'src/components/tab-navigation/tab-navigation'
+import { Outlet } from 'react-router-dom'
 import { AdminContent } from 'src/components/admin-content/admin-content'
-import { EventsTable } from 'src/pages/events-list/components/events-table/events-table'
 
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
 import styles from './index.module.scss'
+import { eventTabs } from './consts'
 
-export const EventsList = () => {
+export const AdminEventsLayout = () => {
 	return (
 		<>
-			<Helmet>
-				<title>События</title>
-			</Helmet>
 			<div className={adminStyles.adminTitleTab}>
 				<h1>События</h1>
+				<TabNavigation navItems={eventTabs} />
 			</div>
 			<AdminContent
 				className={styles.eventsListContent}
 				$backgroundColor='#ffffff'
 				$padding='30px 0'
 			>
-				<h3>События</h3>
-				<EventsTable />
+				<Outlet />
 			</AdminContent>
 		</>
 	)

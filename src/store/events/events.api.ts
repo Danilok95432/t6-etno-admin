@@ -7,6 +7,8 @@ import {
 	type EventProgramResponse,
 	type EventPartnerInfoResponse,
 	type EventPartnersResponse,
+	type CicleResponse,
+	type CicleInfoResponse,
 } from 'src/types/events'
 import { type FieldValues } from 'react-hook-form'
 
@@ -27,6 +29,8 @@ export const eventsApi = createApi({
 		'EventVideo',
 		'EventProgram',
 		'EventPartner',
+		'Cicles',
+		'CicleInfo',
 	],
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
@@ -51,6 +55,51 @@ export const eventsApi = createApi({
 				},
 			}),
 			providesTags: ['Events'],
+		}),
+		getAllCicles: build.query<CicleResponse, null>({
+			query: () => ({
+				url: `cicles/list`,
+			}),
+			providesTags: ['Cicles'],
+		}),
+		deleteCicleById: build.mutation<null, string>({
+			query: (cicleId) => ({
+				url: `cicles/delete`,
+				method: 'DELETE',
+				body: { id: cicleId },
+			}),
+			invalidatesTags: ['Cicles'],
+		}),
+		hideCicleById: build.mutation<null, string>({
+			query: (cicleId) => ({
+				url: `cicles/hide`,
+				method: 'POST',
+				body: { id: cicleId },
+			}),
+			invalidatesTags: ['Cicles'],
+		}),
+		getCicleInfo: build.query<CicleInfoResponse, string>({
+			query: (id) => ({
+				url: `cicles/edit`,
+				params: {
+					id,
+				},
+			}),
+			providesTags: ['CicleInfo'],
+		}),
+		saveCicleInfo: build.mutation<string, FieldValues>({
+			query: (FormData) => ({
+				url: `cicles/save`,
+				method: 'POST',
+				body: FormData,
+			}),
+			invalidatesTags: ['CicleInfo', 'Cicles'],
+		}),
+		getNewIdCicle: build.query<EventNewIdResponse, null>({
+			query: () => ({
+				url: `cicles/getnew`,
+			}),
+			providesTags: ['CicleInfo', 'Cicles'],
 		}),
 		deleteEventById: build.mutation<null, string>({
 			query: (eventId) => ({
@@ -204,6 +253,12 @@ export const eventsApi = createApi({
 
 export const {
 	useGetAllEventsQuery,
+	useGetAllCiclesQuery,
+	useGetCicleInfoQuery,
+	useHideCicleByIdMutation,
+	useSaveCicleInfoMutation,
+	useDeleteCicleByIdMutation,
+	useGetNewIdCicleQuery,
 	useDeleteEventByIdMutation,
 	useHideEventByIdMutation,
 	useGetEventInfoQuery,

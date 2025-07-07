@@ -68,7 +68,7 @@ export const AdminEventContacts: FC = () => {
 		if (res) {
 			markAsSent(true)
 			if (action === 'save') {
-				navigate(`/${AdminRoute.AdminEventsList}`)
+				navigate(`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`)
 			}
 		}
 	}
@@ -81,7 +81,10 @@ export const AdminEventContacts: FC = () => {
 
 	return (
 		<AdminContent className={styles.eventContactsPage}>
-			<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLink}>
+			<Link
+				to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+				className={adminStyles.adminReturnLink}
+			>
 				Возврат к списку событий
 			</Link>
 			<h3>Контакты</h3>
@@ -98,7 +101,7 @@ export const AdminEventContacts: FC = () => {
 				</form>
 			</FormProvider>
 			<Link
-				to={`/${AdminRoute.AdminAbout}/${AdminRoute.AdminEventsList}`}
+				to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
 				className={adminStyles.adminReturnLink}
 			>
 				Возврат к списку событий

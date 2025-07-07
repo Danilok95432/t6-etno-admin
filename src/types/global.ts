@@ -1,3 +1,5 @@
+import { type SelOption } from './select'
+
 export type RelatedLink = {
 	id: string
 	title: string
@@ -12,7 +14,8 @@ export type RouteBlock = {
 export type FilterTableInput = {
 	name: string
 	placeholder: string
-	type: 'text' | 'date'
+	type: 'text' | 'date' | 'select'
+	options?: SelOption[]
 }
 
 export type ResponseError = {

@@ -16,7 +16,7 @@ import { RequestsList } from 'src/pages/admin-news/components/requests/component
 import { OneRequest } from 'src/pages/admin-news/components/requests/components/one-request/one-request'
 import { OpenRequest } from 'src/pages/admin-news/components/requests/components/open-request/open-request'
 
-import { EventsList } from 'src/pages/events-list/events-list'
+import { EventsList } from 'src/pages/events-list/components/events-list/events-list'
 import { OneEventLayout } from 'src/pages/one-event-layout/one-event-layout'
 import { AdminEventProfile } from 'src/pages/one-event-layout/pages/admin-event-profile/admin-event-profile'
 import { AdminEventContacts } from 'src/pages/one-event-layout/pages/admin-event-contacts/admin-event-contacts'
@@ -59,6 +59,10 @@ import { FunInfo } from 'src/pages/game-element-layout/pages/fun-info/fun-info'
 import { FunElementLayout } from 'src/pages/game-element-layout/fun-element-layout'
 import { ObjectVideos } from 'src/pages/object-element-layout/pages/object-videos/object-videos'
 import { AdminCommunityCulture } from 'src/pages/community-layout/pages/admin-community-culture/admin-community-culture'
+import { AdminEventsLayout } from 'src/pages/events-list/admin-events-layout'
+import { CiclesList } from 'src/pages/events-list/components/cicles-list/cicles-list'
+import { CicleInfo } from 'src/pages/events-list/components/cicles-list/components/cicle-info/cicle-info'
+import { CiclesTable } from 'src/pages/events-list/components/cicles-list/components/cicle-table/cicles-table'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -103,7 +107,14 @@ export const AdminRoutes: FC = () => {
 				</Route>
 				<Route path={AdminRoute.AdminObjects} element={<AdminObjects />} />
 
-				<Route path={AdminRoute.AdminEventsList} element={<EventsList />} />
+				<Route path={AdminRoute.AdminEventLayout} element={<AdminEventsLayout />}>
+					<Route path={AdminRoute.AdminEventsList} element={<EventsList />} />
+					<Route path={AdminRoute.AdminCiclesList} element={<CiclesList />}>
+						<Route index element={<CiclesTable />} />
+						<Route path=':id' element={<CicleInfo />} />
+					</Route>
+				</Route>
+
 				<Route path={AdminRoute.AdminEvent} element={<OneEventLayout />}>
 					<Route path={`${AdminRoute.AdminEventProfile}/:id`} element={<AdminEventProfile />} />
 					<Route path={`${AdminRoute.AdminEventContacts}/:id`} element={<AdminEventContacts />} />

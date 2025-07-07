@@ -11,7 +11,10 @@ import styles from './index.module.scss'
 export const AdminEventHistory: FC = () => {
 	return (
 		<AdminContent className={styles.eventHistoryPage}>
-			<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLink}>
+			<Link
+				to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+				className={adminStyles.adminReturnLink}
+			>
 				Возврат к списку событий
 			</Link>
 			<h3>История</h3>

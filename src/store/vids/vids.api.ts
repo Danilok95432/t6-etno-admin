@@ -9,11 +9,12 @@ import {
 	type EtnosportResponse,
 	type FunResponse,
 	type VidListResponse,
+	type AboutVids,
 } from 'src/types/about-etnosport'
 
 export const vidsApi = createApi({
 	reducerPath: ReducerPath.Vids,
-	tagTypes: ['Vids', 'VidsInfo', 'Etnosport', 'Fun'],
+	tagTypes: ['Vids', 'VidsInfo', 'Etnosport', 'Fun', 'About'],
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
 		getVidsList: build.query<VidListResponse, null>({
@@ -21,6 +22,20 @@ export const vidsApi = createApi({
 				url: `/vids/list`,
 			}),
 			providesTags: ['Vids'],
+		}),
+		getAboutEdit: build.query<AboutVids, null>({
+			query: () => ({
+				url: `/about/edit`,
+			}),
+			providesTags: ['About'],
+		}),
+		saveAbout: build.mutation<null, FieldValues>({
+			query: (formData) => ({
+				url: `/about/save`,
+				method: 'POST',
+				body: formData,
+			}),
+			invalidatesTags: ['About'],
 		}),
 		getEtnoEdit: build.query<EtnosportResponse, null>({
 			query: () => ({
@@ -95,11 +110,13 @@ export const vidsApi = createApi({
 export const {
 	useGetVidsListQuery,
 	useDeleteVidByIdMutation,
+	useGetAboutEditQuery,
 	useGetEtnoEditQuery,
 	useGetFunEditQuery,
 	useGetNewIdVidQuery,
 	useGetVidInfoQuery,
 	useHideVidByIdMutation,
+	useSaveAboutMutation,
 	useSaveEtnosportMutation,
 	useSaveFunMutation,
 	useSaveVidInfoMutation,

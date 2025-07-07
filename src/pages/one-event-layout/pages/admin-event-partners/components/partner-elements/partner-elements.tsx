@@ -110,7 +110,10 @@ export const PartnerElements = () => {
 	return (
 		<div className={styles.partnerElementsPage}>
 			<Container $padding='0 0 35px 30px' $paddingMobile='0 0 35px 30px'>
-				<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLink}>
+				<Link
+					to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+					className={adminStyles.adminReturnLink}
+				>
 					Возврат к списку событий
 				</Link>
 			</Container>
@@ -132,7 +135,10 @@ export const PartnerElements = () => {
 				addText='Добавить партнера'
 			/>
 			<Container $padding='35px 0 54px 30px' $paddingMobile='35px 0 54px 30px' $position='unset'>
-				<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLinkAbs}>
+				<Link
+					to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+					className={adminStyles.adminReturnLinkAbs}
+				>
 					Возврат к списку событий
 				</Link>
 			</Container>

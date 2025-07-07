@@ -13,16 +13,13 @@ import { AdminControllers } from 'src/components/admin-controllers/admin-control
 import { TitleSection } from 'src/pages/community-layout/pages/admin-community-about/components/title-section/title-section'
 import { GallerySection } from 'src/pages/community-layout/pages/admin-community-about/components/gallery-section/gallery-section'
 import { ArticleSection } from 'src/pages/community-layout/pages/admin-community-about/components/article-section/article-section'
-import {
-	useGetAboutCommunityQuery,
-	useSaveAboutCommunityMutation,
-} from 'src/store/community/community.api'
 import { booleanToNumberString, transformToFormData } from 'src/helpers/utils'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
+import { useGetAboutEditQuery, useSaveAboutMutation } from 'src/store/vids/vids.api'
 
 export const AdminCommunityAbout: FC = () => {
-	const { data: aboutCommunityData } = useGetAboutCommunityQuery(null)
-	const [saveAboutCommunity] = useSaveAboutCommunityMutation()
+	const { data: aboutCommunityData } = useGetAboutEditQuery(null)
+	const [saveAboutCommunity] = useSaveAboutMutation()
 	const [, setAction] = useState<'apply' | 'save'>('apply')
 
 	const methods = useForm<CommunityInputs>({
@@ -61,7 +58,7 @@ export const AdminCommunityAbout: FC = () => {
 			<Helmet>
 				<title>Русский Этноспорт</title>
 			</Helmet>
-			<AdminContent title='Атманов угол' link='https://атманов-угол.рф/about'>
+			<AdminContent title='Об этноспорте' link='https://атманов-угол.рф/about'>
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
 						<TitleSection logo={aboutCommunityData?.logo} />

@@ -1,5 +1,4 @@
 import { AdminSection } from 'src/components/admin-section/admin-section'
-import { ControlledInput } from 'src/components/controlled-input/controlled-input'
 
 import { ControlledSelect } from 'src/components/controlled-select/controlled-select'
 import { GridRow } from 'src/components/grid-row/grid-row'
@@ -10,6 +9,7 @@ import { type SelOption } from 'src/types/select'
 import styles from './index.module.scss'
 import { Tooltip } from 'src/components/tooltip/Tooltip'
 import { InfoIconSvg } from 'src/UI/icons/infoIcon'
+import { QuillEditor } from 'src/components/quill-editor/quill-editor'
 
 type DescSectionProps = {
 	ageList?: SelOption[]
@@ -19,26 +19,13 @@ type DescSectionProps = {
 export const DescSection: FC<DescSectionProps> = ({ ageList, locationsList }) => {
 	return (
 		<AdminSection isBlock={false}>
-			<div className={styles.inputWrapper}>
-				<ControlledInput
+			<div className={styles.inputWrapperTextArea}>
+				<QuillEditor
 					name='description'
 					label='Краткое описание *'
-					placeholder='Краткое описание события'
-					margin='0 0 20px 0'
-				/>
-
-				<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip_short}>
-					<InfoIconSvg />
-				</Tooltip>
-			</div>
-
-			<div className={styles.inputWrapper}>
-				<ControlledInput
-					name='fullinfo'
-					label='Подробное описание *'
-					placeholder='Подробное описание события'
-					isTextarea
-					margin='0 0 20px 0'
+					$heightEditor='150px'
+					$maxWidth='1140px'
+					$width='1140px'
 				/>
 
 				<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip_textAria}>
@@ -46,13 +33,27 @@ export const DescSection: FC<DescSectionProps> = ({ ageList, locationsList }) =>
 				</Tooltip>
 			</div>
 
-			<div className={styles.inputWrapper}>
-				<ControlledInput
+			<div className={styles.inputWrapperTextArea}>
+				<QuillEditor
+					name='fullinfo'
+					label='Подробное описание *'
+					$heightEditor='150px'
+					$maxWidth='1140px'
+					$width='1140px'
+				/>
+
+				<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip_textAria}>
+					<InfoIconSvg />
+				</Tooltip>
+			</div>
+
+			<div className={styles.inputWrapperTextArea}>
+				<QuillEditor
 					name='conditions'
 					label='Условия участия *'
-					placeholder='Условия участия в событии'
-					isTextarea
-					margin='0 0 20px 0'
+					$heightEditor='150px'
+					$maxWidth='1140px'
+					$width='1140px'
 				/>
 
 				<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip_textAria}>

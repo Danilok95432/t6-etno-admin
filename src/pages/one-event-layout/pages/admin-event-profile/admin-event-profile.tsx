@@ -97,7 +97,7 @@ export const AdminEventProfile: FC = () => {
 		if (res) {
 			markAsSent(true)
 			if (action === 'save') {
-				navigate(`/${AdminRoute.AdminEventsList}`)
+				navigate(`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`)
 			}
 		}
 	}
@@ -156,7 +156,10 @@ export const AdminEventProfile: FC = () => {
 
 	return (
 		<AdminContent className={styles.eventProfilePage} $backgroundColor='#ffffff'>
-			<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLink}>
+			<Link
+				to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+				className={adminStyles.adminReturnLink}
+			>
 				Возврат к списку событий
 			</Link>
 			{id === 'new' ? <h3>Профиль события</h3> : <h3>Редактировать событие</h3>}
@@ -183,7 +186,11 @@ export const AdminEventProfile: FC = () => {
 							<AdminButton as='button' type='submit'>
 								Создать новое событие
 							</AdminButton>
-							<AdminButton as='route' to={`/${AdminRoute.AdminEventsList}`} $variant='cancel'>
+							<AdminButton
+								as='route'
+								to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+								$variant='cancel'
+							>
 								Отменить
 							</AdminButton>
 						</FlexRow>
@@ -202,14 +209,21 @@ export const AdminEventProfile: FC = () => {
 									Применить и продолжить
 								</AdminButton>
 							</FlexRow>
-							<AdminButton as='route' to={`/${AdminRoute.AdminEventsList}`} $variant='cancel'>
+							<AdminButton
+								as='route'
+								to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+								$variant='cancel'
+							>
 								Отменить изменения
 							</AdminButton>
 						</FlexRow>
 					)}
 				</form>
 			</FormProvider>
-			<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLink}>
+			<Link
+				to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+				className={adminStyles.adminReturnLink}
+			>
 				Возврат к списку событий
 			</Link>
 		</AdminContent>

@@ -87,10 +87,10 @@ export const TitleSection: FC<TitleSectionProps> = ({
 			</div>
 
 			<div className={styles.inputWrapper}>
-				<ControlledInput
-					name='tags'
-					label='Теги события'
-					placeholder='первый тег, второй тег, третий тег'
+				<ControlledSelect
+					name='cicles'
+					label='Циклы события *'
+					selectOptions={[{ label: 'выбрать цикл из списка', value: '0' }]}
 				/>
 
 				<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip_teg}>

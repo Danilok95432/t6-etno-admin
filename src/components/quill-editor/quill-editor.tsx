@@ -18,6 +18,7 @@ interface QuillEditorProps extends Omit<ControllerProps, 'render'> {
 type StyledEditorWrapperProps = {
 	$heightEditor?: string
 	$maxWidth?: string
+	$width?: string
 }
 
 const StyledEditorWrapper = styled.div<StyledEditorWrapperProps>`
@@ -38,12 +39,14 @@ const StyledEditorWrapper = styled.div<StyledEditorWrapperProps>`
 	.ql-toolbar {
 		border-radius: 3px 3px 0 0;
 		max-width: ${({ $maxWidth }) => $maxWidth ?? 'auto'};
+		width: ${({ $width }) => $width ?? '100%'};
 	}
 
 	.ql-container {
 		border-radius: 0 0 3px 3px;
 		height: ${({ $heightEditor }) => $heightEditor ?? '750px'};
 		max-width: ${({ $maxWidth }) => $maxWidth ?? 'auto'};
+		width: ${({ $width }) => $width ?? '100%'};
 	}
 
 	.ql-snow .ql-tooltip[data-mode='video']::before {
@@ -134,6 +137,7 @@ export const QuillEditor: FC<QuillEditorProps & StyledEditorWrapperProps> = ({
 	label,
 	$heightEditor,
 	$maxWidth,
+	$width,
 	...rest
 }) => {
 	const {
@@ -192,7 +196,7 @@ export const QuillEditor: FC<QuillEditorProps & StyledEditorWrapperProps> = ({
 	}, [])
 
 	return (
-		<StyledEditorWrapper $heightEditor={$heightEditor} $maxWidth={$maxWidth}>
+		<StyledEditorWrapper $heightEditor={$heightEditor} $maxWidth={$maxWidth} $width={$width}>
 			{label && <label>{label}</label>}
 			<Controller
 				name={name}

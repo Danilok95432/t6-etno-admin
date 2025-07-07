@@ -4,6 +4,15 @@ export type VidListResponse = {
 	vids: VidItem[]
 }
 
+export type AboutVids = {
+	mainDescs: string
+	descs: string
+	caption: string
+	caption_show: boolean
+	logo: ImageItemWithText[]
+	photoGallery: ImageItemWithText[]
+}
+
 export type VidItem = {
 	id: string
 	title: string

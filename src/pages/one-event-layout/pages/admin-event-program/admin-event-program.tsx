@@ -113,7 +113,10 @@ export const AdminEventProgram: FC = () => {
 
 	return (
 		<AdminContent className={styles.eventProgramPage}>
-			<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLink}>
+			<Link
+				to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+				className={adminStyles.adminReturnLink}
+			>
 				Возврат к списку событий
 			</Link>
 			<h3>Программа</h3>
@@ -130,7 +133,10 @@ export const AdminEventProgram: FC = () => {
 					</FlexRow>
 				</form>
 			</FormProvider>
-			<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLink}>
+			<Link
+				to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+				className={adminStyles.adminReturnLink}
+			>
 				Возврат к списку событий
 			</Link>
 		</AdminContent>

@@ -75,7 +75,7 @@ export const AdminEventContent: FC = () => {
 		if (res) {
 			markAsSent(true)
 			if (action === 'save') {
-				navigate(`/${AdminRoute.AdminEventsList}`)
+				navigate(`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`)
 			}
 		}
 	}
@@ -97,7 +97,10 @@ export const AdminEventContent: FC = () => {
 
 	return (
 		<AdminContent className={styles.eventContentPage}>
-			<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLink}>
+			<Link
+				to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+				className={adminStyles.adminReturnLink}
+			>
 				Возврат к списку событий
 			</Link>
 			<h3>Контент</h3>
@@ -110,13 +113,16 @@ export const AdminEventContent: FC = () => {
 					<LinksSection />
 					<AdminControllers
 						variant={'2'}
-						outLink={`/${AdminRoute.AdminEventsList}`}
+						outLink={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
 						isSent={isSent}
 						actionHandler={setAction}
 					/>
 				</form>
 			</FormProvider>
-			<Link to={`/${AdminRoute.AdminEventsList}`} className={adminStyles.adminReturnLink}>
+			<Link
+				to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+				className={adminStyles.adminReturnLink}
+			>
 				Возврат к списку событий
 			</Link>
 		</AdminContent>

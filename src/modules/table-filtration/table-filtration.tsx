@@ -7,6 +7,7 @@ import cn from 'classnames'
 import { useActions } from 'src/hooks/actions/actions'
 
 import styles from './index.module.scss'
+import Select from 'react-dropdown-select'
 
 type TableFiltrationProps = {
 	filterInputs: FilterTableInput[]
@@ -27,7 +28,7 @@ export const TableFiltration: FC<TableFiltrationProps> = ({ filterInputs }) => {
 
 	return (
 		<>
-			{filterInputs.map(({ name, placeholder, type }) => {
+			{filterInputs.map(({ name, placeholder, type, options = [] }) => {
 				if (type === 'date') {
 					return (
 						<IMaskInput
@@ -37,6 +38,28 @@ export const TableFiltration: FC<TableFiltrationProps> = ({ filterInputs }) => {
 							mask={Date}
 							placeholder={placeholder}
 							onChange={(e) => handleChangeFiltration(name, e.currentTarget.value)}
+						/>
+					)
+				} else if (type === 'select') {
+					return (
+						<Select
+							className={cn(styles.filterInput, styles._select)}
+							key={name}
+							placeholder={placeholder}
+							options={options.map((option) => ({
+								value: option.value,
+								label: option.label,
+							}))}
+							values={[]}
+							onChange={(selectedValues) => {
+								if (selectedValues.length > 0) {
+									handleChangeFiltration(name, selectedValues[0].value)
+								} else {
+									handleChangeFiltration(name, '')
+								}
+							}}
+							searchable={false}
+							dropdownPosition='auto'
 						/>
 					)
 				}
