@@ -5,7 +5,7 @@ import * as yup from 'yup'
 export type CicleInfoInputs = {
 	cicle_name: string
 	cicle_dates?: string
-	cicle_short: string
+	cicle_short?: string
 	age?: string
 	url?: string
 	email: string
@@ -22,7 +22,6 @@ export type CicleInfoInputs = {
 
 export const cicleInfoSchema = yup.object().shape({
 	cicle_name: yup.string().required('Введите название цикла'),
-	cicle_short: yup.string().required('Введите описание'),
 	email: yup.string().required('Введите email'),
 	phone: yup.string().required('Введите телефон'),
 	telegram: yup.string().required('Введите телеграм'),
