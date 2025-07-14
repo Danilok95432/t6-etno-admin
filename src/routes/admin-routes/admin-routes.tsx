@@ -24,7 +24,6 @@ import { AdminEventContent } from 'src/pages/one-event-layout/pages/admin-event-
 import { AdminEventPartnersLayout } from 'src/pages/one-event-layout/pages/admin-event-partners/admin-event-partners-layout'
 import { AdminEventNews } from 'src/pages/one-event-layout/pages/admin-event-news/admin-event-news'
 import { AdminEventVideos } from 'src/pages/one-event-layout/pages/admin-event-videos/admin-event-videos'
-import { AdminEventProgram } from 'src/pages/one-event-layout/pages/admin-event-program/admin-event-program'
 import { AdminEventHistory } from 'src/pages/one-event-layout/pages/admin-event-history/admin-event-history'
 
 import { CommunityLayout } from 'src/pages/community-layout/community-layout'
@@ -63,6 +62,9 @@ import { AdminEventsLayout } from 'src/pages/events-list/admin-events-layout'
 import { CiclesList } from 'src/pages/events-list/components/cicles-list/cicles-list'
 import { CicleInfo } from 'src/pages/events-list/components/cicles-list/components/cicle-info/cicle-info'
 import { CiclesTable } from 'src/pages/events-list/components/cicles-list/components/cicle-table/cicles-table'
+import { AdminEventProgramsLayout } from 'src/pages/one-event-layout/pages/admin-event-program/admin-event-programs-layout'
+import { ProgramElements } from 'src/pages/one-event-layout/pages/admin-event-program/components/program-elements/program-elements'
+import { OneProgram } from 'src/pages/one-event-layout/pages/admin-event-program/components/one-program/one-program'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -131,7 +133,16 @@ export const AdminRoutes: FC = () => {
 					</Route>
 					<Route path={`${AdminRoute.AdminEventNews}/:id`} element={<AdminEventNews />} />
 					<Route path={`${AdminRoute.AdminEventVideos}/:id`} element={<AdminEventVideos />} />
-					<Route path={`${AdminRoute.AdminEventProgram}/:id`} element={<AdminEventProgram />} />
+					<Route
+						path={`${AdminRoute.AdminEventProgram}/:id`}
+						element={<AdminEventProgramsLayout />}
+					>
+						<Route index element={<ProgramElements />} />
+						<Route
+							path={`${AdminRoute.AdminEventOneProgram}/:programId`}
+							element={<OneProgram />}
+						/>
+					</Route>
 					<Route path={`${AdminRoute.AdminEventHistory}/:id`} element={<AdminEventHistory />} />
 				</Route>
 

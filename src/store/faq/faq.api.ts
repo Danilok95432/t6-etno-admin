@@ -10,15 +10,21 @@ export const faqApi = createApi({
 	tagTypes: ['Faq', 'FaqInfo'],
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
-		getAllFaq: build.query<FaqResponse, null>({
-			query: () => ({
+		getAllFaq: build.query<FaqResponse, { idEvent?: string }>({
+			query: ({ idEvent }) => ({
 				url: 'faq/list',
+				params: {
+					id_event: idEvent,
+				},
 			}),
 			providesTags: ['Faq'],
 		}),
-		getNewIdFaq: build.query<FaqNewIdResponse, null>({
-			query: () => ({
+		getNewIdFaq: build.query<FaqNewIdResponse, { idEvent?: string }>({
+			query: ({ idEvent }) => ({
 				url: `faq/getnew`,
+				params: {
+					id_event: idEvent,
+				},
 			}),
 			providesTags: ['Faq'],
 		}),

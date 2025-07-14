@@ -19,6 +19,8 @@ export type CicleItem = {
 	cicle_name: string
 	cicle_dates: string
 	cicle_short: string
+	cicle_type_name: string
+	cicle_actual_name: string
 	age: string
 	url: string
 	email: string
@@ -36,6 +38,48 @@ export type EventPartners = {
 	partner_vids: string[]
 	partner_number: string
 	hidden: boolean
+}
+
+export type EventSubEvent = {
+	id: string
+	hidden: boolean
+	title: string
+	type: string
+	use_end_time: string
+	use_group: string
+	use_reg: string
+	vid_name: string
+	registration: string
+	date: string
+	begin_time: string
+	end_time: string
+	place: string
+}
+
+export type EventSubEventInfoReponse = {
+	hidden: boolean
+	title: string
+	trebovania: string
+	reglament: string
+	url: string
+	use_end_time: boolean
+	use_group: boolean
+	use_reg: boolean
+	begin_time: string
+	end_time: string
+	short: string
+	address: string
+	email: string
+	phone: string
+	telegram: string
+	rules: string
+	itemdate: string
+	organizators_list: SelOption[]
+	vids_list: SelOption[]
+}
+
+export type EventSubEventsResponse = {
+	sub_events: EventSubEvent[]
 }
 
 export type EventPartnersResponse = {
@@ -89,9 +133,16 @@ export type CicleInfoResponse = {
 	anonstext: string
 	fulltext: string
 	id_cicle_type: SelOption[]
+	id_cicle_regular: SelOption[]
+	id_cicle_actual: SelOption[]
+	id_age_limit: SelOption[]
+	organizators_list: SelOption[]
 	hidden: boolean
 	photo: ImageItemWithText[]
 	photos: ImageItemWithText[]
+	use_gallery: boolean
+	use_video: boolean
+	use_news: boolean
 }
 
 export type pathwaysEvent = {

@@ -16,7 +16,7 @@ import { CheckBoxSection } from './components/checkbox-section/checkbox-section'
 import { AdditionalSection } from './components/additional-section/additional-section'
 import { useGetCicleInfoQuery, useSaveCicleInfoMutation } from 'src/store/events/events.api'
 import { type CicleInfoInputs, cicleInfoSchema } from './schema'
-import { transformToFormData } from 'src/helpers/utils'
+import { booleanToNumberString, transformToFormData } from 'src/helpers/utils'
 
 export const CicleInfo = () => {
 	const { id = '0' } = useParams()
@@ -48,6 +48,30 @@ export const CicleInfo = () => {
 					: data.id_cicle_type
 						? data.id_cicle_type[0].value
 						: '0',
+			id_cicle_regular:
+				typeof data.id_cicle_regular === 'string'
+					? data.id_cicle_regular
+					: data.id_cicle_regular
+						? data.id_cicle_regular[0].value
+						: '0',
+			id_cicle_actual:
+				typeof data.id_cicle_actual === 'string'
+					? data.id_cicle_actual
+					: data.id_cicle_actual
+						? data.id_cicle_actual[0].value
+						: '0',
+			id_age_limit:
+				typeof data.id_age_limit === 'string'
+					? data.id_age_limit
+					: data.id_age_limit
+						? data.id_age_limit[0].value
+						: '0',
+			id_organizator:
+				typeof data.organizators_list === 'string'
+					? data.organizators_list
+					: data.organizators_list
+						? data.organizators_list[0].value
+						: '0',
 			cicle_name: data.cicle_name,
 			cicle_dates: data.cicle_dates,
 			cicle_short: data.cicle_short,
@@ -59,6 +83,9 @@ export const CicleInfo = () => {
 			place: data.place,
 			anonstext: data.anonstext,
 			fulltext: data.fulltext,
+			use_video: booleanToNumberString(data.use_video),
+			use_gallery: booleanToNumberString(data.use_gallery),
+			use_news: booleanToNumberString(data.use_news),
 		}
 		const eventInfoFormData = transformToFormData(serverData)
 		const eventId = id
@@ -94,10 +121,17 @@ export const CicleInfo = () => {
 					noValidate
 					autoComplete='off'
 				>
-					<TitleSection typeList={cicleInfo?.id_cicle_type} />
+					<TitleSection
+						typeList={cicleInfo?.id_cicle_type}
+						organizatorsList={cicleInfo?.organizators_list}
+					/>
 					<DescSection />
 					<CheckBoxSection />
-					<AdditionalSection />
+					<AdditionalSection
+						ageList={cicleInfo?.id_age_limit}
+						regularityList={cicleInfo?.id_cicle_regular}
+						actualList={cicleInfo?.id_cicle_actual}
+					/>
 					<FlexRow $margin='0 0 40px 0' $maxWidth='1140px' $justifyContent='space-between'>
 						<FlexRow>
 							<AdminButton as='button' type='submit' onClick={() => setAction('save')}>

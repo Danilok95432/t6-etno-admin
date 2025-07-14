@@ -18,17 +18,10 @@ import { ControlledMaskedInput } from 'src/components/controlled-masked-input/co
 
 type TitleSectionProps = {
 	typeList?: SelOption[]
-	eventTypesList?: SelOption[]
-	eventLevelsList?: SelOption[]
-	brandsList?: SelOption[]
+	organizatorsList?: SelOption[]
 }
 
-export const TitleSection: FC<TitleSectionProps> = ({
-	typeList,
-	eventTypesList,
-	eventLevelsList,
-	brandsList,
-}) => {
+export const TitleSection: FC<TitleSectionProps> = ({ typeList, organizatorsList }) => {
 	return (
 		<AdminSection isBlock={false} className={styles.titleSectionInner}>
 			<div className={styles.inputWrapper}>
@@ -62,7 +55,7 @@ export const TitleSection: FC<TitleSectionProps> = ({
 			<div className={styles.inputWrapper}>
 				<ControlledDateInput
 					className={adminStyles.adminDateInput}
-					name='date_from'
+					name='cicle_dates'
 					dateFormat='yyyy-MM-dd'
 					placeholder='гггг-мм-дд'
 					label='Год начала цикла'
@@ -87,9 +80,9 @@ export const TitleSection: FC<TitleSectionProps> = ({
 
 			<div className={cn(styles.inputWrapper, styles.marginBottom)}>
 				<ControlledSelect
-					name='orgs'
+					name='organizators_list'
 					label='Организатор *'
-					selectOptions={[{ label: 'выбрать из списка', value: '0' }]}
+					selectOptions={organizatorsList ?? [{ label: 'выбрать из списка', value: '0' }]}
 					className={styles.controlledFormElement}
 				/>
 

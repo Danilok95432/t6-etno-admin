@@ -107,10 +107,20 @@ export const formatTimeToHHMM = (date: Date | null | undefined): string => {
 	}
 }
 
-// функция форматирования даты для отправки на сервер в формате YYYY-MM-DD
-export const formatDateToYYYYMMDD = (date: Date | string | null | undefined): string => {
-	if (date === '') return ''
+export const formatTimeToTable = (time: string | null | undefined): string => {
+	if (!time || time === '') return ''
+	const parts = time.split(':')
+	return parts.length >= 2 ? `${parts[0]}:${parts[1]}` : time
+}
 
+// функция форматирования даты для отправки на сервер в формате YYYY-MM-DD
+export const formatDateToYYYYMMDD = (
+	date: Date | string | null | undefined,
+	separator?: string | undefined,
+	variant?: number,
+): string => {
+	if (date === '') return ''
+	if (!separator || separator === '') separator = '-'
 	if (!date) {
 		return 'Invalid Date'
 	}
@@ -137,7 +147,9 @@ export const formatDateToYYYYMMDD = (date: Date | string | null | undefined): st
 	}
 
 	try {
-		const formattedDate = format(parsedDate, 'yyyy-MM-dd')
+		let formattedDate: string
+		if (variant === 2) formattedDate = format(parsedDate, `dd${separator}MM${separator}yyyy`)
+		else formattedDate = format(parsedDate, `yyyy${separator}MM${separator}dd`)
 		return formattedDate
 	} catch (error) {
 		console.error('Error formatting date:', error)

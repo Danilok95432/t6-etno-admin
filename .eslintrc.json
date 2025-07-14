@@ -40,9 +40,9 @@
     "prettier/prettier": [
       "error",
       {
-        "endOfLine": "auto", // Решает проблему с LF/CRLF (актуально для Windows)
-        "semi": false,        // Пример: отключает точки с запятой, если у вас такой стиль
-        "singleQuote": true   // Пример: использует одинарные кавычки
+        "endOfLine": "auto",
+        "semi": false,
+        "singleQuote": true
       }
     ],
     "react/prop-types": 0,

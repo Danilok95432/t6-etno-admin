@@ -1,4 +1,5 @@
-import { Outlet, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation, useParams } from 'react-router-dom'
 
 import { TabNavigation } from 'src/components/tab-navigation/tab-navigation'
 
@@ -9,6 +10,7 @@ import type { TabNavigationItem } from 'src/types/navigation'
 export const OneEventLayout = () => {
 	const { id = '' } = useParams()
 	const { data: eventInfoData } = useGetEventInfoQuery(id)
+	const location = useLocation()
 	const eventTabs: TabNavigationItem[] = [
 		{
 			title: 'Профиль события',
@@ -35,7 +37,7 @@ export const OneEventLayout = () => {
 			link: `/event/event-videos/${id ?? 'new'}`,
 		},
 		{
-			title: 'Программа',
+			title: 'Подсобытия',
 			link: `/event/event-program/${id ?? 'new'}`,
 		},
 		/* {
@@ -43,11 +45,20 @@ export const OneEventLayout = () => {
 			link: `/event/event-history/${id ?? 'new'}`,
 		}, */
 	]
+	const [isProgramPage, setIsProgramPage] = useState<boolean>(false)
+
+	useEffect(() => {
+		setIsProgramPage(location.pathname.includes('/one-program'))
+	}, [location.pathname])
 	return (
 		<>
 			<div className={adminStyles.adminTitleTab}>
-				<h1>{eventInfoData?.title !== '' ? eventInfoData?.title : 'Новое событие'}</h1>
-				<TabNavigation navItems={eventTabs} />
+				{!isProgramPage ? (
+					<h1>{eventInfoData?.title !== '' ? eventInfoData?.title : 'Новое событие'}</h1>
+				) : (
+					<h1>Подсобытие</h1>
+				)}
+				{!isProgramPage && <TabNavigation navItems={eventTabs} />}
 			</div>
 			<Outlet />
 		</>

@@ -8,7 +8,7 @@ export const CheckBoxSection = () => {
 		<AdminSection isBlock={false} className={styles.titleSectionInner}>
 			<div className={styles.inputWrapper}>
 				<ControlledCheckbox
-					name='first'
+					name='use_news'
 					label='Включить новости цикла (транслировать новости событий)'
 					type='checkbox'
 					className={styles.checkbox}
@@ -16,7 +16,7 @@ export const CheckBoxSection = () => {
 			</div>
 			<div className={styles.inputWrapper}>
 				<ControlledCheckbox
-					name='second'
+					name='use_video'
 					label='Включить видеоленту цикла (транслировать видеоленты событий)'
 					type='checkbox'
 					className={styles.checkbox}
@@ -24,7 +24,7 @@ export const CheckBoxSection = () => {
 			</div>
 			<div className={styles.inputWrapper}>
 				<ControlledCheckbox
-					name='third'
+					name='use_gallery'
 					label='Включить галерею цикла (транслировать галереи событий)'
 					type='checkbox'
 					className={styles.checkbox}

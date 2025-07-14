@@ -4,11 +4,12 @@ import {
 	type EventResponse,
 	type EventContacts,
 	type EventContent,
-	type EventProgramResponse,
 	type EventPartnerInfoResponse,
 	type EventPartnersResponse,
 	type CicleResponse,
 	type CicleInfoResponse,
+	type EventSubEventsResponse,
+	type EventSubEventInfoReponse,
 } from 'src/types/events'
 import { type FieldValues } from 'react-hook-form'
 
@@ -29,6 +30,8 @@ export const eventsApi = createApi({
 		'EventVideo',
 		'EventProgram',
 		'EventPartner',
+		'SubEvent',
+		'SubEventInfo',
 		'Cicles',
 		'CicleInfo',
 	],
@@ -231,22 +234,60 @@ export const eventsApi = createApi({
 			}),
 			invalidatesTags: ['EventPartner', 'Events'],
 		}),
-		getProgramByEventId: build.query<EventProgramResponse, string>({
+		getSubEventsByEventId: build.query<
+			EventSubEventsResponse,
+			{ idEvent: string | undefined; title?: string }
+		>({
+			query: ({ idEvent, title }) => ({
+				url: `sub_events/list`,
+				params: {
+					id_event: idEvent,
+					title,
+				},
+			}),
+			providesTags: ['Events', 'SubEvent'],
+		}),
+		deleteSubEventById: build.mutation<null, string>({
+			query: (subEventId) => ({
+				url: `sub_events/delete`,
+				method: 'DELETE',
+				body: { id: subEventId },
+			}),
+			invalidatesTags: ['Events', 'SubEvent'],
+		}),
+		hideSubEventById: build.mutation<null, string>({
+			query: (subEventId) => ({
+				url: `sub_events/hide`,
+				method: 'POST',
+				body: { id: subEventId },
+			}),
+			invalidatesTags: ['Events', 'SubEvent'],
+		}),
+		getNewSubEventId: build.query<EventNewIdResponse, string>({
 			query: (id) => ({
-				url: `events/edit_program`,
+				url: `sub_events/getnew`,
+				params: {
+					id_event: id,
+				},
+			}),
+			providesTags: ['SubEvent', 'Events'],
+		}),
+		getSubEventInfo: build.query<EventSubEventInfoReponse, string>({
+			query: (id) => ({
+				url: `sub_events/edit`,
 				params: {
 					id,
 				},
 			}),
-			providesTags: ['Events', 'EventProgram'],
+			providesTags: ['SubEvent', 'SubEventInfo'],
 		}),
-		saveProgramInfo: build.mutation<string, FieldValues>({
+		saveSubEventInfo: build.mutation<string, FieldValues>({
 			query: (FormData) => ({
-				url: `events/save_program`,
+				url: `sub_events/save`,
 				method: 'POST',
 				body: FormData,
 			}),
-			invalidatesTags: ['EventProgram'],
+			invalidatesTags: ['SubEvent', 'SubEventInfo'],
 		}),
 	}),
 })
@@ -270,10 +311,14 @@ export const {
 	useSaveEventContentInfoMutation,
 	useGetPartnersByEventIdQuery,
 	useDeleteEventPartnerByIdMutation,
-	useGetProgramByEventIdQuery,
-	useSaveProgramInfoMutation,
 	useHideEventPartnerByIdMutation,
 	useGetNewPartnerIdEventQuery,
 	useGetEventPartnerInfoQuery,
 	useSaveEventPartnerInfoMutation,
+	useGetNewSubEventIdQuery,
+	useGetSubEventInfoQuery,
+	useDeleteSubEventByIdMutation,
+	useHideSubEventByIdMutation,
+	useSaveSubEventInfoMutation,
+	useGetSubEventsByEventIdQuery,
 } = eventsApi

@@ -18,6 +18,13 @@ export type CicleInfoInputs = {
 	hidden?: boolean
 	photo?: ImageItemWithText[]
 	photos?: ImageItemWithText[]
+	id_cicle_regular: string | SelOption[]
+	id_cicle_actual: string | SelOption[]
+	organizators_list: string | SelOption[]
+	id_age_limit: string | SelOption[]
+	use_gallery?: boolean
+	use_video?: boolean
+	use_news?: boolean
 }
 
 export const cicleInfoSchema = yup.object().shape({
@@ -51,4 +58,96 @@ export const cicleInfoSchema = yup.object().shape({
 			}
 		})
 		.required('Выберите хотя бы один тип'),
+	id_cicle_regular: yup
+		.mixed<string | SelOption[]>()
+		.test('is-type-selected', 'Выберите хотя бы один тип регулярности', (value) => {
+			if (typeof value === 'string') {
+				return true
+			} else if (Array.isArray(value) && value.length > 0) {
+				const firstElement = value[0]
+				if (
+					typeof firstElement === 'object' &&
+					firstElement !== null &&
+					'label' in firstElement &&
+					'value' in firstElement &&
+					firstElement.label === 'Регулярность не выбрана'
+				) {
+					return false
+				} else {
+					return true
+				}
+			} else {
+				return false
+			}
+		})
+		.required('Выберите хотя бы один тип регулярности'),
+	id_cicle_actual: yup
+		.mixed<string | SelOption[]>()
+		.test('is-type-selected', 'Выберите хотя бы один тип актуальности', (value) => {
+			if (typeof value === 'string') {
+				return true
+			} else if (Array.isArray(value) && value.length > 0) {
+				const firstElement = value[0]
+				if (
+					typeof firstElement === 'object' &&
+					firstElement !== null &&
+					'label' in firstElement &&
+					'value' in firstElement &&
+					firstElement.label === 'Актуальность не выбрана'
+				) {
+					return false
+				} else {
+					return true
+				}
+			} else {
+				return false
+			}
+		})
+		.required('Выберите хотя бы один тип актуальности'),
+	id_age_limit: yup
+		.mixed<string | SelOption[]>()
+		.test('is-type-selected', 'Выберите хотя бы одно ограничение', (value) => {
+			if (typeof value === 'string') {
+				return true
+			} else if (Array.isArray(value) && value.length > 0) {
+				const firstElement = value[0]
+				if (
+					typeof firstElement === 'object' &&
+					firstElement !== null &&
+					'label' in firstElement &&
+					'value' in firstElement &&
+					firstElement.label === 'Возрастное ограничение не выбрано'
+				) {
+					return false
+				} else {
+					return true
+				}
+			} else {
+				return false
+			}
+		})
+		.required('Выберите хотя бы одно ограничение'),
+	organizators_list: yup
+		.mixed<string | SelOption[]>()
+		.test('is-type-selected', 'Выберите хотя бы одно ограничение', (value) => {
+			if (typeof value === 'string') {
+				return true
+			} else if (Array.isArray(value) && value.length > 0) {
+				const firstElement = value[0]
+				if (
+					typeof firstElement === 'object' &&
+					firstElement !== null &&
+					'label' in firstElement &&
+					'value' in firstElement &&
+					firstElement.label === 'Возрастное ограничение не выбрано'
+				) {
+					return false
+				} else {
+					return true
+				}
+			} else {
+				return false
+			}
+		})
+		.required('Выберите хотя бы одно ограничение'),
 })

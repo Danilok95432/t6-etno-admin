@@ -19,8 +19,8 @@ import { AdminContent } from 'src/components/admin-content/admin-content'
 import styles from './index.module.scss'
 
 export const QuestionsElements: FC = () => {
-	const { data: faqInfoData, isLoading } = useGetAllFaqQuery(null)
-	const { refetch: getNewId } = useGetNewIdFaqQuery(null)
+	const { data: faqInfoData, isLoading } = useGetAllFaqQuery({ idEvent: '' })
+	const { refetch: getNewId } = useGetNewIdFaqQuery({ idEvent: '1' })
 	const [deleteQuestionById] = useDeleteQuestionByIdMutation()
 	const [hideQuestionById] = useHideQuestionByIdMutation()
 

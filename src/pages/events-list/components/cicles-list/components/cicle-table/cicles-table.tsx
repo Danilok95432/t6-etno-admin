@@ -16,15 +16,12 @@ import {
 	useHideCicleByIdMutation,
 } from 'src/store/events/events.api'
 
-import { useAppSelector } from 'src/hooks/store'
-import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { CiclesElementsFiltrationInputs } from './consts'
 
 import styles from './index.module.scss'
 
 export const CiclesTable: FC = () => {
-	const filterValues = useAppSelector(getFiltrationValues)
 	const { data: cicleData, isLoading } = useGetAllCiclesQuery(null)
 	const [deleteEventById] = useDeleteCicleByIdMutation()
 	const [hideEventById] = useHideCicleByIdMutation()
@@ -47,10 +44,10 @@ export const CiclesTable: FC = () => {
 						{eventEl.cicle_name}
 					</p>,
 					<p className={cn({ 'hidden-cell': eventEl.hidden })} key='1'>
-						{}
+						{eventEl.cicle_actual_name}
 					</p>,
 					<p className={cn({ 'hidden-cell': eventEl.hidden })} key='3'>
-						{}
+						{eventEl.cicle_type_name}
 					</p>,
 					<p className={cn({ 'hidden-cell': eventEl.hidden })} key='4'>
 						{eventEl.place}
