@@ -10,8 +10,8 @@ export type ProgramInputs = {
 	use_end_time?: boolean
 	use_group?: boolean
 	use_reg?: boolean
-	begin_time: string
-	end_time?: string
+	begin_time: Date
+	end_time?: Date
 	short: string
 	address: string
 	email: string

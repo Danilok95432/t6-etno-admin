@@ -17,7 +17,14 @@ import { AdditionalSection } from './components/additional-section/additional-se
 import { FlexRow } from 'src/components/flex-row/flex-row'
 import { useEffect, useState } from 'react'
 import { DocsSection } from './components/docs-section/docs-section'
-import { booleanToNumberString, transformToFormData } from 'src/helpers/utils'
+import {
+	booleanToNumberString,
+	currentDateString,
+	formatDateToYYYYMMDD,
+	formatTimeToHHMM,
+	transformToFormData,
+} from 'src/helpers/utils'
+import { format, parse } from 'date-fns'
 
 export const OneProgram = () => {
 	const { id = '', programId = '' } = useParams()
@@ -34,12 +41,15 @@ export const OneProgram = () => {
 	const navigate = useNavigate()
 
 	const onSubmit: SubmitHandler<ProgramInputs> = async (data) => {
+		const date = formatDateToYYYYMMDD(data.itemdate)
+		const timeFormatFrom = formatTimeToHHMM(data.begin_time)
+		const timeFormatTo = formatTimeToHHMM(data.end_time)
 		const serverData = {
 			title: data.title,
-			itemdate: data.itemdate,
+			itemdate: date,
 			place: data.place,
-			begin_time: data.begin_time,
-			end_time: data.end_time,
+			begin_time: timeFormatFrom,
+			end_time: timeFormatTo,
 			use_end_time: booleanToNumberString(data.use_end_time),
 			short: data.short,
 			rules: data.rules,
@@ -66,18 +76,43 @@ export const OneProgram = () => {
 		if (res) {
 			markAsSent(true)
 			if (action === 'save') {
-				navigate(`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`)
+				navigate(`/${AdminRoute.AdminEvent}/${AdminRoute.AdminEventProgram}/${id}`)
 			}
-		}
-		if (res) {
-			markAsSent(true)
-			navigate(`/${AdminRoute.AdminEvent}/${AdminRoute.AdminEventPartners}/${id}`)
 		}
 	}
 
 	useEffect(() => {
 		if (programInfo) {
-			methods.reset({ ...programInfo })
+			let initialTimeEventStart: Date | undefined
+			let initialTimeEventEnd: Date | undefined
+			let initialDateEventStart: string | undefined
+			if (programInfo.itemdate === '0000-00-00') initialDateEventStart = currentDateString()
+			if (programInfo.itemdate && programInfo.begin_time && programInfo.itemdate !== '0000-00-00') {
+				const initialTimeEventStartValue = parse(
+					`${format(new Date(programInfo.itemdate), 'yyyy-MM-dd')} ${programInfo.begin_time}`,
+					'yyyy-MM-dd HH:mm:ss',
+					new Date(),
+				)
+				initialTimeEventStart = initialTimeEventStartValue
+			}
+			if (programInfo.itemdate && programInfo.end_time && programInfo.itemdate !== '0000-00-00') {
+				const initialTimeEventEndValue = parse(
+					`${format(new Date(programInfo.itemdate), 'yyyy-MM-dd')} ${programInfo.end_time}`,
+					'yyyy-MM-dd HH:mm:ss',
+					new Date(),
+				)
+
+				initialTimeEventEnd = initialTimeEventEndValue
+			}
+
+			const transformedData = {
+				...programInfo,
+				itemdate:
+					programInfo.itemdate === '0000-00-00' ? initialDateEventStart : programInfo.itemdate,
+				begin_time: initialTimeEventStart ?? undefined,
+				end_time: initialTimeEventEnd ?? undefined,
+			}
+			methods.reset({ ...transformedData })
 		}
 	}, [programInfo])
 
@@ -119,7 +154,7 @@ export const OneProgram = () => {
 							</FlexRow>
 							<AdminButton
 								as='route'
-								to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminCiclesList}`}
+								to={`/${AdminRoute.AdminEvent}/${AdminRoute.AdminEventProgram}/${id}`}
 								$variant='cancel'
 							>
 								Отменить изменения
