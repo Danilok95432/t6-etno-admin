@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import React, { type FC } from 'react'
-
 import { useFormContext, useController, type FieldError } from 'react-hook-form'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import { ErrorMessage } from '@hookform/error-message'
@@ -22,16 +22,19 @@ type ControlledDateInputProps = {
 	placeholder?: string
 	margin?: string
 	dynamicError?: FieldError | undefined
+	timeIntervals?: number
 }
+
 export const ControlledDateInput: FC<ControlledDateInputProps> = ({
 	name,
 	className,
 	classNameDatePicker,
 	label,
 	dateFormat,
-	showTimeSelect,
-	showTimeSelectOnly,
-	timeFormat,
+	showTimeSelect = false,
+	showTimeSelectOnly = false,
+	timeFormat = 'HH:mm',
+	timeIntervals = 15,
 	placeholder,
 	margin,
 	dynamicError,
@@ -41,12 +44,25 @@ export const ControlledDateInput: FC<ControlledDateInputProps> = ({
 		control,
 		formState: { errors },
 	} = useFormContext()
+
 	const {
-		field: { ref, ...inputProps },
+		field: { ref, value, onChange, ...inputProps },
 	} = useController({
 		name,
 		control,
 	})
+
+	const parseDate = (dateString: string | Date | null): Date | null => {
+		if (!dateString) return null
+		if (dateString instanceof Date) return dateString
+		const isoString = dateString.includes('T') ? dateString : dateString.replace(' ', 'T')
+
+		return new Date(isoString)
+	}
+
+	const handleChange = (date: Date | null) => {
+		onChange(date)
+	}
 
 	return (
 		<div className={cn(styles.dateInputWrapper, className)} style={{ margin }}>
@@ -55,15 +71,16 @@ export const ControlledDateInput: FC<ControlledDateInputProps> = ({
 				<DatePicker
 					{...inputProps}
 					{...props}
+					ref={ref}
 					locale='ru'
-					selected={inputProps.value}
-					onChange={(date) => inputProps.onChange(date)}
-					dateFormat={dateFormat ?? 'dd-MM-yyyy'}
-					timeFormat={timeFormat ?? 'HH:mm'}
-					timeIntervals={15}
+					selected={parseDate(value)}
+					onChange={handleChange}
+					dateFormat={dateFormat ?? (showTimeSelect ? 'dd-MM-yyyy HH:mm' : 'dd-MM-yyyy')}
+					timeFormat={timeFormat}
+					timeIntervals={timeIntervals}
 					timeCaption='Время'
 					placeholderText={placeholder}
-					showTimeSelect={showTimeSelect ?? false}
+					showTimeSelect={showTimeSelect}
 					showTimeSelectOnly={showTimeSelectOnly}
 					calendarClassName={classNameDatePicker}
 				/>

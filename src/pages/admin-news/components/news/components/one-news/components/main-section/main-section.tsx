@@ -41,22 +41,15 @@ export const MainSection: FC<MainSectionProps> = ({
 				height='56px'
 				margin='0 0 20px 0'
 			/>
-			<GridRow $template='auto/141px 141px' $width='auto'>
+			<GridRow $template='auto/282px' $width='auto'>
 				<ControlledDateInput
-					className={adminStyles.adminDateInput}
-					label='Дата публикации'
+					className={adminStyles.adminDateTimeInput}
+					label='Дата и время публикации новости'
 					name='itemdate'
-					dateFormat='yyyy-MM-dd'
-					placeholder='гггг-мм-дд'
-				/>
-				<ControlledDateInput
-					className={adminStyles.adminTimeInput}
-					label='Время публикации'
-					name='time_from'
-					placeholder='чч.мм'
-					dateFormat='HH:mm:ss'
-					showTimeSelectOnly
+					placeholder='гггг-мм-дд чч:мм'
 					showTimeSelect
+					dateFormat='yyyy-MM-dd HH:mm'
+					timeFormat='HH:mm'
 				/>
 			</GridRow>
 			<ControlledSelect

@@ -25,6 +25,7 @@ export type NewsInfoResponse = {
 	title: string
 	tags: string[]
 	main: boolean
+	itemdate: string
 	date: Date
 	news_gallerys?: SelOption[]
 	photo?: ImageItemWithText[]

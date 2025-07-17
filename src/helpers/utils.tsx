@@ -88,7 +88,21 @@ export const formatDate = (dateString: string): string | null => {
 	const timezone = `${timezoneSign}${timezoneHours}:${timezoneMinutes}`
 
 	const isoDateString = date.toISOString().slice(0, 19)
+	return `${isoDateString}${timezone}`
+}
 
+export const formatDateTime = (dateString: string): string | null => {
+	if (!dateString) return null
+
+	const date = new Date(dateString)
+	date.setHours(date.getHours() + 3)
+
+	const timezoneOffset = date.getTimezoneOffset()
+	const timezoneSign = timezoneOffset > 0 ? '-' : '+'
+	const timezoneHours = String(Math.abs(Math.floor(timezoneOffset / 60))).padStart(2, '0')
+	const timezoneMinutes = String(Math.abs(timezoneOffset % 60)).padStart(2, '0')
+	const timezone = `${timezoneSign}${timezoneHours}:${timezoneMinutes}`
+	const isoDateString = date.toISOString().slice(0, 19)
 	return `${isoDateString}${timezone}`
 }
 

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { useGetNewsInfoQuery, useSaveNewsInfoMutation } from 'src/store/news/news.api'
-import { booleanToNumberString, formatDate, transformToFormData } from 'src/helpers/utils'
+import { booleanToNumberString, formatDateTime, transformToFormData } from 'src/helpers/utils'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
 
 import { Container } from 'src/UI/Container/Container'
@@ -43,7 +43,7 @@ export const OneNews = () => {
 	})
 	const { isSent, markAsSent } = useIsSent(methods.control)
 	const onSubmit: SubmitHandler<OneNewsInputs> = async (data) => {
-		const dateFormat = formatDate(data.itemdate)
+		const dateFormat = formatDateTime(data.itemdate)
 		let selectedObj = ''
 		if (typeof data.vidslist !== 'string' && data.vidslist) {
 			selectedObj = data.vidslist
@@ -84,7 +84,15 @@ export const OneNews = () => {
 
 	useEffect(() => {
 		if (newsInfoData) {
-			methods.reset({ ...newsInfoData })
+			let skipDate = false
+			if (newsInfoData?.itemdate === '0000-00-00 00:00:00') {
+				skipDate = true
+			}
+			const transformedData = {
+				...newsInfoData,
+				itemdate: skipDate ? undefined : newsInfoData?.itemdate,
+			}
+			methods.reset({ ...transformedData })
 		}
 	}, [newsInfoData])
 
