@@ -4,8 +4,15 @@ import { InfoIconSvg } from 'src/UI/icons/infoIcon'
 
 import styles from './index.module.scss'
 import { QuillEditor } from 'src/components/quill-editor/quill-editor'
+import { ReactDropzone } from 'src/components/react-dropzone/react-dropzone'
+import { type ImageItemWithText } from 'src/types/photos'
+import { type FC } from 'react'
 
-export const DescSection = () => {
+type DescSectionProps = {
+	photo?: ImageItemWithText[]
+}
+
+export const DescSection: FC<DescSectionProps> = ({ photo }) => {
 	return (
 		<AdminSection isBlock={false} className={styles.titleSectionInner}>
 			<div className={styles.inputWrapperTextArea}>
@@ -31,6 +38,19 @@ export const DescSection = () => {
 				<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip_textArea}>
 					<InfoIconSvg />
 				</Tooltip>
+			</div>
+			<div className={styles.inputWrapper}>
+				<ReactDropzone
+					label='Основное изображение'
+					name='photo'
+					prompt='PNG, JPG, JPEG. 1000 х1000px, не более 3 Мб'
+					accept={{ 'image/png': ['.png'], 'image/jpeg': ['.jpeg'] }}
+					margin='20px 0 20px 0'
+					previewVariant='sm-img'
+					imgtype='sub_events'
+					fileImages={photo}
+					isProgram
+				/>
 			</div>
 		</AdminSection>
 	)

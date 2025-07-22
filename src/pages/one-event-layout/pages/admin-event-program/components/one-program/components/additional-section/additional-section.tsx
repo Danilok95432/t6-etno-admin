@@ -21,7 +21,7 @@ export const AdditionalSection: FC<AdditionalSectionProps> = ({ organizatorsList
 			<div className={styles.inputWrapper}>
 				<ControlledInput
 					name='address'
-					label='Адрес *'
+					label='Адрес'
 					placeholder='Адрес'
 					margin='0 0 20px 0'
 					className={styles.controlledFormElement}
@@ -50,10 +50,10 @@ export const AdditionalSection: FC<AdditionalSectionProps> = ({ organizatorsList
 						name='phone'
 						placeholder='+7'
 						mask='{+7} (000) 000-00-00'
-						label='Телефон *'
+						label='Телефон'
 					/>
-					<ControlledInput name='telegram' label='Телеграм *' placeholder='@' />
-					<ControlledInput name='email' label='E-mail *' placeholder='mail@mail.ru' />
+					<ControlledInput name='telegram' label='Телеграм' placeholder='@' />
+					<ControlledInput name='email' label='E-mail' placeholder='mail@mail.ru' />
 				</GridRow>
 			</div>
 		</AdminSection>

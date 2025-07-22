@@ -55,6 +55,7 @@ export const ControlledInput: FC<ControlledInputProps> = ({
 						{...register(name)}
 						{...props}
 						readOnly={isReadOnly}
+						disabled={disabled}
 						className={cn(styles.controlledInput, {
 							[styles.noValid]: errors[name],
 						})}

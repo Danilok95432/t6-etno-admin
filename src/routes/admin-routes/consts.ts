@@ -35,6 +35,7 @@ export enum AdminRoute {
 	AdminEventVideos = 'event-videos',
 	AdminEventProgram = 'event-program',
 	AdminEventOneProgram = 'one-program',
+	AdminEventRules = 'event-rules',
 	AdminEventHistory = 'event-history',
 	AdminEventsList = 'events-list',
 	AdminCiclesList = 'cicles-list',

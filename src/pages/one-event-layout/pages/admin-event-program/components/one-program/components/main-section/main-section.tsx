@@ -55,7 +55,7 @@ export const MainSection = () => {
 				</Tooltip>
 			</GridRow>
 			<div className={styles.inputWrapper}>
-				<ControlledInput name='place' label='Локация *' placeholder='Полное название подсобытия' />
+				<ControlledInput name='place' label='Локация *' placeholder='Название локации' />
 
 				<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip}>
 					<InfoIconSvg />

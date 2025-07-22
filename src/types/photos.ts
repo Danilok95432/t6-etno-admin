@@ -10,6 +10,7 @@ export type ImageItemWithText = {
 	original?: string
 	title?: string
 	author?: string
+	desc?: string
 }
 
 export type ImageInfoResponse = {
@@ -19,6 +20,7 @@ export type ImageInfoResponse = {
 	title?: string
 	author?: string
 	status: string
+	desc?: string
 }
 
 export type ImageNewIdResponse = {

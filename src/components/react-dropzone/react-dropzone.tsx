@@ -43,6 +43,7 @@ type ReactDropzoneProps = {
 	syncAdd?: (file: ImageItemWithText) => void
 	syncEdit?: (file: ImageItemWithText) => void
 	text?: string
+	isProgram?: boolean
 }
 
 export const ReactDropzone: FC<ReactDropzoneProps> = ({
@@ -61,6 +62,7 @@ export const ReactDropzone: FC<ReactDropzoneProps> = ({
 	prompt,
 	label,
 	margin,
+	isProgram,
 	imgtype = 'news',
 	imageIdFieldName,
 	fileImages = [],
@@ -82,6 +84,7 @@ export const ReactDropzone: FC<ReactDropzoneProps> = ({
 	const [deleteImageById] = useDeleteImageByIdMutation()
 
 	const { id = '' } = useParams()
+	const { programId = '' } = useParams()
 
 	const uploadFile = useCallback(
 		async (file: File) => {
@@ -90,6 +93,10 @@ export const ReactDropzone: FC<ReactDropzoneProps> = ({
 				if (imgEditId) {
 					formData.append('itemimage', file)
 					formData.append('id', imgEditId)
+				} else if (isProgram) {
+					formData.append('itemimage', file)
+					formData.append('imgtype', imgtype)
+					formData.append('id_item', programId)
 				} else {
 					formData.append('itemimage', file)
 					formData.append('imgtype', imgtype)

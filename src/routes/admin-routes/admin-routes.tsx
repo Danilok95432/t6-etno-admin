@@ -65,6 +65,7 @@ import { CiclesTable } from 'src/pages/events-list/components/cicles-list/compon
 import { AdminEventProgramsLayout } from 'src/pages/one-event-layout/pages/admin-event-program/admin-event-programs-layout'
 import { ProgramElements } from 'src/pages/one-event-layout/pages/admin-event-program/components/program-elements/program-elements'
 import { OneProgram } from 'src/pages/one-event-layout/pages/admin-event-program/components/one-program/one-program'
+import { AdminEventRules } from 'src/pages/one-event-layout/pages/admin-event-rules/admin-event-rules'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -143,6 +144,7 @@ export const AdminRoutes: FC = () => {
 							element={<OneProgram />}
 						/>
 					</Route>
+					<Route path={`${AdminRoute.AdminEventRules}/:id`} element={<AdminEventRules />} />
 					<Route path={`${AdminRoute.AdminEventHistory}/:id`} element={<AdminEventHistory />} />
 				</Route>
 

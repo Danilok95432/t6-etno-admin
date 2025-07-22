@@ -76,6 +76,7 @@ export type EventSubEventInfoReponse = {
 	itemdate: string
 	organizators_list: SelOption[]
 	vids_list: SelOption[]
+	photo: ImageItemWithText[]
 }
 
 export type EventSubEventsResponse = {

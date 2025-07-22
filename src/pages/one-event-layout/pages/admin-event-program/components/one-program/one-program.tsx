@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
@@ -9,7 +11,7 @@ import adminStyles from 'src/routes/admin-layout/index.module.scss'
 import styles from './index.module.scss'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
 import { useGetSubEventInfoQuery, useSaveSubEventInfoMutation } from 'src/store/events/events.api'
-import { type ProgramInputs } from './schema'
+import { type ProgramInputs, programSchema } from './schema'
 import { MainSection } from './components/main-section/main-section'
 import { SelectSection } from './components/select-section/select-section'
 import { DescSection } from './components/desc-section/desc-section'
@@ -25,6 +27,7 @@ import {
 	transformToFormData,
 } from 'src/helpers/utils'
 import { format, parse } from 'date-fns'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 export const OneProgram = () => {
 	const { id = '', programId = '' } = useParams()
@@ -33,6 +36,10 @@ export const OneProgram = () => {
 
 	const methods = useForm<ProgramInputs>({
 		mode: 'onBlur',
+		resolver: yupResolver(programSchema as any),
+		defaultValues: {
+			photo: [],
+		},
 	})
 
 	const { isSent, markAsSent } = useIsSent(methods.control)
@@ -49,6 +56,7 @@ export const OneProgram = () => {
 			itemdate: date,
 			place: data.place,
 			begin_time: timeFormatFrom,
+			photo: data.photo,
 			end_time: timeFormatTo,
 			use_end_time: booleanToNumberString(data.use_end_time),
 			short: data.short,
@@ -136,7 +144,7 @@ export const OneProgram = () => {
 						<MainSection />
 						<SelectSection vidList={programInfo?.vids_list} />
 						<AdditionalSection organizatorsList={programInfo?.organizators_list} />
-						<DescSection />
+						<DescSection photo={programInfo?.photo} />
 						<DocsSection />
 						<FlexRow $margin='0 0 40px 0' $maxWidth='1140px' $justifyContent='space-between'>
 							<FlexRow>

@@ -25,6 +25,8 @@ import {
 } from 'src/store/events/events.api'
 import { booleanToNumberString, currentDateString, formatDateToYYYYMMDD } from 'src/helpers/utils'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
+import { PromoSection } from './components/promo-section/promo-section'
+import { InfoSection } from './components/info-section/info-section'
 
 export const AdminEventContent: FC = () => {
 	const { id = '0' } = useParams()
@@ -111,6 +113,8 @@ export const AdminEventContent: FC = () => {
 					<GallerySection images={contentInfoData?.photos} idItem={id} />
 					<DocsSection files={contentInfoData?.documents} />
 					<LinksSection />
+					<PromoSection />
+					<InfoSection />
 					<AdminControllers
 						variant={'2'}
 						outLink={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}

@@ -40,10 +40,10 @@ export const OneEventLayout = () => {
 			title: 'Подсобытия',
 			link: `/event/event-program/${id ?? 'new'}`,
 		},
-		/* {
-			title: 'История',
-			link: `/event/event-history/${id ?? 'new'}`,
-		}, */
+		{
+			title: 'Правила',
+			link: `/event/event-rules/${id ?? 'new'}`,
+		},
 	]
 	const [isProgramPage, setIsProgramPage] = useState<boolean>(false)
 

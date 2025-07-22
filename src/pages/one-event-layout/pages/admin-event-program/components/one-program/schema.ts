@@ -1,3 +1,4 @@
+import { type ImageItemWithText } from 'src/types/photos'
 import { type SelOption } from 'src/types/select'
 import * as yup from 'yup'
 
@@ -13,25 +14,22 @@ export type ProgramInputs = {
 	begin_time: Date
 	end_time?: Date
 	short: string
-	address: string
-	email: string
-	phone: string
-	telegram: string
+	address?: string
+	email?: string
+	phone?: string
+	telegram?: string
 	rules: string
-	itemdate: string
+	itemdate: string | Date
 	place: string
 	organizators_list: SelOption[] | string
 	vids_list: SelOption[] | string
+	photo?: ImageItemWithText[]
 }
 
 export const programSchema = yup.object({
 	title: yup.string().required('Введите название подсобытия'),
 	short: yup.string().required('Введите описание'),
 	rules: yup.string().required('Введите краткое описание правил'),
-	address: yup.string().required('Введите адрес'),
-	phone: yup.string().required('Введите телефон'),
-	telegram: yup.string().required('Введите телеграм'),
-	email: yup.string().required('Введите почту'),
 	place: yup.string().required('Введите локацию'),
 	itemdate: yup
 		.mixed<Date | string>()
