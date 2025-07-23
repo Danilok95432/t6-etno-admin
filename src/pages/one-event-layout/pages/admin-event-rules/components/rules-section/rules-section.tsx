@@ -8,9 +8,9 @@ export const RulesSection = () => {
 		<AdminSection titleText='Правила посещения игр' className={styles.titleSectionInner}>
 			<div className={styles.inputWrapper}>
 				<ControlledInput
-					name='cicle_name'
-					label='Название текста *'
-					placeholder='Полное название цикла'
+					name='rule_name'
+					label='Название правил *'
+					placeholder='Полное название правил'
 					margin='0 0 20px 0'
 					maxWidth='1140px'
 					className={styles.controlledFormElement}
@@ -18,7 +18,7 @@ export const RulesSection = () => {
 			</div>
 
 			<div className={styles.inputWrapper}>
-				<QuillEditor name='rules' label='Текст' $heightEditor='450px' $maxWidth='1140px' />
+				<QuillEditor name='rule_text' label='Текст *' $heightEditor='450px' $maxWidth='1140px' />
 			</div>
 		</AdminSection>
 	)

@@ -1,13 +1,9 @@
 import { useEffect, useState, type FC } from 'react'
-import {
-	type EventContactsInputs,
-	eventContactsSchema,
-} from 'src/pages/one-event-layout/pages/admin-event-contacts/schema'
 
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Link, useParams } from 'react-router-dom'
-import { useGetContactsByEventIdQuery } from 'src/store/events/events.api'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useGetRulesInfoQuery, useSaveRulesInfoMutation } from 'src/store/events/events.api'
 
 import { AdminContent } from 'src/components/admin-content/admin-content'
 import { AdminRoute } from 'src/routes/admin-routes/consts'
@@ -19,27 +15,44 @@ import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
 import styles from './index.module.scss'
 import { PoliticSection } from './components/politic-section/politic-section'
 import { RulesSection } from './components/rules-section/rules-section'
+import { type RulesInputs, rulesSchema } from './schema'
 
 export const AdminEventRules: FC = () => {
 	const { id = '0' } = useParams()
-	const { data: contactsInfoData } = useGetContactsByEventIdQuery(id)
+	const { data: rulesData } = useGetRulesInfoQuery(id)
+	const [saveRulesInfo] = useSaveRulesInfoMutation()
 
-	const methods = useForm<EventContactsInputs>({
+	const methods = useForm<RulesInputs>({
 		mode: 'onBlur',
-		resolver: yupResolver(eventContactsSchema),
+		resolver: yupResolver(rulesSchema),
 	})
-	const { isSent } = useIsSent(methods.control)
-	const [, setAction] = useState<'apply' | 'save'>('apply')
+	const { isSent, markAsSent } = useIsSent(methods.control)
+	const [action, setAction] = useState<'apply' | 'save'>('apply')
+	const navigate = useNavigate()
 
-	const onSubmit: SubmitHandler<EventContactsInputs> = async (data) => {
-		console.log(data)
+	const onSubmit: SubmitHandler<RulesInputs> = async (data) => {
+		const eventId = id
+		const eventInfoFormData = new FormData()
+
+		eventInfoFormData.append('id', eventId)
+		eventInfoFormData.append('rule_name', data.rule_name)
+		eventInfoFormData.append('rule_text', data.rule_text)
+		eventInfoFormData.append('politic_name', data.politic_name)
+		eventInfoFormData.append('politic_text', data.politic_text)
+		const res = await saveRulesInfo(eventInfoFormData)
+		if (res) {
+			markAsSent(true)
+			if (action === 'save') {
+				navigate(`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`)
+			}
+		}
 	}
 
 	useEffect(() => {
-		if (contactsInfoData) {
-			methods.reset({ ...contactsInfoData })
+		if (rulesData) {
+			methods.reset({ ...rulesData })
 		}
-	}, [contactsInfoData])
+	}, [rulesData])
 
 	return (
 		<AdminContent className={styles.eventRulesPage}>

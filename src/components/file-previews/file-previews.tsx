@@ -4,6 +4,7 @@ import styles from './index.module.scss'
 import { type ImageItemWithText } from 'src/types/photos'
 import { useActions } from 'src/hooks/actions/actions'
 import { ImageModal } from 'src/modals/images-modal/images-modal'
+import { PromoImageModal } from 'src/modals/promo-image-modal/promo-image-modal'
 
 type FilePreviewsProps = {
 	files: ImageItemWithText[]
@@ -22,6 +23,7 @@ type FilePreviewsProps = {
 	imgtype?: string
 	syncAdd?: (file: ImageItemWithText) => void
 	syncEdit?: (file: ImageItemWithText) => void
+	isPromoModal?: boolean
 }
 export const FilePreviews: FC<FilePreviewsProps> = ({
 	files,
@@ -29,6 +31,7 @@ export const FilePreviews: FC<FilePreviewsProps> = ({
 	removeHandler,
 	variant = 'sm-img',
 	uploadBtn,
+	isPromoModal = false,
 	imgtype = '',
 	syncAdd,
 	syncEdit,
@@ -111,17 +114,29 @@ export const FilePreviews: FC<FilePreviewsProps> = ({
 								onLoad={() => {
 									URL.revokeObjectURL(file.thumbnail)
 								}}
-								onClick={() =>
-									openModal(
-										<ImageModal
-											id={file.id}
-											imgtype={imgtype}
-											syncAddHandler={syncAdd}
-											syncEditHandler={syncEdit}
-											mode='edit'
-										/>,
-									)
-								}
+								onClick={() => {
+									if (isPromoModal) {
+										openModal(
+											<PromoImageModal
+												id={file.id}
+												imgtype={imgtype}
+												syncAddHandler={syncAdd}
+												syncEditHandler={syncEdit}
+												mode='edit'
+											/>,
+										)
+									} else {
+										openModal(
+											<ImageModal
+												id={file.id}
+												imgtype={imgtype}
+												syncAddHandler={syncAdd}
+												syncEditHandler={syncEdit}
+												mode='edit'
+											/>,
+										)
+									}
+								}}
 							/>
 							<p className={styles.titleImg}>{file.title}</p>
 							<p className={styles.authorImg}>{file.author}</p>
@@ -153,17 +168,29 @@ export const FilePreviews: FC<FilePreviewsProps> = ({
 								onLoad={() => {
 									URL.revokeObjectURL(file.thumbnail)
 								}}
-								onClick={() =>
-									openModal(
-										<ImageModal
-											id={file.id}
-											imgtype={imgtype}
-											syncAddHandler={syncAdd}
-											syncEditHandler={syncEdit}
-											mode='edit'
-										/>,
-									)
-								}
+								onClick={() => {
+									if (isPromoModal) {
+										openModal(
+											<PromoImageModal
+												id={file.id}
+												imgtype={imgtype}
+												syncAddHandler={syncAdd}
+												syncEditHandler={syncEdit}
+												mode='edit'
+											/>,
+										)
+									} else {
+										openModal(
+											<ImageModal
+												id={file.id}
+												imgtype={imgtype}
+												syncAddHandler={syncAdd}
+												syncEditHandler={syncEdit}
+												mode='edit'
+											/>,
+										)
+									}
+								}}
 							/>
 							<p className={styles.titleImg}>{file.title}</p>
 							<p className={styles.authorImg}>{file.author}</p>

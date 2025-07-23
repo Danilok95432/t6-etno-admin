@@ -130,8 +130,8 @@ export const PromoImageModal: FC<PromoImageModalProps> = ({
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
 						<ControlledInput
 							name='title'
-							label='Название изображения *'
-							placeholder='Добавьте название'
+							label='Заголовок'
+							placeholder='Добавьте заголовок'
 							margin='0 0 20px 0'
 							disabled={!(imageArr?.length > 0)}
 						/>

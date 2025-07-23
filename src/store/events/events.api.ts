@@ -10,6 +10,7 @@ import {
 	type CicleInfoResponse,
 	type EventSubEventsResponse,
 	type EventSubEventInfoReponse,
+	type EventRules,
 } from 'src/types/events'
 import { type FieldValues } from 'react-hook-form'
 
@@ -34,6 +35,7 @@ export const eventsApi = createApi({
 		'SubEventInfo',
 		'Cicles',
 		'CicleInfo',
+		'EventRules',
 	],
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
@@ -289,6 +291,23 @@ export const eventsApi = createApi({
 			}),
 			invalidatesTags: ['SubEvent', 'SubEventInfo'],
 		}),
+		getRulesInfo: build.query<EventRules, string>({
+			query: (id) => ({
+				url: `events/edit_rules`,
+				params: {
+					id,
+				},
+			}),
+			providesTags: ['EventRules'],
+		}),
+		saveRulesInfo: build.mutation<string, FieldValues>({
+			query: (FormData) => ({
+				url: `events/save_rules`,
+				method: 'POST',
+				body: FormData,
+			}),
+			invalidatesTags: ['EventRules'],
+		}),
 	}),
 })
 
@@ -321,4 +340,6 @@ export const {
 	useHideSubEventByIdMutation,
 	useSaveSubEventInfoMutation,
 	useGetSubEventsByEventIdQuery,
+	useGetRulesInfoQuery,
+	useSaveRulesInfoMutation,
 } = eventsApi

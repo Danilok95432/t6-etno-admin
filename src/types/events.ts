@@ -165,6 +165,18 @@ export type linksEvent = {
 	date: string
 }
 
+export type InfoBlockContent = {
+	title: string
+	short: string
+	photo: ImageItemWithText[]
+	reg_participants: boolean
+	reg_guests: boolean
+	link_url: string
+	link_text: string
+	hidden: boolean
+	id: string
+}
+
 export type EventContacts = {
 	website: string
 	contact_telphone?: string
@@ -177,6 +189,14 @@ export type EventContacts = {
 	hide_pathways?: boolean
 }
 
+export type EventRules = {
+	id_event: string
+	rule_name: string
+	rule_text: string
+	politic_name: string
+	politic_text: string
+}
+
 export type EventContent = {
 	placements: placementsEvent[]
 	linksBlock_title: string
@@ -187,7 +207,9 @@ export type EventContent = {
 	hide_links?: boolean
 	photo?: ImageItemWithText[]
 	photos?: ImageItemWithText[]
+	promo?: ImageItemWithText[]
 	documents?: FileItem[]
+	infoblock: InfoBlockContent
 }
 
 export type EventPartnerInfoResponse = {

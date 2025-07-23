@@ -23,7 +23,7 @@ type PromoSectionProps = {
 export const PromoSection: FC<PromoSectionProps> = ({ images, idItem }) => {
 	const [localeImages, setLocaleImages] = useState<ImageItemWithText[]>(images ?? [])
 	const { refetch: getNewId } = useGetNewIdImageQuery({
-		imgtype: 'events_photo',
+		imgtype: 'event_promo',
 		idItem,
 	})
 
@@ -54,7 +54,7 @@ export const PromoSection: FC<PromoSectionProps> = ({ images, idItem }) => {
 		openModal(
 			<PromoImageModal
 				id={newId}
-				imgtype='events_photo'
+				imgtype='event_promo'
 				syncAddHandler={syncAddImagesHandler}
 				syncEditHandler={syncEditImagesHandler}
 			/>,
@@ -73,12 +73,13 @@ export const PromoSection: FC<PromoSectionProps> = ({ images, idItem }) => {
 				variant='culture'
 				name='photos'
 				accept={{ 'image/png': ['.png'], 'image/jpeg': ['.jpeg'] }}
-				maxFiles={8}
+				maxFiles={20}
 				fileImages={localeImages}
 				syncAdd={syncAddImagesHandler}
 				syncEdit={syncEditImagesHandler}
-				imgtype='events_photo'
+				imgtype='event_promo'
 				dzAreaClassName={styles.eventGalleryController}
+				isPromoModal
 				multiple
 				customOpenModal={
 					<AddButton

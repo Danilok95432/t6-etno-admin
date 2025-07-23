@@ -11,9 +11,9 @@ export const PoliticSection = () => {
 		>
 			<div className={styles.inputWrapper}>
 				<ControlledInput
-					name='cicle_name'
-					label='Название текста *'
-					placeholder='Полное название цикла'
+					name='politic_name'
+					label='Название *'
+					placeholder='Полное название политики'
 					margin='0 0 20px 0'
 					maxWidth='1140px'
 					className={styles.controlledFormElement}
@@ -21,7 +21,7 @@ export const PoliticSection = () => {
 			</div>
 
 			<div className={styles.inputWrapper}>
-				<QuillEditor name='rules' label='Текст' $heightEditor='450px' $maxWidth='1140px' />
+				<QuillEditor name='politic_text' label='Текст *' $heightEditor='450px' $maxWidth='1140px' />
 			</div>
 		</AdminSection>
 	)

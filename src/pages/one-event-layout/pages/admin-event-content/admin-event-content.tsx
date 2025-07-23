@@ -73,6 +73,19 @@ export const AdminEventContent: FC = () => {
 		eventInfoFormData.append('hide_links', booleanToNumberString(data.hide_links))
 		eventInfoFormData.append('hide_documents', booleanToNumberString(data.hide_documents))
 
+		eventInfoFormData.append('infoblock.title', data.infoblock?.title ?? '')
+		eventInfoFormData.append('infoblock.short', data.infoblock?.short ?? '')
+		eventInfoFormData.append('infoblock.link_text', data.infoblock?.link_text ?? '')
+		eventInfoFormData.append('infoblock.link_url', data.infoblock?.link_url ?? '')
+		eventInfoFormData.append(
+			'infoblock.reg_participants',
+			booleanToNumberString(data.infoblock?.reg_participants),
+		)
+		eventInfoFormData.append(
+			'infoblock.reg_guests',
+			booleanToNumberString(data.infoblock?.reg_guests),
+		)
+
 		const res = await saveEventContentInfo(eventInfoFormData)
 		if (res) {
 			markAsSent(true)
@@ -113,8 +126,8 @@ export const AdminEventContent: FC = () => {
 					<GallerySection images={contentInfoData?.photos} idItem={id} />
 					<DocsSection files={contentInfoData?.documents} />
 					<LinksSection />
-					<PromoSection />
-					<InfoSection />
+					<PromoSection images={contentInfoData?.promo} idItem={id} />
+					<InfoSection photo={contentInfoData?.infoblock?.photo} />
 					<AdminControllers
 						variant={'2'}
 						outLink={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
