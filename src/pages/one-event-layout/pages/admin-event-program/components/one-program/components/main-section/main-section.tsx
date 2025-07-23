@@ -6,6 +6,7 @@ import styles from './index.module.scss'
 import { ControlledDateInput } from 'src/components/controlled-date-input/controlled-date-input'
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
 import { GridRow } from 'src/components/grid-row/grid-row'
+import { ControlledCheckbox } from 'src/components/controlled-checkbox/controlled-checkbox'
 
 export const MainSection = () => {
 	return (
@@ -54,6 +55,14 @@ export const MainSection = () => {
 					<InfoIconSvg />
 				</Tooltip>
 			</GridRow>
+			<div className={styles.inputWrapper}>
+				<ControlledCheckbox
+					name='use_end_time'
+					label='Отображать время окончания'
+					type='checkbox'
+					className={styles.checkbox}
+				/>
+			</div>
 			<div className={styles.inputWrapper}>
 				<ControlledInput name='place' label='Локация *' placeholder='Название локации' />
 
