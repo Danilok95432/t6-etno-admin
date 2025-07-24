@@ -10,10 +10,10 @@ import { GridRow } from 'src/components/grid-row/grid-row'
 type SelectSectionProps = {
 	ageList?: SelOption[]
 	vidList?: SelOption[]
-	registrationList?: SelOption[]
+	regList?: SelOption[]
 }
 
-export const SelectSection: FC<SelectSectionProps> = ({ ageList, vidList, registrationList }) => {
+export const SelectSection: FC<SelectSectionProps> = ({ ageList, vidList, regList }) => {
 	return (
 		<AdminSection isBlock={false}>
 			<div className={styles.inputWrapper}>
@@ -51,8 +51,8 @@ export const SelectSection: FC<SelectSectionProps> = ({ ageList, vidList, regist
 					<div className={styles.inputWrapper}>
 						<ControlledSelect
 							label='Регистрация *'
-							name='registration_list'
-							selectOptions={registrationList ?? [{ label: 'Не выбрано', value: '0' }]}
+							name='reg_list'
+							selectOptions={regList ?? [{ label: 'Нет', value: '0' }]}
 						/>
 
 						<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip_age}>

@@ -91,6 +91,46 @@ export const formatDate = (dateString: string): string | null => {
 	return `${isoDateString}${timezone}`
 }
 
+const monthNames = [
+	'января',
+	'февраля',
+	'марта',
+	'апреля',
+	'мая',
+	'июня',
+	'июля',
+	'августа',
+	'сентября',
+	'октября',
+	'ноября',
+	'декабря',
+]
+
+export const formatEventDates = (startDate: string, endDate: string, address: string): string => {
+	const formatDate = (dateStr: string) => {
+		const date = new Date(dateStr)
+		if (isNaN(date.getTime())) return ''
+
+		const day = date.getDate()
+		const month = monthNames[date.getMonth()]
+		const year = date.getFullYear()
+
+		return `${day} ${month} ${year} года`
+	}
+
+	const startFormatted = formatDate(startDate)
+	const endFormatted = formatDate(endDate)
+
+	if (!startFormatted) return address
+
+	let result = startFormatted
+	if (endFormatted && startDate !== endDate) {
+		result += ` — ${endFormatted}`
+	}
+
+	return `${result}, ${address}`
+}
+
 export const formatDateTime = (dateString: string): string | null => {
 	if (!dateString) return null
 

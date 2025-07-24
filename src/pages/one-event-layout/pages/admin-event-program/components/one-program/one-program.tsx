@@ -63,7 +63,12 @@ export const OneProgram = () => {
 			rules: data.rules,
 			reglament: data.reglament,
 			trebovania: data.trebovania,
-			use_reg: booleanToNumberString(data.use_reg),
+			use_reg:
+				typeof data.reg_list === 'string'
+					? data.reg_list
+					: data.reg_list
+						? data.reg_list[0].value
+						: '0',
 			use_group: booleanToNumberString(data.use_group),
 			id_vid:
 				typeof data.vids_list === 'string'
@@ -76,6 +81,12 @@ export const OneProgram = () => {
 					? data.organizators_list
 					: data.organizators_list
 						? data.organizators_list[0].value
+						: '0',
+			id_age_limit:
+				typeof data.age_list === 'string'
+					? data.age_list
+					: data.age_list
+						? data.age_list[0].value
 						: '0',
 		}
 		const subForm = transformToFormData(serverData)
@@ -142,7 +153,11 @@ export const OneProgram = () => {
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
 						<MainSection />
-						<SelectSection vidList={programInfo?.vids_list} />
+						<SelectSection
+							vidList={programInfo?.vids_list}
+							regList={programInfo?.reg_list}
+							ageList={programInfo?.age_list}
+						/>
 						<AdditionalSection organizatorsList={programInfo?.organizators_list} />
 						<DescSection photo={programInfo?.photo} />
 						<DocsSection />

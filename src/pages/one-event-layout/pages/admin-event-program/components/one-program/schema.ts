@@ -24,6 +24,8 @@ export type ProgramInputs = {
 	organizators_list: SelOption[] | string
 	vids_list: SelOption[] | string
 	photo?: ImageItemWithText[]
+	reg_list?: SelOption[] | string
+	age_list?: SelOption[] | string
 }
 
 export const programSchema = yup.object({

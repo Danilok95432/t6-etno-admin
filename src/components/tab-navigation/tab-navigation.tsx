@@ -8,9 +8,26 @@ import styles from './index.module.scss'
 
 type TabNavigationProps = {
 	navItems: TabNavigationItem[]
-	variant?: 'main' | 'sub'
+	variant?: 'main' | 'sub' | 'visitors'
 }
 export const TabNavigation: FC<TabNavigationProps> = ({ navItems, variant = 'main' }) => {
+	if (variant === 'visitors') {
+		return (
+			<ul className={styles.visitorTabList}>
+				{navItems?.map((navEl) => (
+					<li key={navEl.title}>
+						<NavLink
+							className={({ isActive }) => setActive(isActive, styles.activeLink)}
+							to={navEl.link}
+							end={navEl.exact}
+						>
+							{navEl.title}
+						</NavLink>
+					</li>
+				))}
+			</ul>
+		)
+	}
 	return (
 		<ul className={variant === 'main' ? styles.tabNavList : styles.subtabList}>
 			{navItems?.map((navEl) => (

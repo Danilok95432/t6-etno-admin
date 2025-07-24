@@ -72,7 +72,7 @@ export const ProgramElements = () => {
 						{programEl.vid_name}
 					</p>,
 					<p className={cn({ 'hidden-cell': programEl.hidden })} key='3'>
-						{programEl.registration}
+						{programEl.use_reg ? 'Обязательна' : 'Отключена'}
 					</p>,
 					<p className={cn({ 'hidden-cell': programEl.hidden })} key='4'>
 						{typeof programEl.date === 'string'

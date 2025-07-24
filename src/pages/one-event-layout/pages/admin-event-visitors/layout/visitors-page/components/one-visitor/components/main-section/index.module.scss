@@ -1,0 +1,47 @@
+.mainSection {
+  margin-bottom: 55px;
+  max-width: 1169px;
+}
+
+.inputWrapper {
+	display: flex;
+	align-items: center;
+	column-gap: 10px;
+	width: 100%;
+  margin-bottom: 25px;
+}
+
+.inputWrapperShort {
+  max-width: 600px;
+  display: flex;
+	align-items: center;
+	column-gap: 10px;
+	width: 100%;
+  margin-bottom: 25px;
+}
+
+.gridRow {
+  .checkbox {
+    margin-top: 10px;
+  }
+}
+
+.tooltip {
+	margin-top: 25px;
+}
+
+.tooltipSpecial {
+  margin-top: 30px;
+}
+
+.tooltip_type {
+	margin-top: -15px;
+}
+
+.tooltip_teg {
+	margin-top: 27px;
+}
+
+.typeLevelWrapper {
+	width: 100%;
+}
