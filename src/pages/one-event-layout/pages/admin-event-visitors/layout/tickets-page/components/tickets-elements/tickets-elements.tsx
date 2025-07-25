@@ -53,6 +53,7 @@ export const TicketsElements = () => {
 		'Цена продажи',
 		'Доставлен',
 	]
+	const sortTableTitles = ['Дата и время продажи']
 	const formatObjectsTableData = (newsData: NewsItem[]) => {
 		return newsData.map((newsEl) => {
 			return {
@@ -100,12 +101,14 @@ export const TicketsElements = () => {
 					className={styles.newsTable}
 					rowData={formatObjectsTableData([])}
 					colTitles={tableTitles}
+					sortTitles={sortTableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
 				<TableFooter
 					totalElements={0}
 					addClickHandler={handleAddNewsClick}
 					addText='Добавить документ'
+					downloadBtn
 				/>
 			</div>
 		</>

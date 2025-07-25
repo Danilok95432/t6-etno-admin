@@ -1,8 +1,9 @@
-import React, { type FC, type ReactNode } from 'react'
+import React, { useState, type FC, type ReactNode } from 'react'
 
 import cn from 'classnames'
 
 import styles from './index.module.scss'
+import { BottomArrowSvg } from 'src/UI/icons/bottomArrowSVG'
 
 export type RowData = {
 	rowId: string
@@ -11,17 +12,20 @@ export type RowData = {
 
 type CustomTableProps = {
 	colTitles?: ReactNode[]
+	sortTitles?: ReactNode[]
 	rowData: RowData[]
 	rowClickHandler?: (id: string) => void
 }
 
 export const CustomTable: FC<CustomTableProps & React.HTMLAttributes<HTMLTableElement>> = ({
 	colTitles,
+	sortTitles,
 	rowData,
 	className,
 	rowClickHandler,
 	...props
 }) => {
+	const [activeColumns, setActiveColumns] = useState<Record<number, boolean>>({})
 	return (
 		<table
 			{...props}
@@ -30,9 +34,33 @@ export const CustomTable: FC<CustomTableProps & React.HTMLAttributes<HTMLTableEl
 			{!!colTitles && (
 				<thead>
 					<tr>
-						{colTitles.map((title, idx) => (
-							<th key={idx}>{title}</th>
-						))}
+						{colTitles.map((title, idx) => {
+							if (sortTitles?.find((el) => el === title)) {
+								return (
+									<th
+										key={idx}
+										className={styles.sortTh}
+										onClick={() => {
+											setActiveColumns((prev) => ({
+												...prev,
+												[idx]: !prev[idx],
+											}))
+										}}
+									>
+										<p>{title}</p>
+										<div
+											className={cn(styles.vector, {
+												[styles.activeVector]: activeColumns[idx],
+											})}
+										>
+											<BottomArrowSvg />
+										</div>
+									</th>
+								)
+							} else {
+								return <th key={idx}>{title}</th>
+							}
+						})}
 					</tr>
 				</thead>
 			)}

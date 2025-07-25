@@ -1,9 +1,9 @@
 import { type SelOption } from 'src/types/select'
 import * as yup from 'yup'
 
-export type OneTicketInputs = {
+export type OneVisitorInputs = {
 	number: string
-	itemdateTicket: string
+	itemdate: string
 	time?: Date
 	type: string | SelOption[]
 	price?: string
@@ -16,9 +16,12 @@ export type OneTicketInputs = {
 	comment?: string
 }
 
-export const oneTicketSchema = yup.object().shape({
-	number: yup.string().required('Номер билета обязателен'),
-	itemdateTicket: yup.string().required('Введите дату'),
+export const oneVisitorSchema = yup.object().shape({
+	number: yup
+		.string()
+		.required('Заголовок обязателен')
+		.max(200, 'Заголовок не может превышать 200 символов'),
+	itemdate: yup.string().required('Введите дату'),
 	customer: yup.string().required('Введите ФИО покупателя'),
 	phone: yup.string().required('Введите номер телефона покупателя'),
 	email: yup.string().required('Введите почту покупателя'),

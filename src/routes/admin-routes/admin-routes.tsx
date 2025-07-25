@@ -77,6 +77,7 @@ import { GroupPage } from 'src/pages/one-event-layout/pages/admin-event-visitors
 import { PassPage } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/pass-page/pass-page'
 import { PassElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/pass-page/components/pass-elements/pass-elements'
 import { GroupElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/group-page/components/group-elements/group-elements'
+import { OneGroup } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/group-page/components/one-group/one-group'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -168,11 +169,10 @@ export const AdminRoutes: FC = () => {
 						</Route>
 						<Route path={`${AdminRoute.Groups}`} element={<GroupPage />}>
 							<Route index element={<GroupElements />} />
-							<Route path=':subId' element={<OneTicket />} />
+							<Route path=':subId' element={<OneGroup />} />
 						</Route>
 						<Route path={`${AdminRoute.Pass}`} element={<PassPage />}>
 							<Route index element={<PassElements />} />
-							<Route path=':subId' element={<OneNews />} />
 						</Route>
 					</Route>
 				</Route>

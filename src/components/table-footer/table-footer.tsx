@@ -1,4 +1,5 @@
 import { type FC } from 'react'
+import cn from 'classnames'
 
 import styles from './index.module.scss'
 import { AddButton } from 'src/UI/AddButton/AddButton'
@@ -6,19 +7,27 @@ import { MainSelect } from 'src/UI/MainSelect/MainSelect'
 import { PrevPaginationArrowSvg } from 'src/UI/icons/prevPaginationArrowSVG'
 import { NextPaginationArrowSvg } from 'src/UI/icons/NextPaginationArrowSvg'
 import { FlexRow } from 'src/components/flex-row/flex-row'
+import { DownloadTableCSV } from 'src/UI/icons/downloadTableCSV'
 
 type TableFooterProps = {
 	addText?: string
 	addClickHandler?: () => void
+	noAdd?: boolean
+	bigDownloadBtn?: boolean
 	totalElements?: number
 	currentPage?: number
 	totalPages?: number
 	className?: string
+	downloadBtn?: boolean
+	downloadHandler?: () => void
 }
 
 export const TableFooter: FC<TableFooterProps> = ({
 	addText = 'Добавить',
 	addClickHandler,
+	noAdd = false,
+	bigDownloadBtn = false,
+	downloadBtn = false,
 	totalElements = 0,
 	currentPage = 1,
 	totalPages = 1,
@@ -26,7 +35,7 @@ export const TableFooter: FC<TableFooterProps> = ({
 }) => {
 	return (
 		<div className={className ?? styles.tableFooterWrapper}>
-			<div className={styles.tableFooter}>
+			<div className={cn(styles.tableFooter, { [styles.tableFooterShort]: downloadBtn })}>
 				<div className={styles.pagination}>
 					<div className={styles.paginationInfo}>
 						<span>Всего элементов: {totalElements}</span>
@@ -53,9 +62,23 @@ export const TableFooter: FC<TableFooterProps> = ({
 						</button>
 					</div>
 				</div>
-				<AddButton className={styles.tableFooterAddBtn} onClick={addClickHandler}>
-					{addText}
-				</AddButton>
+				{downloadBtn && (
+					<button
+						className={cn(
+							styles.downloadBtn,
+							{ [styles.downloadBtnDark]: noAdd },
+							{ [styles.bigDownloadBtn]: bigDownloadBtn },
+						)}
+					>
+						<DownloadTableCSV color={noAdd && !bigDownloadBtn ? '#ffffff' : '#184F71'} />
+						<p>Скачать список в CSV</p>
+					</button>
+				)}
+				{!noAdd && (
+					<AddButton className={styles.tableFooterAddBtn} onClick={addClickHandler}>
+						{addText}
+					</AddButton>
+				)}
 			</div>
 		</div>
 	)

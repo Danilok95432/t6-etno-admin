@@ -5,6 +5,7 @@ import styles from './tooltip.module.scss'
 
 interface ITooltipProps {
 	text: string
+	textHtml?: string
 	position?: 'top' | 'bottom' | 'left' | 'right'
 	children: React.ReactNode
 	delay?: number
@@ -13,7 +14,15 @@ interface ITooltipProps {
 }
 
 export const Tooltip: FC<ITooltipProps> = (props) => {
-	const { text, position = 'top', children, delay = 500, wrapperClassName, className } = props
+	const {
+		text,
+		textHtml,
+		position = 'top',
+		children,
+		delay = 500,
+		wrapperClassName,
+		className,
+	} = props
 
 	const [isVisible, setIsVisible] = useState(false)
 	const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -39,6 +48,13 @@ export const Tooltip: FC<ITooltipProps> = (props) => {
 		}
 	}, [])
 
+	const renderContent = () => {
+		if (textHtml) {
+			return <span dangerouslySetInnerHTML={{ __html: textHtml }} />
+		}
+		return text
+	}
+
 	return (
 		<div
 			className={classNames(styles.tooltipWrapper, wrapperClassName)}
@@ -46,7 +62,7 @@ export const Tooltip: FC<ITooltipProps> = (props) => {
 			onMouseLeave={hideTooltip}
 		>
 			{children}
-			<span
+			<div
 				className={classNames(
 					styles.tooltipTip,
 					className,
@@ -54,8 +70,8 @@ export const Tooltip: FC<ITooltipProps> = (props) => {
 					!isVisible ? styles.hidden : '',
 				)}
 			>
-				{text}
-			</span>
+				{renderContent()}
+			</div>
 		</div>
 	)
 }

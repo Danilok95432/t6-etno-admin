@@ -82,11 +82,6 @@ export const VisitorElements = () => {
 		navigate(`/news/news-list/${id}`)
 	}
 
-	const handleAddNewsClick = async () => {
-		// const newId = await addNews()
-		navigate(`/event/event-visitors/1/visitors/1`)
-	}
-
 	// if (isLoading || !newsDataResponse?.news) return <Loader />
 
 	return (
@@ -101,11 +96,7 @@ export const VisitorElements = () => {
 					colTitles={tableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
-				<TableFooter
-					totalElements={0}
-					addClickHandler={handleAddNewsClick}
-					addText='Добавить новость'
-				/>
+				<TableFooter totalElements={0} downloadBtn noAdd />
 			</div>
 		</>
 	)

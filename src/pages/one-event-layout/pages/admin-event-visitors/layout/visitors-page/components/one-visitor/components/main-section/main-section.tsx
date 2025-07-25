@@ -15,6 +15,8 @@ import { InfoIconSvg } from 'src/UI/icons/infoIcon'
 import { Tooltip } from 'src/components/tooltip/Tooltip'
 import { ReactDropzone } from 'src/components/react-dropzone/react-dropzone'
 import cn from 'classnames'
+import { FlexRow } from 'src/components/flex-row/flex-row'
+import { FormInput } from 'src/UI/FormInput/FormInput'
 
 type MainSectionProps = {
 	galleryOptions?: SelOption[]
@@ -103,16 +105,28 @@ export const MainSection: FC<MainSectionProps> = ({ photo, galleryOptions = [] }
 					<InfoIconSvg />
 				</Tooltip>
 			</div>
-			<GridRow $template='auto/200px 1fr' $width='auto'>
-				<ControlledInput name='phone' label='Номер телефона' placeholder='+7 (999) 999-99-99' />
+			<FlexRow className={styles.flexRow}>
+				<FormInput
+					name='phone'
+					label='Номер телефона'
+					placeholder='+7 (999) 999-99-99'
+					isPhone
+					className={styles.phoneInput}
+				/>
 				<ControlledCheckbox
 					name='hide_phone'
 					label='Скрыть мой номер из публичного доступа'
 					type='checkbox'
 					className={styles.checkbox}
 				/>
-			</GridRow>
-			<GridRow $template='auto/200px 1fr' $width='auto'>
+			</FlexRow>
+			<GridRow
+				$template='auto/200px 1fr'
+				$width='auto'
+				$alignItems='end'
+				$margin='0 0 20px 0'
+				$maxWidth='calc(100% - 27px)'
+			>
 				<ControlledSelect
 					name='region'
 					label='Регион и город *'
@@ -127,6 +141,40 @@ export const MainSection: FC<MainSectionProps> = ({ photo, galleryOptions = [] }
 					placeholder='Начните писать текст...'
 					isTextarea
 					height='100px'
+				/>
+				<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip_type}>
+					<InfoIconSvg />
+				</Tooltip>
+			</div>
+			<div className={styles.inputWrapperShort}>
+				<ControlledInput
+					name='login'
+					label='Логин (телефон, @TG или e-mail) *'
+					isReadOnly
+					isLogin
+					value={'+78005553535'}
+				/>
+				<Tooltip
+					text='Логин нельзя изменить вручную. Обратиться к администратору для смены логина'
+					textHtml={`<p>Логин нельзя изменить вручную. <br /> <a href='#'>Обратиться к администратору для смены логина</a></p>`}
+					position='top'
+					wrapperClassName={styles.tooltip_login}
+				>
+					<InfoIconSvg />
+				</Tooltip>
+			</div>
+			<div className={styles.inputWrapperShort}>
+				<ControlledInput type='password' name='password' label='Пароль' placeholder='********' />
+				<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip}>
+					<InfoIconSvg />
+				</Tooltip>
+			</div>
+			<div className={styles.inputWrapperShort}>
+				<ControlledInput
+					type='password'
+					name='password-repeat'
+					label='Повторите пароль'
+					placeholder='********'
 				/>
 				<Tooltip text='Подсказка' position='top' wrapperClassName={styles.tooltip}>
 					<InfoIconSvg />

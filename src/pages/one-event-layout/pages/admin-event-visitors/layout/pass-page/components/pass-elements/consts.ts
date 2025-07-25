@@ -15,10 +15,12 @@ export const PassFiltrationInputs: FilterTableInput[] = [
 		name: 'status',
 		placeholder: 'выбрать статус попытки',
 		type: 'select',
+		options: [{ label: 'Не выбран', value: '0' }],
 	},
 	{
 		name: 'turniket',
 		placeholder: 'выбрать турникет или инспектора',
 		type: 'select',
+		options: [{ label: 'Не выбран', value: '0' }],
 	},
 ]

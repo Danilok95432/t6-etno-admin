@@ -15,7 +15,13 @@ import { MainSection } from './components/main-section/main-section'
 import { AdminButton } from 'src/UI/AdminButton/AdminButton'
 import { FlexRow } from 'src/components/flex-row/flex-row'
 
-export const OneVisitor = () => {
+import styles from './index.module.scss'
+import { SwitchedRadioBtns } from 'src/components/switched-radio-btns/switched-radio-btns'
+import { SwitchedShowSvg } from 'src/UI/icons/switchedShowSVG'
+import { SwitchedHiddenSvg } from 'src/UI/icons/switchedHiddenSVG'
+import { DropdownList } from 'src/components/dropdown-list/dropdown-list'
+
+export const OneGroup = () => {
 	const { id = '0' } = useParams()
 
 	const { data: newsInfoData } = useGetNewsInfoQuery(id)
@@ -61,7 +67,37 @@ export const OneVisitor = () => {
 			<Container $padding='0px 30px 35px 30px'>
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
-						<MainSection />
+						<div className={styles.oneNewsContent}>
+							<div className={styles.oneNewsContentLeft}>
+								<h2>
+									Группа «<strong>Название группы</strong>»
+								</h2>
+								<MainSection />
+							</div>
+							<div className={styles.oneNewsContentRight}>
+								<SwitchedRadioBtns
+									name='hidden'
+									label='Спрятать'
+									$variant='switcher'
+									contentRadio1={
+										<>
+											<SwitchedHiddenSvg />
+											Спрятать
+										</>
+									}
+									contentRadio2={
+										<>
+											<SwitchedShowSvg />
+											Показать
+										</>
+									}
+								/>
+								<DropdownList
+									label={'Участники группы (список)'}
+									list={['Первый участник', 'Второй участник']}
+								/>
+							</div>
+						</div>
 						<FlexRow $margin='0 0 40px 0' $maxWidth='1140px'>
 							<AdminButton as='button' type='submit' onClick={() => setAction('save')}>
 								Сохранить и выйти

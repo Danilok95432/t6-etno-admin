@@ -1,5 +1,6 @@
 import { type MultiSelOption, type SelOption } from 'src/types/select'
 import { type FC } from 'react'
+import cn from 'classnames'
 import { type ImageItemWithText } from 'src/types/photos'
 
 import { AdminSection } from 'src/components/admin-section/admin-section'
@@ -31,16 +32,17 @@ export const MainSection: FC<MainSectionProps> = ({
 	return (
 		<AdminSection className={styles.mainSection} isBlock={false}>
 			<ControlledInput
-				name='title'
+				name='number'
 				label='Номер билета (присваивается автоматически)'
 				placeholder='АК4-000-000-999'
 				margin='0 0 20px 0'
+				className={styles.numberTicket}
 			/>
-			<GridRow $template='auto/282px' $width='auto'>
+			<GridRow $template='auto/700px' $width='auto'>
 				<ControlledDateInput
-					className={adminStyles.adminDateTimeInput}
+					className={cn(adminStyles.adminDateTimeInput, styles.dateInput)}
 					label='Дата и время продажи (устанавливаются автоматически при сохранении билета)'
-					name='itemdate'
+					name='itemdateTicket'
 					placeholder='гггг-мм-дд чч:мм'
 					showTimeSelect
 					dateFormat='yyyy-MM-dd HH:mm'
@@ -50,18 +52,18 @@ export const MainSection: FC<MainSectionProps> = ({
 			<ControlledSelect
 				name='type'
 				label='Тип билета'
-				selectOptions={chainedEvent ?? [{ label: 'Выберите событие', value: '0' }]}
+				selectOptions={chainedEvent ?? [{ label: 'Выберите тип билета', value: '0' }]}
 				margin='0 0 20px 0'
 			/>
-			<FlexRow>
-				<FlexRow>
+			<FlexRow className={styles.priceWrapperRow}>
+				<FlexRow className={styles.priceRow}>
 					<ControlledInput
 						name='relatedNews'
 						label='Стоимость билета'
 						placeholder='0'
 						margin='0 0 20px 0'
 					/>
-					<p>Р</p>
+					<p>₽</p>
 				</FlexRow>
 				<div className={styles.inputWrapper}>
 					<ControlledCheckbox

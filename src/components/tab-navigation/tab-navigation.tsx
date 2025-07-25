@@ -34,7 +34,7 @@ export const TabNavigation: FC<TabNavigationProps> = ({ navItems, variant = 'mai
 				<li key={navEl.title}>
 					<NavLink
 						className={({ isActive }) => setActive(isActive, styles.activeLink)}
-						to={navEl.link}
+						to={navEl.indexLink ?? navEl.link}
 						end={navEl.exact}
 					>
 						{navEl.title}

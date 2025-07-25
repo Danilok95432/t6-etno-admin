@@ -8,6 +8,21 @@
   border-collapse: collapse;
   overflow-x: auto;
 
+  .sortTh {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    p {
+      text-decoration: underline 1px dotted;
+    }
+    .vector {
+      transition: all .3s ease-in-out;
+    }
+    .activeVector {
+      transform: rotate(180deg);
+    }
+  }
+
   thead,
   tbody,
   tr {

@@ -27,6 +27,10 @@
   }
 }
 
+.tableFooterShort {
+  gap: 10px;
+}
+
 .pagination {
   display: flex;
   gap: 5px;
@@ -76,10 +80,36 @@
   outline: none;
 }
 
+button.downloadBtn {
+  border-radius: 5px;
+  background: #ffffff;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  width: 100%;
+  max-width: 518px;
+  height: 35px;
+}
+
+button.downloadBtnDark {
+  background: #184F71;
+  color: #ffffff;
+}
+
+button.bigDownloadBtn {
+  max-width: 1045px;
+  background: #ffffff;
+  color: #000;
+}
+
 button.tableFooterAddBtn {
   background: #184F71;
-  border-radius: 3px;
+  border-radius: 5px;
   width: 41%;
+  max-width: 518px;
   padding: 0 15px;
   height: 35px;
   display: flex;

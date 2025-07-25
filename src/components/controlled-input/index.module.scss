@@ -48,6 +48,13 @@
 	}
 }
 
+.noBorder {
+	outline: none;
+	font-size: 18px;
+	font-weight: 500;
+	padding-left: 0px;
+}
+
 .inputEl {
 	position: relative;
 	flex-grow: 1;

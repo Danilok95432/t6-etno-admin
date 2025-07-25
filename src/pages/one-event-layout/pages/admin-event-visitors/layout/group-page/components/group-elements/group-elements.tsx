@@ -83,11 +83,6 @@ export const GroupElements = () => {
 		navigate(`/news/news-list/${id}`)
 	}
 
-	const handleAddNewsClick = async () => {
-		// const newId = await addNews()
-		navigate(`/event/event-visitors/1/tickets/1`)
-	}
-
 	// if (isLoading || !newsDataResponse?.news) return <Loader />
 
 	return (
@@ -102,11 +97,7 @@ export const GroupElements = () => {
 					colTitles={tableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
-				<TableFooter
-					totalElements={0}
-					addClickHandler={handleAddNewsClick}
-					addText='Добавить документ'
-				/>
+				<TableFooter totalElements={0} downloadBtn noAdd bigDownloadBtn />
 			</div>
 		</>
 	)

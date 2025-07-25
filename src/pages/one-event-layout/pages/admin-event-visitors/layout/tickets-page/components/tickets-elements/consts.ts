@@ -15,15 +15,18 @@ export const TicketsFiltrationInputs: FilterTableInput[] = [
 		name: 'status',
 		placeholder: 'способ покупки',
 		type: 'select',
+		options: [{ label: 'Не выбран', value: '0' }],
 	},
 	{
 		name: 'turniket',
 		placeholder: 'групповой',
 		type: 'select',
+		options: [{ label: 'Не выбран', value: '0' }],
 	},
 	{
 		name: 'turniket',
 		placeholder: 'тип билета',
 		type: 'select',
+		options: [{ label: 'Не выбран', value: '0' }],
 	},
 ]

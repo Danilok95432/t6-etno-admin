@@ -50,6 +50,7 @@ export const PassElements = () => {
 		'Статус попытки',
 		'Дата и время попытки',
 	]
+	const sortTableTitles = ['Турникет / инспектор', 'Статус попытки', 'Дата и время попытки']
 	const formatObjectsTableData = (newsData: NewsItem[]) => {
 		return newsData.map((newsEl) => {
 			return {
@@ -80,11 +81,6 @@ export const PassElements = () => {
 		navigate(`/news/news-list/${id}`)
 	}
 
-	const handleAddNewsClick = async () => {
-		// const newId = await addNews()
-		navigate(`/event/event-visitors/1/tickets/1`)
-	}
-
 	// if (isLoading || !newsDataResponse?.news) return <Loader />
 
 	return (
@@ -97,13 +93,10 @@ export const PassElements = () => {
 					className={styles.newsTable}
 					rowData={formatObjectsTableData([])}
 					colTitles={tableTitles}
+					sortTitles={sortTableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
-				<TableFooter
-					totalElements={0}
-					addClickHandler={handleAddNewsClick}
-					addText='Добавить документ'
-				/>
+				<TableFooter totalElements={0} downloadBtn noAdd />
 			</div>
 		</>
 	)
