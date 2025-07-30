@@ -24,6 +24,14 @@ export const MainSection = () => {
 				</Tooltip>
 			</div>
 			<div className={styles.inputWrapper}>
+				<ControlledCheckbox
+					name='use_real'
+					label='Реальное подсобытие'
+					type='checkbox'
+					className={styles.checkbox}
+				/>
+			</div>
+			<div className={styles.inputWrapper}>
 				<ControlledDateInput
 					className={adminStyles.adminDateInput}
 					label='Дата *'

@@ -59,6 +59,7 @@ export type EventSubEvent = {
 export type EventSubEventInfoReponse = {
 	hidden: boolean
 	title: string
+	use_real: boolean
 	trebovania: string
 	reglament: string
 	url: string

@@ -5,6 +5,7 @@ import * as yup from 'yup'
 export type ProgramInputs = {
 	hidden?: boolean
 	title: string
+	use_real?: boolean
 	trebovania?: string
 	reglament?: string
 	url?: string

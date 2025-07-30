@@ -53,6 +53,7 @@ export const OneProgram = () => {
 		const timeFormatTo = formatTimeToHHMM(data.end_time)
 		const serverData = {
 			title: data.title,
+			use_real: booleanToNumberString(data.use_real),
 			itemdate: date,
 			place: data.place,
 			begin_time: timeFormatFrom,
