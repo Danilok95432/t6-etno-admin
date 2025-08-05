@@ -11,6 +11,9 @@ import {
 	type EventSubEventsResponse,
 	type EventSubEventInfoReponse,
 	type EventRules,
+	type EventTicketsResponse,
+	type EventParticipantsResponse,
+	type EventGuestsResponse,
 } from 'src/types/events'
 import { type FieldValues } from 'react-hook-form'
 
@@ -36,6 +39,9 @@ export const eventsApi = createApi({
 		'Cicles',
 		'CicleInfo',
 		'EventRules',
+		'EventTickets',
+		'EventGuests',
+		'EventUsers',
 	],
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
@@ -308,6 +314,34 @@ export const eventsApi = createApi({
 			}),
 			invalidatesTags: ['EventRules'],
 		}),
+		// <--------------- Списки и регистрации --------------->
+		getTickets: build.query<EventTicketsResponse, string>({
+			query: (id) => ({
+				url: `events/tickets`,
+				params: {
+					id_event: id,
+				},
+			}),
+			providesTags: ['EventTickets'],
+		}),
+		getGuests: build.query<EventGuestsResponse, string>({
+			query: (id) => ({
+				url: `events/guests`,
+				params: {
+					id_event: id,
+				},
+			}),
+			providesTags: ['EventGuests'],
+		}),
+		getUsers: build.query<EventParticipantsResponse, string>({
+			query: (id) => ({
+				url: `events/users`,
+				params: {
+					id_event: id,
+				},
+			}),
+			providesTags: ['EventUsers'],
+		}),
 	}),
 })
 
@@ -342,4 +376,7 @@ export const {
 	useGetSubEventsByEventIdQuery,
 	useGetRulesInfoQuery,
 	useSaveRulesInfoMutation,
+	useGetTicketsQuery,
+	useGetGuestsQuery,
+	useGetUsersQuery,
 } = eventsApi

@@ -231,3 +231,52 @@ export type EventProgram = {
 	begin_time: Date | string
 	end_time?: Date | string
 }
+
+export type EventTicketsResponse = {
+	tickets: EventTickets[]
+}
+
+export type EventTickets = {
+	id: string
+	status: string
+	ticket_number: string
+	sale_type: string
+	group: boolean
+	fio: string
+	telphone: string
+	ticket_type: string
+	sale_price: string
+	delivery_type: string
+	createdate: string
+}
+
+export type EventGuestsResponse = {
+	guests: EventGuests[]
+}
+
+export type EventGuests = {
+	id: string
+	fio: string
+	phone: string
+	age: string
+	guest_count: string
+	role: string
+	ticket: string
+	createdate: string
+}
+
+export type EventParticipantsResponse = {
+	users: EventParticipants[]
+}
+
+export type EventParticipants = {
+	id: string
+	fio: string
+	phone: string
+	age: string
+	ticket_number: string
+	createdate: string
+	group: string
+	group_name: string
+	ticket_type: string
+}

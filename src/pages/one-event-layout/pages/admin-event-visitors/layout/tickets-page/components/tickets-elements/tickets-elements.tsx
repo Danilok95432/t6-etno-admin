@@ -1,24 +1,24 @@
-import { type NewsItem } from 'src/types/news'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import cn from 'classnames'
 
-import { mainFormatDate } from 'src/helpers/utils'
-
 import { CustomTable } from 'src/components/custom-table/custom-table'
-// import { Loader } from 'src/components/loader/loader'
+import { Loader } from 'src/components/loader/loader'
 import { TableFooter } from 'src/components/table-footer/table-footer'
 import { GridRow } from 'src/components/grid-row/grid-row'
-import { MainCheckBox } from 'src/UI/MainCheckBox/MainCheckBox'
-import { CheckMarkSvg } from 'src/UI/icons/checkMarkSVG'
 
 import styles from './index.module.scss'
 // import { useAppSelector } from 'src/hooks/store'
 // import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { TicketsFiltrationInputs } from './consts'
+import { useGetTicketsQuery } from 'src/store/events/events.api'
+import { type EventTickets } from 'src/types/events'
+import { StatusTickets } from 'src/components/status-tickets/status-tickets'
+import { formatDateTimeTicket } from 'src/helpers/utils'
 
 export const TicketsElements = () => {
-	// const { id = '0' } = useParams()
+	const { id = '0' } = useParams()
+	const { data: ticketsData, isLoading } = useGetTicketsQuery(id)
 	// const filterValues = useAppSelector(getFiltrationValues)
 	/*
 
@@ -45,51 +45,43 @@ export const TicketsElements = () => {
 		'Статус',
 		'Номер билета',
 		'Дата и время продажи',
-		'Тип',
 		'Группа',
-		'Покупать',
+		'Посетитель',
 		'Телефон',
-		'Тип билета',
-		'Цена продажи',
+		'Регион',
 		'Доставлен',
 	]
 	const sortTableTitles = ['Дата и время продажи']
-	const formatObjectsTableData = (newsData: NewsItem[]) => {
-		return newsData.map((newsEl) => {
+	const formatObjectsTableData = (tickets: EventTickets[]) => {
+		return tickets.map((ticketEl) => {
 			return {
-				rowId: newsEl.id,
+				rowId: ticketEl.id,
 				cells: [
-					<p className={cn({ 'hidden-cell-icon': newsEl.hidden }, styles.titleNewsTable)} key='0'>
-						{newsEl.title}
+					<p className={cn(styles.titleNewsTable)} key='0'>
+						{<StatusTickets statusCode={ticketEl.status} />}
 					</p>,
-					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='1'>
-						{mainFormatDate(newsEl.date)}
+					<p key='1'>{ticketEl.ticket_number}</p>,
+					<p key='2' className={styles.date}>
+						<span>{`${formatDateTimeTicket(ticketEl.createdate)[0]}`}</span>
+						<span>{`${formatDateTimeTicket(ticketEl.createdate)[1]}`}</span>
 					</p>,
-					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='2'>
-						{newsEl.tags}
+					<p key='3' className={styles.center}>
+						{ticketEl.group}
 					</p>,
-					<MainCheckBox
-						key='3'
-						checked={newsEl.main}
-						disabled={true}
-						svgNode={<CheckMarkSvg />}
-						className={styles.checkBoxWrapperNews}
-					/>,
+					<p key='4'>{ticketEl.fio}</p>,
+					<p key='5'>{ticketEl.telphone}</p>,
+					<p key='6'>{ticketEl.ticket_type}</p>,
+					<p key='7'>{ticketEl.delivery_type}</p>,
 				],
 			}
 		})
 	}
 
 	const rowClickHandler = (id: string) => {
-		navigate(`/news/news-list/${id}`)
+		navigate(`/event/event-visitors/1/tickets/${id}`)
 	}
 
-	const handleAddNewsClick = async () => {
-		// const newId = await addNews()
-		navigate(`/event/event-visitors/1/tickets/1`)
-	}
-
-	// if (isLoading || !newsDataResponse?.news) return <Loader />
+	if (isLoading || !ticketsData?.tickets) return <Loader />
 
 	return (
 		<>
@@ -99,17 +91,12 @@ export const TicketsElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData([])}
+					rowData={formatObjectsTableData(ticketsData?.tickets ?? [])}
 					colTitles={tableTitles}
 					sortTitles={sortTableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
-				<TableFooter
-					totalElements={0}
-					addClickHandler={handleAddNewsClick}
-					addText='Добавить документ'
-					downloadBtn
-				/>
+				<TableFooter totalElements={ticketsData?.tickets.length} noAdd downloadBtn ticketStyle />
 			</div>
 		</>
 	)

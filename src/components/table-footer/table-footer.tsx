@@ -13,6 +13,7 @@ type TableFooterProps = {
 	addText?: string
 	addClickHandler?: () => void
 	noAdd?: boolean
+	ticketStyle?: boolean
 	bigDownloadBtn?: boolean
 	totalElements?: number
 	currentPage?: number
@@ -26,6 +27,7 @@ export const TableFooter: FC<TableFooterProps> = ({
 	addText = 'Добавить',
 	addClickHandler,
 	noAdd = false,
+	ticketStyle = false,
 	bigDownloadBtn = false,
 	downloadBtn = false,
 	totalElements = 0,
@@ -66,11 +68,13 @@ export const TableFooter: FC<TableFooterProps> = ({
 					<button
 						className={cn(
 							styles.downloadBtn,
-							{ [styles.downloadBtnDark]: noAdd },
+							{ [styles.downloadBtnDark]: noAdd && !ticketStyle },
 							{ [styles.bigDownloadBtn]: bigDownloadBtn },
 						)}
 					>
-						<DownloadTableCSV color={noAdd && !bigDownloadBtn ? '#ffffff' : '#184F71'} />
+						<DownloadTableCSV
+							color={noAdd && !bigDownloadBtn && !ticketStyle ? '#ffffff' : '#184F71'}
+						/>
 						<p>Скачать список в CSV</p>
 					</button>
 				)}

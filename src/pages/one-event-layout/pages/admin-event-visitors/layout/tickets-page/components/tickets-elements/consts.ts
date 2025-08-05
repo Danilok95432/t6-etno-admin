@@ -24,9 +24,8 @@ export const TicketsFiltrationInputs: FilterTableInput[] = [
 		options: [{ label: 'Не выбран', value: '0' }],
 	},
 	{
-		name: 'turniket',
-		placeholder: 'тип билета',
-		type: 'select',
-		options: [{ label: 'Не выбран', value: '0' }],
+		name: 'region',
+		placeholder: 'искать по региону',
+		type: 'text',
 	},
 ]

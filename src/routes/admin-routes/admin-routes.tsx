@@ -78,6 +78,8 @@ import { PassPage } from 'src/pages/one-event-layout/pages/admin-event-visitors/
 import { PassElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/pass-page/components/pass-elements/pass-elements'
 import { GroupElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/group-page/components/group-elements/group-elements'
 import { OneGroup } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/group-page/components/one-group/one-group'
+import { OneParticipant } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/participants-page/components/one-visitor/one-participant'
+import { ParticipantElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/participants-page/components/participant-elements/participant-elements'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -163,9 +165,13 @@ export const AdminRoutes: FC = () => {
 							<Route index element={<TicketsElements />} />
 							<Route path=':subId' element={<OneTicket />} />
 						</Route>
-						<Route path={`${AdminRoute.Visitors}`} element={<VisitorPage />}>
+						<Route path={`${AdminRoute.Guests}`} element={<VisitorPage />}>
 							<Route index element={<VisitorElements />} />
 							<Route path=':subId' element={<OneVisitor />} />
+						</Route>
+						<Route path={`${AdminRoute.Participants}`} element={<VisitorPage />}>
+							<Route index element={<ParticipantElements />} />
+							<Route path=':subId' element={<OneParticipant />} />
 						</Route>
 						<Route path={`${AdminRoute.Groups}`} element={<GroupPage />}>
 							<Route index element={<GroupElements />} />

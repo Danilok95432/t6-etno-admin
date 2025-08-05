@@ -11,13 +11,12 @@ import styles from './index.module.scss'
 // import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { VisitorFiltrationInputs } from './consts'
-import { useGetGuestsQuery } from 'src/store/events/events.api'
-import { type EventGuests } from 'src/types/events'
-import { formatDateTimeTicket } from 'src/helpers/utils'
+import { useGetUsersQuery } from 'src/store/events/events.api'
+import { type EventParticipants } from 'src/types/events'
 
-export const VisitorElements = () => {
+export const ParticipantElements = () => {
 	const { id = '0' } = useParams()
-	const { data: guestsData, isLoading } = useGetGuestsQuery(id)
+	const { data: usersData, isLoading } = useGetUsersQuery(id)
 	// const filterValues = useAppSelector(getFiltrationValues)
 	/*
 
@@ -42,44 +41,46 @@ export const VisitorElements = () => {
 
 	const tableTitles = [
 		'Фамилия, имя, отчество, позывной или прозвище',
-		'Группа',
+		'Группа посетителей',
 		'Номер телефона',
 		'Роль',
-		'Билет',
-		'Регион',
+		'№ билета',
+		'Тип билета',
 		'Регистрация',
-		'Заезд и выезд',
+		'Статус',
+		'Оплата',
 	]
-	const formatObjectsTableData = (guests: EventGuests[]) => {
-		return guests.map((guestEl) => {
+	const formatObjectsTableData = (users: EventParticipants[]) => {
+		return users.map((userEl) => {
 			return {
-				rowId: guestEl.id,
+				rowId: userEl.id,
 				cells: [
 					<p className={cn(styles.titleNewsTable)} key='0'>
-						{guestEl.fio}
+						{userEl.fio}
 					</p>,
-					<p key='1'>{'-'}</p>,
-					<p key='2'>{guestEl.phone}</p>,
-					<p key='3'>{guestEl.role}</p>,
-					<p key='4'>{guestEl.ticket}</p>,
-					<p key='5'>{'-'}</p>,
-					<p key='6'>{formatDateTimeTicket(guestEl.createdate)}</p>,
+					<p key='1'>{userEl.group}</p>,
+					<p key='2'>{userEl.phone}</p>,
+					<p key='3'>{'-'}</p>,
+					<p key='4'>{userEl.ticket_number}</p>,
+					<p key='5'>{userEl.ticket_type}</p>,
+					<p key='6'>{userEl.createdate}</p>,
 					<p key='7'>{'-'}</p>,
+					<p key='8'>{'-'}</p>,
 				],
 			}
 		})
 	}
 
 	const rowClickHandler = (id: string) => {
-		navigate(`/event/event-visitors/1/guests/${id}`)
+		navigate(`/event/event-visitors/1/participants/${id}`)
 	}
 
 	const addClickHandler = () => {
 		// const newId = await addNews()
-		navigate(`/event/event-visitors/1/guests/1`)
+		navigate(`/event/event-visitors/1/participants/1`)
 	}
 
-	if (isLoading || !guestsData?.guests) return <Loader />
+	if (isLoading || !usersData?.users) return <Loader />
 
 	return (
 		<>
@@ -89,15 +90,15 @@ export const VisitorElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData(guestsData?.guests ?? [])}
+					rowData={formatObjectsTableData(usersData?.users ?? [])}
 					colTitles={tableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
 				<TableFooter
-					totalElements={guestsData?.guests.length}
-					addText='Добавить гостя'
-					addClickHandler={addClickHandler}
+					totalElements={usersData?.users.length}
 					downloadBtn
+					addText='Добавить участника'
+					addClickHandler={addClickHandler}
 				/>
 			</div>
 		</>

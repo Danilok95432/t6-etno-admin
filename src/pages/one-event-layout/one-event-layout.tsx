@@ -45,7 +45,7 @@ export const OneEventLayout = () => {
 			link: `/event/event-rules/${id ?? 'new'}`,
 		},
 		{
-			title: 'Посетители',
+			title: 'Списки и регистрация',
 			link: `/event/event-visitors/${id}`,
 			indexLink: `/event/event-visitors/${id}/tickets`,
 		},

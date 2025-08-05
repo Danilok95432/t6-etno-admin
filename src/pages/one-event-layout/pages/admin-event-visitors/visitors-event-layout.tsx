@@ -15,19 +15,31 @@ export const VisitorsEventLayout = () => {
 	const location = useLocation()
 	const eventTabs: TabNavigationItem[] = [
 		{
-			title: 'Билеты',
+			title: 'Регистрация',
 			link: `/event/event-visitors/${id}/tickets`,
 		},
 		{
-			title: 'Посетители',
-			link: `/event/event-visitors/${id}/visitors`,
+			title: 'Заявки',
+			link: `/event/event-visitors/${id}/tickets`,
+		},
+		{
+			title: 'Гости',
+			link: `/event/event-visitors/${id}/guests`,
+		},
+		{
+			title: 'Участники',
+			link: `/event/event-visitors/${id}/participants`,
 		},
 		{
 			title: 'Группы',
 			link: `/event/event-visitors/${id}/groups`,
 		},
 		{
-			title: 'Проходы',
+			title: 'Транспорт',
+			link: `/event/event-visitors/${id}/pass`,
+		},
+		{
+			title: 'Браслеты',
 			link: `/event/event-visitors/${id}/pass`,
 		},
 	]
