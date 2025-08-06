@@ -20,10 +20,7 @@ import { EventsList } from 'src/pages/events-list/components/events-list/events-
 import { OneEventLayout } from 'src/pages/one-event-layout/one-event-layout'
 import { AdminEventProfile } from 'src/pages/one-event-layout/pages/admin-event-profile/admin-event-profile'
 import { AdminEventContacts } from 'src/pages/one-event-layout/pages/admin-event-contacts/admin-event-contacts'
-import { AdminEventContent } from 'src/pages/one-event-layout/pages/admin-event-content/admin-event-content'
-import { AdminEventPartnersLayout } from 'src/pages/one-event-layout/pages/admin-event-partners/admin-event-partners-layout'
-import { AdminEventNews } from 'src/pages/one-event-layout/pages/admin-event-news/admin-event-news'
-import { AdminEventVideos } from 'src/pages/one-event-layout/pages/admin-event-videos/admin-event-videos'
+import { AdminEventPartnersLayout } from 'src/pages/one-event-layout/pages/admin-event-content/layout/event-partners/admin-event-partners-layout'
 import { AdminEventHistory } from 'src/pages/one-event-layout/pages/admin-event-history/admin-event-history'
 
 import { CommunityLayout } from 'src/pages/community-layout/community-layout'
@@ -46,8 +43,6 @@ import { ObjectLocation } from 'src/pages/object-element-layout/pages/object-loc
 
 import { AdminSupport } from 'src/pages/admin-support/admin-support'
 import { AdminSettings } from 'src/pages/admin-settings/admin-settings'
-import { PartnerElements } from 'src/pages/one-event-layout/pages/admin-event-partners/components/partner-elements/partner-elements'
-import { OnePartner } from 'src/pages/one-event-layout/pages/admin-event-partners/components/one-partner/one-partner'
 import { Partner } from 'src/pages/admin-partners-layout/components/partner/partner'
 import { PartnersElements } from 'src/pages/admin-partners-layout/components/partners-elements/partners-elements'
 import { AdminQuestionsLayout } from 'src/pages/admin-questions/admin-questions-layout'
@@ -62,10 +57,7 @@ import { AdminEventsLayout } from 'src/pages/events-list/admin-events-layout'
 import { CiclesList } from 'src/pages/events-list/components/cicles-list/cicles-list'
 import { CicleInfo } from 'src/pages/events-list/components/cicles-list/components/cicle-info/cicle-info'
 import { CiclesTable } from 'src/pages/events-list/components/cicles-list/components/cicle-table/cicles-table'
-import { AdminEventProgramsLayout } from 'src/pages/one-event-layout/pages/admin-event-program/admin-event-programs-layout'
-import { ProgramElements } from 'src/pages/one-event-layout/pages/admin-event-program/components/program-elements/program-elements'
-import { OneProgram } from 'src/pages/one-event-layout/pages/admin-event-program/components/one-program/one-program'
-import { AdminEventRules } from 'src/pages/one-event-layout/pages/admin-event-rules/admin-event-rules'
+import { AdminEventProgramsLayout } from 'src/pages/one-event-layout/pages/admin-event-program/layout/program/admin-event-programs-layout'
 import { VisitorsEventLayout } from 'src/pages/one-event-layout/pages/admin-event-visitors/visitors-event-layout'
 import { TicketsPage } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/tickets-page/tickets-page'
 import { TicketsElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/tickets-page/components/tickets-elements/tickets-elements'
@@ -80,6 +72,42 @@ import { GroupElements } from 'src/pages/one-event-layout/pages/admin-event-visi
 import { OneGroup } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/group-page/components/one-group/one-group'
 import { OneParticipant } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/participants-page/components/one-visitor/one-participant'
 import { ParticipantElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/participants-page/components/participant-elements/participant-elements'
+import { AdminEventContentLayout } from 'src/pages/one-event-layout/pages/admin-event-content/admin-event-content-layout'
+import { AdminEventContent } from 'src/pages/one-event-layout/pages/admin-event-content/layout/event-content/admin-event-content'
+import { PartnerElements } from 'src/pages/one-event-layout/pages/admin-event-content/layout/event-partners/components/partner-elements/partner-elements'
+import { OnePartner } from 'src/pages/one-event-layout/pages/admin-event-content/layout/event-partners/components/one-partner/one-partner'
+import { AdminEventRules } from 'src/pages/one-event-layout/pages/admin-event-content/layout/event-rules/admin-event-rules'
+import { AdminEventNews } from 'src/pages/one-event-layout/pages/admin-event-content/layout/event-news/admin-event-news'
+import { AdminEventVideos } from 'src/pages/one-event-layout/pages/admin-event-content/layout/event-videos/admin-event-videos'
+import { AdminProgramLayout } from 'src/pages/one-event-layout/pages/admin-event-program/admin-program-layout'
+import { ProgramElements } from 'src/pages/one-event-layout/pages/admin-event-program/layout/program/components/program-elements/program-elements'
+import { OneProgram } from 'src/pages/one-event-layout/pages/admin-event-program/layout/program/components/one-program/one-program'
+import { AdminEventParticipantsLayout } from 'src/pages/one-event-layout/pages/admin-event-program/layout/participants/admin-event-participants-layout'
+import { SettingsEventLayout } from 'src/pages/one-event-layout/pages/admin-event-settings/settings-event-layout'
+import { RegistrationPage } from 'src/pages/one-event-layout/pages/admin-event-settings/layout/registration-page/registration-page'
+import { TypeTicketsPage } from 'src/pages/one-event-layout/pages/admin-event-settings/layout/type-tickets-page/type-tickets-page'
+import { TypeParticipantsPage } from 'src/pages/one-event-layout/pages/admin-event-settings/layout/type-participants-page/type-participants-page'
+import { TypeGroupsPage } from 'src/pages/one-event-layout/pages/admin-event-settings/layout/type-groups-page/type-groups-page'
+import { GatesPage } from 'src/pages/one-event-layout/pages/admin-event-settings/layout/gates-page/gates-page'
+import { ServicesEventLayout } from 'src/pages/one-event-layout/pages/admin-event-services/services-event-layout'
+import { ListPage } from 'src/pages/one-event-layout/pages/admin-event-services/layout/list-page/list-page'
+import { ServicesPage } from 'src/pages/one-event-layout/pages/admin-event-services/layout/services-page/services-page'
+import { PointsPage } from 'src/pages/one-event-layout/pages/admin-event-services/layout/points-page/points-page'
+import { RecipientsPage } from 'src/pages/one-event-layout/pages/admin-event-services/layout/recipients-page/recipients-page'
+import { StatisticEventLayout } from 'src/pages/one-event-layout/pages/admin-event-statistic/statistic-event-layout'
+import { LogEntersPage } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/log-enters-page/log-enters-page'
+import { LogServicesPage } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/log-services-page/log-services-page'
+import { LogPaymentsPage } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/log-payments-page/log-payments-page'
+import { UniquePersonsPage } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/unique-persons-page/unique-persons-page'
+import { InspectorsPage } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/inspectors-page/inspectors-page'
+import { RegionsPage } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/regions-page/regions-page'
+import { SummariesPage } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/summaries-page/summaries-page'
+import { RequestsPage } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/requests-page/requests-page'
+import { RequestsElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/requests-page/components/requests-elements/requests-elements'
+import { TransportPage } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/transport-page/transport-page'
+import { TransportElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/transport-page/components/transport-elements/transport-elements'
+import { BraceletPage } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/bracelet-page/bracelet-page'
+import { BraceletElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/bracelet-page/components/bracelet-elements/bracelet-elements'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -134,31 +162,40 @@ export const AdminRoutes: FC = () => {
 
 				<Route path={AdminRoute.AdminEvent} element={<OneEventLayout />}>
 					<Route path={`${AdminRoute.AdminEventProfile}/:id`} element={<AdminEventProfile />} />
+					<Route path={`${AdminRoute.AdminEventSettings}/:id`} element={<SettingsEventLayout />}>
+						<Route path={`${AdminRoute.Registration}`} element={<RegistrationPage />} />
+						<Route path={`${AdminRoute.Tickets}`} element={<TypeTicketsPage />} />
+						<Route path={`${AdminRoute.Participants}`} element={<TypeParticipantsPage />} />
+						<Route path={`${AdminRoute.Groups}`} element={<TypeGroupsPage />} />
+						<Route path={`${AdminRoute.Gates}`} element={<GatesPage />} />
+					</Route>
 					<Route path={`${AdminRoute.AdminEventContacts}/:id`} element={<AdminEventContacts />} />
-					<Route path={`${AdminRoute.AdminEventContent}/:id`} element={<AdminEventContent />} />
-					<Route
-						path={`${AdminRoute.AdminEventPartners}/:id`}
-						element={<AdminEventPartnersLayout />}
-					>
-						<Route index element={<PartnerElements />} />
-						<Route
-							path={`${AdminRoute.AdminEventOnePartner}/:partnerId`}
-							element={<OnePartner />}
-						/>
+					<Route path={`${AdminRoute.AdminEventContent}/:id`} element={<AdminEventContentLayout />}>
+						<Route path={`${AdminRoute.AdminContent}`} element={<AdminEventContent />} />
+						<Route path={`${AdminRoute.AdminEventPartners}`} element={<AdminEventPartnersLayout />}>
+							<Route index element={<PartnerElements />} />
+							<Route
+								path={`${AdminRoute.AdminEventOnePartner}/:partnerId`}
+								element={<OnePartner />}
+							/>
+						</Route>
+						<Route path={`${AdminRoute.AdminEventRules}`} element={<AdminEventRules />} />
+						<Route path={`${AdminRoute.AdminEventNews}`} element={<AdminEventNews />} />
+						<Route path={`${AdminRoute.AdminEventVideos}`} element={<AdminEventVideos />} />
 					</Route>
-					<Route path={`${AdminRoute.AdminEventNews}/:id`} element={<AdminEventNews />} />
-					<Route path={`${AdminRoute.AdminEventVideos}/:id`} element={<AdminEventVideos />} />
-					<Route
-						path={`${AdminRoute.AdminEventProgram}/:id`}
-						element={<AdminEventProgramsLayout />}
-					>
-						<Route index element={<ProgramElements />} />
+					<Route path={`${AdminRoute.AdminEventProgram}/:id`} element={<AdminProgramLayout />}>
 						<Route
-							path={`${AdminRoute.AdminEventOneProgram}/:programId`}
-							element={<OneProgram />}
-						/>
+							path={`${AdminRoute.AdminEventSubEvents}`}
+							element={<AdminEventProgramsLayout />}
+						>
+							<Route index element={<ProgramElements />} />
+							<Route
+								path={`${AdminRoute.AdminEventOneProgram}/:programId`}
+								element={<OneProgram />}
+							/>
+						</Route>
+						<Route path={`${AdminRoute.Participants}`} element={<AdminEventParticipantsLayout />} />
 					</Route>
-					<Route path={`${AdminRoute.AdminEventRules}/:id`} element={<AdminEventRules />} />
 					<Route path={`${AdminRoute.AdminEventHistory}/:id`} element={<AdminEventHistory />} />
 					<Route path={`${AdminRoute.AdminEventVisitors}/:id`} element={<VisitorsEventLayout />}>
 						<Route path={`${AdminRoute.Tickets}`} element={<TicketsPage />}>
@@ -180,6 +217,30 @@ export const AdminRoutes: FC = () => {
 						<Route path={`${AdminRoute.Pass}`} element={<PassPage />}>
 							<Route index element={<PassElements />} />
 						</Route>
+						<Route path={`${AdminRoute.Requests}`} element={<RequestsPage />}>
+							<Route index element={<RequestsElements />} />
+						</Route>
+						<Route path={`${AdminRoute.Transport}`} element={<TransportPage />}>
+							<Route index element={<TransportElements />} />
+						</Route>
+						<Route path={`${AdminRoute.Bracelets}`} element={<BraceletPage />}>
+							<Route index element={<BraceletElements />} />
+						</Route>
+					</Route>
+					<Route path={`${AdminRoute.AdminEventServices}/:id`} element={<ServicesEventLayout />}>
+						<Route path={`${AdminRoute.List}`} element={<ListPage />} />
+						<Route path={`${AdminRoute.Services}`} element={<ServicesPage />} />
+						<Route path={`${AdminRoute.Points}`} element={<PointsPage />} />
+						<Route path={`${AdminRoute.Recipients}`} element={<RecipientsPage />} />
+					</Route>
+					<Route path={`${AdminRoute.AdminEventStatistic}/:id`} element={<StatisticEventLayout />}>
+						<Route path={`${AdminRoute.LogEnters}`} element={<LogEntersPage />} />
+						<Route path={`${AdminRoute.LogServices}`} element={<LogServicesPage />} />
+						<Route path={`${AdminRoute.LogPayments}`} element={<LogPaymentsPage />} />
+						<Route path={`${AdminRoute.UniquePersons}`} element={<UniquePersonsPage />} />
+						<Route path={`${AdminRoute.Inspectors}`} element={<InspectorsPage />} />
+						<Route path={`${AdminRoute.Regions}`} element={<RegionsPage />} />
+						<Route path={`${AdminRoute.Summaries}`} element={<SummariesPage />} />
 					</Route>
 				</Route>
 

@@ -17,37 +17,38 @@ export const OneEventLayout = () => {
 			link: `/event/event-profile/${id ?? 'new'}`,
 		},
 		{
+			title: 'Настройка',
+			link: `/event/event-settings/${id ?? 'new'}`,
+			indexLink: `/event/event-settings/${id}/registration`,
+		},
+		{
 			title: 'Контакты',
 			link: `/event/event-contacts/${id ?? 'new'}`,
 		},
 		{
 			title: 'Контент',
 			link: `/event/event-content/${id ?? 'new'}`,
+			indexLink: `/event/event-content/${id}/content`,
 		},
 		{
-			title: 'Партнеры',
-			link: `/event/event-partners/${id ?? 'new'}`,
-		},
-		{
-			title: 'Новости',
-			link: `/event/event-news/${id ?? 'new'}`,
-		},
-		{
-			title: 'Видеолента',
-			link: `/event/event-videos/${id ?? 'new'}`,
-		},
-		{
-			title: 'Подсобытия',
-			link: `/event/event-program/${id ?? 'new'}`,
-		},
-		{
-			title: 'Правила',
-			link: `/event/event-rules/${id ?? 'new'}`,
-		},
-		{
-			title: 'Списки и регистрация',
+			title: 'Списки и участие',
 			link: `/event/event-visitors/${id}`,
 			indexLink: `/event/event-visitors/${id}/tickets`,
+		},
+		{
+			title: 'Сервисы',
+			link: `/event/event-services/${id ?? 'new'}`,
+			indexLink: `/event/event-services/${id}/list`,
+		},
+		{
+			title: 'Программа',
+			link: `/event/event-program/${id ?? 'new'}`,
+			indexLink: `/event/event-program/${id}/program`,
+		},
+		{
+			title: 'Статистика',
+			link: `/event/event-statistic/${id ?? 'new'}`,
+			indexLink: `/event/event-statistic/${id}/log-enters`,
 		},
 	]
 	const [isProgramPage, setIsProgramPage] = useState<boolean>(false)

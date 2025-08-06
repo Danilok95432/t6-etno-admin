@@ -1,0 +1,115 @@
+import { type NewsItem } from 'src/types/news'
+import { useNavigate } from 'react-router-dom'
+import cn from 'classnames'
+
+import { mainFormatDate } from 'src/helpers/utils'
+
+import { CustomTable } from 'src/components/custom-table/custom-table'
+// import { Loader } from 'src/components/loader/loader'
+import { TableFooter } from 'src/components/table-footer/table-footer'
+import { GridRow } from 'src/components/grid-row/grid-row'
+import { MainCheckBox } from 'src/UI/MainCheckBox/MainCheckBox'
+import { CheckMarkSvg } from 'src/UI/icons/checkMarkSVG'
+
+import styles from './index.module.scss'
+// import { useAppSelector } from 'src/hooks/store'
+// import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
+import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
+import { BraceletFiltrationInputs } from './consts'
+
+export const BraceletElements = () => {
+	// const { id = '0' } = useParams()
+	// const filterValues = useAppSelector(getFiltrationValues)
+	/*
+
+	const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({
+		idEvent: id,
+		title: filterValues.title,
+		date: filterValues.date,
+		tags: filterValues.tags,
+	})
+	const { refetch: getNewId } = useGetNewIdNewsQuery({ idEvent: id, idObject: '' })
+	const [deleteNewsById] = useDeleteNewsByIdMutation()
+	const [hideNewsById] = useHideNewsByIdMutation()
+
+	const addNews = async () => {
+		const newIdResponse = await getNewId().unwrap()
+		return newIdResponse.id
+	}
+
+  */
+
+	const navigate = useNavigate()
+
+	const tableTitles = [
+		'Статус',
+		'Номер браслета',
+		'Билет',
+		'Телефон',
+		'Роль',
+		'Привязка',
+		'Привязал',
+	]
+	const sortTableTitles = ['Привязка']
+	const formatObjectsTableData = (newsData: NewsItem[]) => {
+		return newsData.map((newsEl) => {
+			return {
+				rowId: newsEl.id,
+				cells: [
+					<p className={cn({ 'hidden-cell-icon': newsEl.hidden }, styles.titleNewsTable)} key='0'>
+						{newsEl.title}
+					</p>,
+					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='1'>
+						{mainFormatDate(newsEl.date)}
+					</p>,
+					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='2'>
+						{newsEl.tags}
+					</p>,
+					<MainCheckBox
+						key='3'
+						checked={newsEl.main}
+						disabled={true}
+						svgNode={<CheckMarkSvg />}
+						className={styles.checkBoxWrapperNews}
+					/>,
+				],
+			}
+		})
+	}
+
+	const rowClickHandler = (id: string) => {
+		navigate(`/news/news-list/${id}`)
+	}
+
+	const addClickHandler = () => {
+		// const newId = await addNews()
+		navigate(`/event/event-visitors/1/participants/1`)
+	}
+
+	// if (isLoading || !newsDataResponse?.news) return <Loader />
+
+	return (
+		<>
+			<div className={styles.eventNewsContainer}>
+				<GridRow $margin='0 0 15px 0' $padding='0 29px' className={styles.searchRow}>
+					<TableFiltration filterInputs={BraceletFiltrationInputs} />
+				</GridRow>
+				<CustomTable
+					className={styles.newsTable}
+					rowData={formatObjectsTableData([])}
+					colTitles={tableTitles}
+					sortTitles={sortTableTitles}
+					rowClickHandler={rowClickHandler}
+				/>
+				<TableFooter
+					totalElements={0}
+					downloadBtn
+					addText='Добавить привязку'
+					addClickHandler={addClickHandler}
+					ticketStyle
+					importBtn
+				/>
+			</div>
+		</>
+	)
+}

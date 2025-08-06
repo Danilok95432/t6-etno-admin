@@ -13,6 +13,7 @@ import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { VisitorFiltrationInputs } from './consts'
 import { useGetUsersQuery } from 'src/store/events/events.api'
 import { type EventParticipants } from 'src/types/events'
+import Select from 'react-dropdown-select'
 
 export const ParticipantElements = () => {
 	const { id = '0' } = useParams()
@@ -40,15 +41,15 @@ export const ParticipantElements = () => {
 	const navigate = useNavigate()
 
 	const tableTitles = [
-		'Фамилия, имя, отчество, позывной или прозвище',
-		'Группа посетителей',
+		'Фамилия, имя, отчество',
+		'Группа участников',
 		'Номер телефона',
 		'Роль',
-		'№ билета',
-		'Тип билета',
+		'Билет',
+		'Регион',
 		'Регистрация',
-		'Статус',
-		'Оплата',
+		'Допуск',
+		'Заезд и выезд',
 	]
 	const formatObjectsTableData = (users: EventParticipants[]) => {
 		return users.map((userEl) => {
@@ -64,7 +65,21 @@ export const ParticipantElements = () => {
 					<p key='4'>{userEl.ticket_number}</p>,
 					<p key='5'>{userEl.ticket_type}</p>,
 					<p key='6'>{userEl.createdate}</p>,
-					<p key='7'>{'-'}</p>,
+					<p key='7'>
+						{
+							<Select
+								className={cn(styles.filterInput, styles._select)}
+								options={[
+									{ label: 'Допущен', value: '0' },
+									{ label: 'Ожидает', value: '1' },
+								]}
+								values={[{ label: 'Допущен', value: '0' }]}
+								onChange={(selectedValues) => selectedValues}
+								searchable={false}
+								dropdownPosition='auto'
+							/>
+						}
+					</p>,
 					<p key='8'>{'-'}</p>,
 				],
 			}

@@ -41,7 +41,7 @@ export const VisitorElements = () => {
 	const navigate = useNavigate()
 
 	const tableTitles = [
-		'Фамилия, имя, отчество, позывной или прозвище',
+		'Фамилия, имя, отчество',
 		'Группа',
 		'Номер телефона',
 		'Роль',

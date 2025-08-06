@@ -42,16 +42,15 @@ export const GroupElements = () => {
 	const navigate = useNavigate()
 
 	const tableTitles = [
-		'ID группы',
 		'Название группы',
+		'Группа участников',
 		'Старший группы',
-		'Телефон',
+		'Номер телефона',
 		'Состав',
 		'Билет',
-		'Тип билета',
-		'Стоимость',
-		'Данные билета',
+		'Регион',
 		'Регистрация',
+		'Заезд и выезд',
 	]
 	const formatObjectsTableData = (newsData: NewsItem[]) => {
 		return newsData.map((newsEl) => {
@@ -97,7 +96,7 @@ export const GroupElements = () => {
 					colTitles={tableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
-				<TableFooter totalElements={0} downloadBtn noAdd bigDownloadBtn />
+				<TableFooter totalElements={0} downloadBtn noAdd ticketStyle />
 			</div>
 		</>
 	)

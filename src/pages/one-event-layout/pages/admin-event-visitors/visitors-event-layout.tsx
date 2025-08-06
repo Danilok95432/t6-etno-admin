@@ -2,17 +2,13 @@ import { Outlet, useLocation, useParams } from 'react-router-dom'
 import { AdminContent } from 'src/components/admin-content/admin-content'
 
 import { TabNavigation } from 'src/components/tab-navigation/tab-navigation'
-import { useGetEventInfoQuery } from 'src/store/events/events.api'
 import type { TabNavigationItem } from 'src/types/navigation'
 
 import styles from './index.module.scss'
 import { Container } from 'src/UI/Container/Container'
-import { formatEventDates } from 'src/helpers/utils'
 
 export const VisitorsEventLayout = () => {
 	const { id = '' } = useParams()
-	const { data: eventInfoData } = useGetEventInfoQuery(id)
-	const location = useLocation()
 	const eventTabs: TabNavigationItem[] = [
 		{
 			title: 'Регистрация',
@@ -20,7 +16,7 @@ export const VisitorsEventLayout = () => {
 		},
 		{
 			title: 'Заявки',
-			link: `/event/event-visitors/${id}/tickets`,
+			link: `/event/event-visitors/${id}/requests`,
 		},
 		{
 			title: 'Гости',
@@ -36,26 +32,26 @@ export const VisitorsEventLayout = () => {
 		},
 		{
 			title: 'Транспорт',
-			link: `/event/event-visitors/${id}/pass`,
+			link: `/event/event-visitors/${id}/transport`,
 		},
 		{
 			title: 'Браслеты',
-			link: `/event/event-visitors/${id}/pass`,
+			link: `/event/event-visitors/${id}/bracelets`,
 		},
 	]
+
+	const getTitle = (): string => {
+		const location = useLocation()
+		const lastPath: string = location.pathname.split('/')[location.pathname.split('/').length - 1]
+		return eventTabs.find((el) => el.link.includes(lastPath))?.title ?? ''
+	}
+
 	return (
 		<AdminContent $padding='0' $backgroundColor='#ffffff' className={styles.visitorsPage}>
 			<Container $padding='35px 35px 0 35px' $paddingMobile='35px'>
 				<div className={styles.headRow}>
 					<div className={styles.adminTitleTab}>
-						<h2>{eventInfoData?.title}</h2>
-						<p>
-							{formatEventDates(
-								eventInfoData?.date_from ?? '',
-								eventInfoData?.date_to ?? '',
-								eventInfoData?.locations_list?.[0].label ?? '',
-							)}
-						</p>
+						<h2>{getTitle() === 'Регистрация' ? 'Списки и участие' : getTitle()}</h2>
 						<TabNavigation variant='visitors' navItems={eventTabs} />
 					</div>
 					{location.pathname.includes('/pass') && (

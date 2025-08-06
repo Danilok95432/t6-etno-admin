@@ -8,6 +8,7 @@ import { PrevPaginationArrowSvg } from 'src/UI/icons/prevPaginationArrowSVG'
 import { NextPaginationArrowSvg } from 'src/UI/icons/NextPaginationArrowSvg'
 import { FlexRow } from 'src/components/flex-row/flex-row'
 import { DownloadTableCSV } from 'src/UI/icons/downloadTableCSV'
+import { ImportBraceletsTableSVG } from 'src/UI/icons/importBraceletsTableSVG'
 
 type TableFooterProps = {
 	addText?: string
@@ -21,12 +22,17 @@ type TableFooterProps = {
 	className?: string
 	downloadBtn?: boolean
 	downloadHandler?: () => void
+	importBtn?: boolean
+	importHandler?: () => void
 }
 
 export const TableFooter: FC<TableFooterProps> = ({
 	addText = 'Добавить',
 	addClickHandler,
 	noAdd = false,
+	importBtn,
+	downloadHandler,
+	importHandler,
 	ticketStyle = false,
 	bigDownloadBtn = false,
 	downloadBtn = false,
@@ -78,8 +84,23 @@ export const TableFooter: FC<TableFooterProps> = ({
 						<p>Скачать список в CSV</p>
 					</button>
 				)}
+				{importBtn && (
+					<button
+						className={cn(
+							styles.downloadBtn,
+							{ [styles.downloadBtnDark]: noAdd && !ticketStyle },
+							{ [styles.bigDownloadBtn]: bigDownloadBtn },
+						)}
+					>
+						<ImportBraceletsTableSVG />
+						<p>Импортировать список браслетов</p>
+					</button>
+				)}
 				{!noAdd && (
-					<AddButton className={styles.tableFooterAddBtn} onClick={addClickHandler}>
+					<AddButton
+						className={cn({ [styles.fullAddBtn]: importBtn }, styles.tableFooterAddBtn)}
+						onClick={addClickHandler}
+					>
 						{addText}
 					</AddButton>
 				)}

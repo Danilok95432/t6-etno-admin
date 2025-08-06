@@ -12,12 +12,6 @@ export const TicketsFiltrationInputs: FilterTableInput[] = [
 		type: 'text',
 	},
 	{
-		name: 'status',
-		placeholder: 'способ покупки',
-		type: 'select',
-		options: [{ label: 'Не выбран', value: '0' }],
-	},
-	{
 		name: 'turniket',
 		placeholder: 'групповой',
 		type: 'select',

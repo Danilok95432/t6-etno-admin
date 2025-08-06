@@ -8,24 +8,12 @@ export const GroupsFiltrationInputs: FilterTableInput[] = [
 	},
 	{
 		name: 'surname',
-		placeholder: 'искать по фамилии покупателя',
+		placeholder: 'искать по фамилии посетителя...',
 		type: 'text',
 	},
 	{
-		name: 'status',
-		placeholder: 'способ покупки',
-		type: 'select',
-		options: [{ label: 'Не выбран', value: '0' }],
-	},
-	{
 		name: 'turniket',
-		placeholder: 'групповой',
-		type: 'select',
-		options: [{ label: 'Не выбран', value: '0' }],
-	},
-	{
-		name: 'turniket',
-		placeholder: 'тип билета',
+		placeholder: 'тип группы',
 		type: 'select',
 		options: [{ label: 'Не выбран', value: '0' }],
 	},
