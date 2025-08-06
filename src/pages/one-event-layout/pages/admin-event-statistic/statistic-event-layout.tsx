@@ -54,6 +54,20 @@ export const StatisticEventLayout = () => {
 						<h2>{getTitle()}</h2>
 						<TabNavigation variant='visitors' navItems={eventTabs} />
 					</div>
+					{location.pathname.includes('/log-enters') && (
+						<div className={styles.statBlock}>
+							<div className={styles.leftSide}>
+								<p>Куплено билетов, всего: </p>
+								<p>Прошло посетителей: </p>
+								<p>Всего неуникальных проходов: </p>
+							</div>
+							<div className={styles.rightSide}>
+								<p>{0}</p>
+								<p>{0}</p>
+								<p>{0}</p>
+							</div>
+						</div>
+					)}
 				</div>
 			</Container>
 			<Outlet />

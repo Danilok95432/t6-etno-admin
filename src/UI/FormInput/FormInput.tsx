@@ -1,9 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import React, { useState, useRef, type InputHTMLAttributes, useEffect } from 'react'
 import InputMask from 'react-input-mask'
 import cn from 'classnames'
 import styles from './index.module.scss'
 import { Controller, type FieldError, useFormContext } from 'react-hook-form'
 import { type SelOption } from 'src/types/select'
+import { MainButton } from '../MainButton/MainButton'
+import {
+	useCheckRegistrationCodeMutation,
+	useGetRegistrationCodeMutation,
+} from 'src/store/auth/auth.api'
+import { toast } from 'react-toastify'
 
 interface CustomProps {
 	label: string
@@ -31,6 +38,7 @@ interface CustomProps {
 	setRegionValue?: (arg0: string) => void
 	lockSearch?: boolean
 	setLockSearch?: (arg0: boolean) => void
+	placeholer?: string
 }
 
 type TextInputProps = InputHTMLAttributes<HTMLInputElement> & CustomProps
@@ -50,6 +58,7 @@ export const FormInput: React.FC<TextInputProps> = ({
 	setRegionValue,
 	className,
 	errorForm,
+	placeholder,
 	onFocus,
 	maskChar = '_',
 	name,
@@ -69,12 +78,61 @@ export const FormInput: React.FC<TextInputProps> = ({
 	const { register, control, watch } = useFormContext()
 	const inputRef = useRef<HTMLInputElement>(null)
 	const [isFocused, setIsFocused] = useState(false)
+	const [isSended, setIsSended] = useState(false)
 	const [showOptions, setShowOptions] = useState(false)
 	const fieldValue = watch(name)
 	const shouldRaiseLabel = isFocused || fieldValue?.length > 0
+	const [accepted, setAccepted] = useState<boolean>(false)
+
+	const [getCode] = useGetRegistrationCodeMutation()
 
 	const handleFocus = () => setIsFocused(true)
 	const handleBlur = () => setIsFocused(false)
+	const [countdown, setCountdown] = useState<number>(0)
+
+	const handleSendCode = async (phone: string) => {
+		try {
+			const response = await getCode(phone)
+
+			if ('error' in response) {
+				toast.error('Не удалось отправить код. Проверьте соединение.', {
+					position: 'bottom-right',
+					autoClose: 5000,
+				})
+				return
+			}
+			const { status, errortext } = response.data
+
+			if (status === 'ok') {
+				setIsSended(true)
+				setIsCodeAccepted?.(false)
+				setErrorForm?.('')
+				setCountdown(120)
+
+				const timer = setInterval(() => {
+					setCountdown((prev) => {
+						if (prev <= 1) {
+							clearInterval(timer)
+							setIsSended(false)
+							return 0
+						}
+						return prev - 1
+					})
+				}, 1000)
+			} else if (status === 'error') {
+				toast.error(errortext ?? 'Ошибка при отправке кода. Повторите попытку позже', {
+					position: 'bottom-right',
+					autoClose: 5000,
+				})
+			}
+		} catch (error) {
+			toast.error('Неизвестная ошибка', {
+				position: 'bottom-right',
+				autoClose: 5000,
+			})
+			console.error('handleSendCode error:', error)
+		}
+	}
 
 	if (is_select) {
 		return (
@@ -167,6 +225,71 @@ export const FormInput: React.FC<TextInputProps> = ({
 				/>
 			</div>
 		)
+	} else if (isCode) {
+		return (
+			<Controller
+				name={name}
+				control={control}
+				render={({ field }) => {
+					const [status, setStatus] = useState<'idle' | 'ok' | 'error'>('idle')
+					const [checkPhoneCode] = useCheckRegistrationCodeMutation()
+
+					const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+						const rawValue = e.target.value.replace(/\D/g, '').slice(0, 5)
+						field.onChange(rawValue)
+
+						if (rawValue.length === 5) {
+							try {
+								const res = await checkPhoneCode({ phone: watch('phone'), code: rawValue })
+								if ('data' in res && res.data?.status === 'ok') {
+									setStatus('ok')
+									setIsCodeAccepted?.(true)
+									setAccepted(true)
+								} else {
+									setStatus('error')
+									setIsCodeAccepted?.(false)
+								}
+							} catch (err) {
+								setStatus('error')
+							}
+						} else {
+							setStatus('idle')
+						}
+					}
+
+					return (
+						<div
+							className={cn(styles.inputWrapper, {
+								[styles.focused]: isFocused,
+								[styles.error]: status === 'error',
+								[styles.accept]: status === 'ok',
+								[styles.disabled]: (disabled ?? isCodeAccepted) && errorForm === '',
+							})}
+						>
+							<input
+								type='text'
+								inputMode='numeric'
+								pattern='[0-9]*'
+								maxLength={5}
+								className={styles.input}
+								value={field.value || ''}
+								disabled={(disabled ?? isCodeAccepted) && errorForm === ''}
+								onChange={handleChange}
+								onFocus={() => setIsFocused(true)}
+								onBlur={() => setIsFocused(false)}
+							/>
+							<label
+								className={cn(styles.label, {
+									[styles.raised]: isFocused || !!field.value,
+								})}
+							>
+								{label}
+							</label>
+						</div>
+					)
+				}}
+			/>
+		)
 	}
 
 	return (
@@ -200,6 +323,26 @@ export const FormInput: React.FC<TextInputProps> = ({
 								>
 									<input className={styles.input} type='tel' ref={field.ref} {...restProps} />
 								</InputMask>
+								{isPhoneWithCode && (
+									<MainButton
+										className={cn(styles.sendCodeBtn, {
+											[styles.resend]: countdown > 0 && !isCodeAccepted,
+											[styles.codeAccepted]: isCodeAccepted,
+										})}
+										onClick={async () => await handleSendCode(fieldValue)}
+										disabled={
+											(!fieldValue || fieldValue.includes('_') || isSended) &&
+											countdown > 0 &&
+											!isCodeAccepted
+										}
+									>
+										{isCodeAccepted
+											? 'Код верный'
+											: countdown > 0
+												? `Повторная отправка: ${countdown}`
+												: 'Отправить код'}
+									</MainButton>
+								)}
 							</>
 						)}
 					/>
@@ -214,9 +357,17 @@ export const FormInput: React.FC<TextInputProps> = ({
 						}}
 						onFocus={handleFocus}
 						onBlur={handleBlur}
+						placeholder={placeholder}
 					/>
 				)}
-				<label className={cn(styles.label)}>{label}</label>
+				<label
+					className={cn(styles.label, {
+						[styles.raised]: shouldRaiseLabel,
+						[styles.smallLable]: isSmallLabel,
+					})}
+				>
+					{label}
+				</label>
 			</div>
 		</div>
 	)

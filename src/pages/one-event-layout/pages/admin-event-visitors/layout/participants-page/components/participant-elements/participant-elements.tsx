@@ -14,6 +14,7 @@ import { VisitorFiltrationInputs } from './consts'
 import { useGetUsersQuery } from 'src/store/events/events.api'
 import { type EventParticipants } from 'src/types/events'
 import Select from 'react-dropdown-select'
+import { formatDateTimeTicket } from 'src/helpers/utils'
 
 export const ParticipantElements = () => {
 	const { id = '0' } = useParams()
@@ -44,7 +45,7 @@ export const ParticipantElements = () => {
 		'Фамилия, имя, отчество',
 		'Группа участников',
 		'Номер телефона',
-		'Роль',
+		'Участие',
 		'Билет',
 		'Регион',
 		'Регистрация',
@@ -64,8 +65,8 @@ export const ParticipantElements = () => {
 					<p key='3'>{'-'}</p>,
 					<p key='4'>{userEl.ticket_number}</p>,
 					<p key='5'>{userEl.ticket_type}</p>,
-					<p key='6'>{userEl.createdate}</p>,
-					<p key='7'>
+					<p key='6'>{formatDateTimeTicket(userEl.createdate)}</p>,
+					<p key='7' onClick={(e) => e.stopPropagation()}>
 						{
 							<Select
 								className={cn(styles.filterInput, styles._select)}
@@ -86,10 +87,6 @@ export const ParticipantElements = () => {
 		})
 	}
 
-	const rowClickHandler = (id: string) => {
-		navigate(`/event/event-visitors/1/participants/${id}`)
-	}
-
 	const addClickHandler = () => {
 		// const newId = await addNews()
 		navigate(`/event/event-visitors/1/participants/1`)
@@ -107,7 +104,6 @@ export const ParticipantElements = () => {
 					className={styles.newsTable}
 					rowData={formatObjectsTableData(usersData?.users ?? [])}
 					colTitles={tableTitles}
-					rowClickHandler={rowClickHandler}
 				/>
 				<TableFooter
 					totalElements={usersData?.users.length}

@@ -108,6 +108,7 @@ import { TransportPage } from 'src/pages/one-event-layout/pages/admin-event-visi
 import { TransportElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/transport-page/components/transport-elements/transport-elements'
 import { BraceletPage } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/bracelet-page/bracelet-page'
 import { BraceletElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/bracelet-page/components/bracelet-elements/bracelet-elements'
+import { LogEntersElements } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/log-enters-page/components/log-enters-elements/log-enters-elements'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -234,7 +235,9 @@ export const AdminRoutes: FC = () => {
 						<Route path={`${AdminRoute.Recipients}`} element={<RecipientsPage />} />
 					</Route>
 					<Route path={`${AdminRoute.AdminEventStatistic}/:id`} element={<StatisticEventLayout />}>
-						<Route path={`${AdminRoute.LogEnters}`} element={<LogEntersPage />} />
+						<Route path={`${AdminRoute.LogEnters}`} element={<LogEntersPage />}>
+							<Route index element={<LogEntersElements />} />
+						</Route>
 						<Route path={`${AdminRoute.LogServices}`} element={<LogServicesPage />} />
 						<Route path={`${AdminRoute.LogPayments}`} element={<LogPaymentsPage />} />
 						<Route path={`${AdminRoute.UniquePersons}`} element={<UniquePersonsPage />} />

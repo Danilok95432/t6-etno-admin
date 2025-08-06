@@ -32,6 +32,41 @@
       }
     }
 
+    .react-dropdown-select-content {
+      .react-dropdown-select-option {
+        background: #ECF2F9;
+        color: #000;
+        transition: all .3s ease-in-out;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6.5px;
+        &:hover {
+          color: #fff;
+          background: #184f71;
+          .react-dropdown-select-option-remove {
+            content: '';
+            width: 16px;
+            height: 17px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url("data:image/svg+xml,%3Csvg width='16' height='17' viewBox='0 0 16 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.2868 13.3102L3.0957 4.11911L3.52593 3.6915L12.717 12.8826L12.2868 13.3102Z' fill='white'/%3E%3Cpath d='M12.9028 4.1151L3.71173 13.3062L3.2815 12.8786L12.4726 3.6875L12.9028 4.1151Z' fill='white'/%3E%3Cpath d='M12.2868 13.3102L3.0957 4.11911L3.52593 3.6915L12.717 12.8826L12.2868 13.3102Z' stroke='white' stroke-linejoin='round'/%3E%3Cpath d='M12.9028 4.1151L3.71173 13.3062L3.2815 12.8786L12.4726 3.6875L12.9028 4.1151Z' stroke='white' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+          }
+        }
+        .react-dropdown-select-option-label {
+          font-size: 14px;
+        }
+        .react-dropdown-select-option-remove {
+          content: '';
+          width: 16px;
+          height: 17px;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-image: url("data:image/svg+xml,%3Csvg width='16' height='17' viewBox='0 0 16 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.2868 13.3102L3.0957 4.11911L3.52593 3.6915L12.717 12.8826L12.2868 13.3102Z' fill='black'/%3E%3Cpath d='M12.9028 4.1151L3.71173 13.3062L3.2815 12.8786L12.4726 3.6875L12.9028 4.1151Z' fill='black'/%3E%3Cpath d='M12.2868 13.3102L3.0957 4.11911L3.52593 3.6915L12.717 12.8826L12.2868 13.3102Z' stroke='black' stroke-linejoin='round'/%3E%3Cpath d='M12.9028 4.1151L3.71173 13.3062L3.2815 12.8786L12.4726 3.6875L12.9028 4.1151Z' stroke='black' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+        }
+      }
+    }
+
     .react-dropdown-select-dropdown {
       .react-dropdown-select-item {
         padding: 15px 0 15px 35px;

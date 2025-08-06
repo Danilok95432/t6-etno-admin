@@ -1,30 +1,22 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import cn from 'classnames'
 
 import { CustomTable } from 'src/components/custom-table/custom-table'
-import { Loader } from 'src/components/loader/loader'
+// import { Loader } from 'src/components/loader/loader'
 import { TableFooter } from 'src/components/table-footer/table-footer'
 import { GridRow } from 'src/components/grid-row/grid-row'
 
 import styles from './index.module.scss'
-import { useAppSelector } from 'src/hooks/store'
-import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
+// import { useAppSelector } from 'src/hooks/store'
+// import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { TicketsFiltrationInputs } from './consts'
-import { useGetTicketsQuery } from 'src/store/events/events.api'
 import { type EventTickets } from 'src/types/events'
 import { StatusTickets } from 'src/components/status-tickets/status-tickets'
 import { formatDateTimeTicket } from 'src/helpers/utils'
 
-export const TicketsElements = () => {
-	const { id = '0' } = useParams()
-	const filterValues = useAppSelector(getFiltrationValues)
-	const { data: ticketsData, isLoading } = useGetTicketsQuery({
-		id,
-		telphone: filterValues.telphone,
-		surname: filterValues.surname,
-		useGroup: filterValues.use_group,
-	})
+export const LogEntersElements = () => {
+	// const filterValues = useAppSelector(getFiltrationValues)
 	/*
 
 	const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({
@@ -47,16 +39,15 @@ export const TicketsElements = () => {
 	const navigate = useNavigate()
 
 	const tableTitles = [
-		'Статус',
-		'Номер билета',
+		'Фамилия, имя, отчество',
+		'Номер телефона',
+		'Роль',
+		'Билет',
+		'Турникет / инспектор',
+		'Статус попытки',
 		'Дата и время продажи',
-		'Группа',
-		'Посетитель',
-		'Телефон',
-		'Регион',
-		'Доставлен',
 	]
-	const sortTableTitles = ['Дата и время продажи']
+	const sortTableTitles = ['Турникет / инспектор', 'Статус попытки', 'Дата и время продажи']
 	const formatObjectsTableData = (tickets: EventTickets[]) => {
 		return tickets.map((ticketEl) => {
 			return {
@@ -86,7 +77,7 @@ export const TicketsElements = () => {
 		navigate(`/event/event-visitors/1/tickets/${id}`)
 	}
 
-	if (isLoading || !ticketsData?.tickets) return <Loader />
+	// if (isLoading || !ticketsData?.tickets) return <Loader />
 
 	return (
 		<>
@@ -96,12 +87,12 @@ export const TicketsElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData(ticketsData?.tickets ?? [])}
+					rowData={formatObjectsTableData([])}
 					colTitles={tableTitles}
 					sortTitles={sortTableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
-				<TableFooter totalElements={ticketsData?.tickets.length} noAdd downloadBtn ticketStyle />
+				<TableFooter totalElements={0} noAdd downloadBtn ticketStyle />
 			</div>
 		</>
 	)

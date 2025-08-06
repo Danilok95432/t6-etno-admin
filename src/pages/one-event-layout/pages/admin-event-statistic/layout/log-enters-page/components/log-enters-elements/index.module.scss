@@ -1,21 +1,20 @@
 .searchRow {
   grid-template-columns: 
-  minmax(242px, 242px)
-  minmax(266px, 242px)
-  minmax(255px, 215px)
-  minmax(255px, 1fr);
+  minmax(300px, 300px)
+  minmax(650px, 1fr)
+  minmax(250px, 250px)
+  minmax(283px, 1fr);
 }
 
 .newsTable {
   grid-template-columns:
-  minmax(93px, 93px)
-  minmax(190px, 190px)
-  minmax(230px, 1fr)
-  minmax(190px, 190px)
-  minmax(190px, 190px)
-  minmax(160px, 190px)
-  minmax(360px, 1fr)
-  minmax(150px, 1fr);
+  minmax(350px, 350px)
+  minmax(180px, 180px)
+  minmax(180px, 180px)
+  minmax(180px, 180px)
+  minmax(220px, 220px)
+  minmax(230px, 230px)
+  minmax(230px, 1fr);
   .checkBoxWrapperNews {
     margin: 14px auto auto 25px;
   }

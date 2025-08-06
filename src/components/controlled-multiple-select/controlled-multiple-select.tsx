@@ -1,4 +1,4 @@
-import React, { type FC } from 'react'
+import React, { useEffect, type FC } from 'react'
 import { type MultiSelOption } from 'src/types/select'
 import { type FieldError, useController, useFormContext } from 'react-hook-form'
 
@@ -17,6 +17,7 @@ type ControlledSelectProps = {
 	margin?: string
 	placeholder?: string
 	dynamicError?: FieldError | undefined
+	disabled?: boolean
 }
 export const ControlledMultipleSelect: FC<ControlledSelectProps> = ({
 	selectOptions,
@@ -26,8 +27,16 @@ export const ControlledMultipleSelect: FC<ControlledSelectProps> = ({
 	margin,
 	dynamicError,
 	placeholder,
+	disabled,
 	...props
 }) => {
+	useEffect(() => {
+		const closeImg = document.querySelectorAll('.react-dropdown-select-option-remove')
+		closeImg.forEach((img) => {
+			img.innerHTML = ''
+		})
+	}, [selectOptions])
+
 	const {
 		register,
 		control,
@@ -53,6 +62,7 @@ export const ControlledMultipleSelect: FC<ControlledSelectProps> = ({
 				onChange={(values) => onChange(values.map((v) => v.value).join(','))}
 				placeholder={placeholder}
 				multi
+				disabled={disabled}
 			/>
 			{dynamicError && <p className={styles.warningMessage}>{dynamicError.message}</p>}
 			{errors[name] && (

@@ -21,13 +21,13 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 25px;
+			padding: 8px 16px;
 			gap: 40px;
 			.leftSide, .rightSide {
 				display: flex;
 				flex-direction: column;
-				gap: 7px;
-				font-size: 16px;
+				gap: 5px;
+				font-size: 14px;
 			}
 			.rightSide {
 				font-weight: 600;

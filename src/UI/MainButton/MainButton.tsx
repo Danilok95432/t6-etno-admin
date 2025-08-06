@@ -1,6 +1,6 @@
 import React, { type FC, type ReactNode } from 'react'
 import { Link, type LinkProps } from 'react-router-dom'
-import cnBind from 'classnames/bind'
+import classNames from 'classnames'
 
 import styles from './index.module.scss'
 
@@ -8,48 +8,53 @@ type AnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement>
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 
 type ButtonComponentProps = {
-	as: 'link' | 'button' | 'route'
+	as?: 'button' | 'link' | 'route'
 	children?: ReactNode
 	svgNode?: ReactNode
+	classname?: string
+	disabled?: boolean
+	type?: string
+	$variant?: 'primary' | 'light' | 'show'
 }
 
 export const MainButton: FC<ButtonComponentProps & (ButtonProps | AnchorProps | LinkProps)> = ({
 	children,
-	svgNode,
-	as,
+	className,
+	disabled,
+	as = 'button',
+	$variant = 'primary',
+	type,
 	...props
 }) => {
-	const cx = cnBind.bind(styles)
+	const containerClassName = classNames(
+		styles.mainBtnContainer,
+		styles[`mainBtnContainer__${$variant}`],
+		{ [styles.disabled]: disabled },
+		className,
+	)
 
-	if (as === 'link')
+	if (as === 'button') {
 		return (
-			<a
-				{...(props as AnchorProps)}
-				className={cx(styles.mainButton, props.className, { _iconInput: svgNode })}
-			>
-				{svgNode}
-				{children}
-			</a>
-		)
-	if (as === 'button')
-		return (
-			<button
-				{...(props as ButtonProps)}
-				className={cx(styles.mainButton, props.className, { _iconInput: svgNode })}
-			>
-				{svgNode}
+			<button className={containerClassName} disabled={disabled} {...(props as ButtonProps)}>
 				{children}
 			</button>
 		)
-	if (as === 'route')
+	}
+
+	if (as === 'link') {
 		return (
-			<Link
-				{...(props as LinkProps)}
-				className={cx(styles.routeLink, props.className, { _iconInput: svgNode })}
-			>
-				{svgNode}
+			<a className={containerClassName} {...(props as AnchorProps)}>
+				{children}
+			</a>
+		)
+	}
+
+	if (as === 'route') {
+		return (
+			<Link className={containerClassName} {...(props as LinkProps)}>
 				{children}
 			</Link>
 		)
+	}
 	return null
 }

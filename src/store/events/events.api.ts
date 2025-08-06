@@ -315,20 +315,28 @@ export const eventsApi = createApi({
 			invalidatesTags: ['EventRules'],
 		}),
 		// <--------------- Списки и регистрации --------------->
-		getTickets: build.query<EventTicketsResponse, string>({
-			query: (id) => ({
+		getTickets: build.query<
+			EventTicketsResponse,
+			{ id: string; telphone?: string; surname?: string; useGroup?: string }
+		>({
+			query: ({ id, telphone, surname, useGroup }) => ({
 				url: `events/tickets`,
 				params: {
 					id_event: id,
+					telphone,
+					surname,
+					use_group: useGroup,
 				},
 			}),
 			providesTags: ['EventTickets'],
 		}),
-		getGuests: build.query<EventGuestsResponse, string>({
-			query: (id) => ({
+		getGuests: build.query<EventGuestsResponse, { id: string; phone?: string; surname?: string }>({
+			query: ({ id, phone, surname }) => ({
 				url: `events/guests`,
 				params: {
 					id_event: id,
+					phone,
+					surname,
 				},
 			}),
 			providesTags: ['EventGuests'],

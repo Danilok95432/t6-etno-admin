@@ -7,8 +7,8 @@ import { TableFooter } from 'src/components/table-footer/table-footer'
 import { GridRow } from 'src/components/grid-row/grid-row'
 
 import styles from './index.module.scss'
-// import { useAppSelector } from 'src/hooks/store'
-// import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
+import { useAppSelector } from 'src/hooks/store'
+import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { VisitorFiltrationInputs } from './consts'
 import { useGetGuestsQuery } from 'src/store/events/events.api'
@@ -17,8 +17,12 @@ import { formatDateTimeTicket } from 'src/helpers/utils'
 
 export const VisitorElements = () => {
 	const { id = '0' } = useParams()
-	const { data: guestsData, isLoading } = useGetGuestsQuery(id)
-	// const filterValues = useAppSelector(getFiltrationValues)
+	const filterValues = useAppSelector(getFiltrationValues)
+	const { data: guestsData, isLoading } = useGetGuestsQuery({
+		id,
+		phone: filterValues.phone,
+		surname: filterValues.surname,
+	})
 	/*
 
   const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({
@@ -70,10 +74,6 @@ export const VisitorElements = () => {
 		})
 	}
 
-	const rowClickHandler = (id: string) => {
-		navigate(`/event/event-visitors/1/guests/${id}`)
-	}
-
 	const addClickHandler = () => {
 		// const newId = await addNews()
 		navigate(`/event/event-visitors/1/guests/1`)
@@ -91,7 +91,6 @@ export const VisitorElements = () => {
 					className={styles.newsTable}
 					rowData={formatObjectsTableData(guestsData?.guests ?? [])}
 					colTitles={tableTitles}
-					rowClickHandler={rowClickHandler}
 				/>
 				<TableFooter
 					totalElements={guestsData?.guests.length}
