@@ -1,40 +1,36 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { type FC } from 'react'
 import styles from './index.module.scss'
 import { StatusRequestList } from 'src/components/status-request-lists/status-request-lists'
 import { formatDateTimeTicket } from 'src/helpers/utils'
+import { type EventRequestItem } from 'src/types/events'
 
 type MainSectionProps = {
-	isGroup?: boolean
-	status?: string
-	subEvents?: Array<{ title: string; id: string }>
-	participants?: Array<{ fio: string; id: string }>
-	cars?: Array<{ type: string; number: string; id: string }>
-	services?: Array<{ title: string; id: string }>
-	createdate?: string
+	data?: EventRequestItem
 }
 
-export const MainSection: FC<MainSectionProps> = ({
-	isGroup = false,
-	status = '1',
-	subEvents,
-	participants,
-	cars,
-	services,
-	createdate,
-}) => {
-	if (isGroup) {
+export const MainSection: FC<MainSectionProps> = ({ data }) => {
+	const statusSetter = (status: string): string => {
+		if (status === 'Ожидание') return '1'
+		if (status === 'Принята') return '3'
+		return '2'
+	}
+	if (data?.is_group === 1) {
 		return (
 			<div className={styles.mainSection}>
-				<h1>Заявка групповая №25</h1>
-				<StatusRequestList statusCode={status} />
+				<h1>Заявка групповая №{data.id}</h1>
+				<StatusRequestList statusCode={statusSetter(data.statusname)} />
 				<div className={styles.infoBlock}>
 					<div className={styles.infoWrapper}>
 						<span>Автор заявки</span>
-						<p>Автор</p>
+						<p className={styles.author}>
+							<strong>{data.fio}</strong>
+							<span>{data.id_reg_user}</span>
+						</p>
 					</div>
 					<div className={styles.infoWrapper}>
 						<span>Название события</span>
-						<p>Событие</p>
+						<p>{data.event}</p>
 					</div>
 					<div className={styles.infoWrapper}>
 						<span>Название команды</span>
@@ -49,19 +45,19 @@ export const MainSection: FC<MainSectionProps> = ({
 					<div className={styles.infoWrapper}>
 						<span className={styles.listTitle}>Выбранные подсобытия</span>
 						<ul className={styles.list}>
-							{subEvents?.map((el) => {
-								return <li key={el.id}>{el.title}</li>
+							{data?.sub_events.map((el, ind) => {
+								return <li key={ind}>{el}</li>
 							})}
 						</ul>
 					</div>
 					<div className={styles.infoWrapper}>
 						<span className={styles.listTitle}>Выбранные участники</span>
 						<ul className={styles.list}>
-							{participants?.map((el) => {
+							{data?.group_users?.map((el, ind) => {
 								return (
-									<li key={el.id}>
-										<span className={styles.bold}>{el.fio}</span>
-										<span>{el.id}</span>
+									<li key={ind}>
+										<span className={styles.bold}>{el}</span>
+										<span>{ind}</span>
 									</li>
 								)
 							})}
@@ -70,7 +66,7 @@ export const MainSection: FC<MainSectionProps> = ({
 					<div className={styles.infoWrapper}>
 						<span className={styles.listTitle}>Транспортные средства</span>
 						<ul className={styles.list}>
-							{cars?.map((el) => {
+							{data?.cars?.map((el) => {
 								return (
 									<li key={el.id}>
 										<span className={styles.bold}>{el.type}</span>
@@ -83,16 +79,16 @@ export const MainSection: FC<MainSectionProps> = ({
 					<div className={styles.infoWrapper}>
 						<span className={styles.listTitle}>Выбранные сервисы</span>
 						<ul className={styles.list}>
-							{services?.map((el) => {
-								return <li key={el.id}>{el.title}</li>
+							{data?.services?.map((el, ind) => {
+								return <li key={ind}>{el}</li>
 							})}
 						</ul>
 					</div>
 					<div className={styles.infoWrapper}>
-						<span className={styles.listTitle}>Заявка подана:</span>
+						<span>Заявка подана:</span>
 						<div className={styles.createdate}>
-							<p>{formatDateTimeTicket(createdate ?? '', '.', true)[0]}</p>
-							<p>{formatDateTimeTicket(createdate ?? '', '.', true)[1]}</p>
+							<p>{formatDateTimeTicket(data?.statusdate ?? '', '.', true)[0]}</p>
+							<p>{formatDateTimeTicket(data?.statusdate ?? '', '.', true)[1]}</p>
 						</div>
 					</div>
 				</div>
@@ -101,35 +97,38 @@ export const MainSection: FC<MainSectionProps> = ({
 	}
 	return (
 		<div className={styles.mainSection}>
-			<h1>Заявка одиночная №25</h1>
-			<StatusRequestList statusCode={status} />
+			<h1>Заявка одиночная №{data?.id}</h1>
+			<StatusRequestList statusCode={statusSetter(data?.statusname ?? 'Ожидание')} />
 			<div className={styles.infoBlock}>
 				<div className={styles.infoWrapper}>
 					<span>Автор заявки</span>
-					<p>Автор</p>
+					<p className={styles.author}>
+						<strong>{data?.fio}</strong>
+						<span>{data?.id_reg_user}</span>
+					</p>
 				</div>
 				<div className={styles.infoWrapper}>
 					<span>Название события</span>
-					<p>Событие</p>
+					<p>{data?.event}</p>
 				</div>
 				<div className={styles.infoWrapper}>
 					<span>Выбранная роль</span>
-					<p>Роль</p>
+					<p>{data?.event_role}</p>
 				</div>
 			</div>
 			<div className={styles.listBlock}>
 				<div className={styles.infoWrapper}>
 					<span className={styles.listTitle}>Выбранные подсобытия</span>
 					<ul className={styles.list}>
-						{subEvents?.map((el) => {
-							return <li key={el.id}>{el.title}</li>
+						{data?.sub_events.map((el, ind) => {
+							return <li key={ind}>{el}</li>
 						})}
 					</ul>
 				</div>
 				<div className={styles.infoWrapper}>
 					<span className={styles.listTitle}>Транспортные средства</span>
 					<ul className={styles.list}>
-						{cars?.map((el) => {
+						{data?.cars.map((el) => {
 							return (
 								<li key={el.id}>
 									<span className={styles.bold}>{el.type}</span>
@@ -142,16 +141,16 @@ export const MainSection: FC<MainSectionProps> = ({
 				<div className={styles.infoWrapper}>
 					<span className={styles.listTitle}>Выбранные сервисы</span>
 					<ul className={styles.list}>
-						{services?.map((el) => {
-							return <li key={el.id}>{el.title}</li>
+						{data?.services?.map((el, ind) => {
+							return <li key={ind}>{el}</li>
 						})}
 					</ul>
 				</div>
 				<div className={styles.infoWrapper}>
 					<span>Заявка подана:</span>
 					<div className={styles.createdate}>
-						<p>{formatDateTimeTicket(createdate ?? '', '.', true)[0]}</p>
-						<p>{formatDateTimeTicket(createdate ?? '', '.', true)[1]}</p>
+						<p>{formatDateTimeTicket(data?.statusdate ?? '', '.', true)[0]}</p>
+						<p>{formatDateTimeTicket(data?.statusdate ?? '', '.', true)[1]}</p>
 					</div>
 				</div>
 			</div>

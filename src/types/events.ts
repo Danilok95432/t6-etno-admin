@@ -281,3 +281,35 @@ export type EventParticipants = {
 	group_name: string
 	ticket_type: string
 }
+
+export type EventRequestsResponse = {
+	requests: EventRequests[]
+}
+
+export type EventRequests = {
+	id: string
+	fio: string
+	requesttype: string
+	group_name: string
+	region_name: string
+	createdate: string
+	statusname: string
+	event_role: string
+}
+
+export type EventRequestItem = {
+	id: string
+	id_reg_user: string
+	fio: string
+	event: string
+	statusname: string
+	statusdate: string
+	sub_events: string[]
+	cars: [{type: string, number: string, id: string}]
+	services: string[]
+	is_group: number
+	group_users: string[]
+	event_role: string
+	region_name: string
+	city_name: string
+}

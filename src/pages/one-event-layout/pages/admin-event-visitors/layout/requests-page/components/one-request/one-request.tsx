@@ -10,12 +10,13 @@ import { AdminButton } from 'src/UI/AdminButton/AdminButton'
 import { FlexRow } from 'src/components/flex-row/flex-row'
 
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
+import { useGetRequestInfoQuery } from 'src/store/events/events.api'
 
 export const OneRequestList = () => {
-	const { id = '' } = useParams()
+	const { id = '', subId = '' } = useParams()
+	const { data: reqData } = useGetRequestInfoQuery(subId)
 	const [, setAction] = useState<'apply' | 'save'>('apply')
 	const navigate = useNavigate()
-	const status = '1'
 
 	const methods = useForm<FieldValues>({
 		mode: 'onBlur',
@@ -38,27 +39,9 @@ export const OneRequestList = () => {
 				</Link>
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
-						<MainSection
-							isGroup={false}
-							status={status}
-							subEvents={[{ title: 'Народные ремесла Тамбовщины', id: '1' }]}
-							participants={[
-								{ fio: 'Участник 1', id: '1' },
-								{ fio: 'Участник 2', id: '2' },
-							]}
-							cars={[
-								{ type: 'Машина', id: '1', number: 'А222АА' },
-								{ type: 'Машина', id: '2', number: 'А222АБ' },
-							]}
-							services={[
-								{ title: 'Сервис 1', id: '1' },
-								{ title: 'Сервис 2', id: '2' },
-								{ title: 'Сервис 3', id: '3' },
-							]}
-							createdate={new Date().toISOString()}
-						/>
+						<MainSection data={reqData} />
 						<FlexRow $margin='0 0 40px 0' $maxWidth='1140px'>
-							{status === '1' && (
+							{reqData?.statusname === 'Ожидание' && (
 								<>
 									<AdminButton as='button' type='submit' onClick={() => setAction('save')}>
 										Принять заявку
@@ -72,8 +55,7 @@ export const OneRequestList = () => {
 									</AdminButton>
 								</>
 							)}
-							{/*
-								{status === '2' && (
+							{reqData?.statusname === 'Отклонена' && (
 								<>
 									<AdminButton as='button' type='submit' onClick={() => setAction('save')}>
 										Принять заявку
@@ -87,14 +69,13 @@ export const OneRequestList = () => {
 									</AdminButton>
 								</>
 							)}
-							{status === '3' && (
+							{reqData?.statusname === 'Принята' && (
 								<>
 									<AdminButton
 										as='route'
 										to={`/${AdminRoute.AdminEvent}/${AdminRoute.AdminEventVisitors}/${id}/${AdminRoute.Requests}`}
-										$variant='pending'
 									>
-										В ожидающие
+										Принять заявку
 									</AdminButton>
 									<AdminButton
 										as='route'
@@ -105,7 +86,6 @@ export const OneRequestList = () => {
 									</AdminButton>
 								</>
 							)}
-								*/}
 						</FlexRow>
 					</form>
 				</FormProvider>

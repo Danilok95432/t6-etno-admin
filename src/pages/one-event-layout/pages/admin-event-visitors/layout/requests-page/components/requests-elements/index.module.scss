@@ -13,11 +13,16 @@
   minmax(286px, 1fr)
   minmax(150px, 1fr)
   minmax(286px, 1fr)
-  minmax(180px, 1fr)
-  minmax(248px, 1fr);
+  minmax(200px, 1fr)
+  minmax(228px, 1fr);
   .checkBoxWrapperNews {
     margin: 14px auto auto 25px;
   }
+}
+
+.date {
+  display: flex;
+  gap: 14px;
 }
 
 .eventNewsContainer {

@@ -1,11 +1,11 @@
-import { type NewsItem } from 'src/types/news'
-import { useNavigate } from 'react-router-dom'
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { useNavigate, useParams } from 'react-router-dom'
 import cn from 'classnames'
 
-import { mainFormatDate } from 'src/helpers/utils'
+import { formatDateTimeTicket } from 'src/helpers/utils'
 
 import { CustomTable } from 'src/components/custom-table/custom-table'
-// import { Loader } from 'src/components/loader/loader'
+import { Loader } from 'src/components/loader/loader'
 import { TableFooter } from 'src/components/table-footer/table-footer'
 import { GridRow } from 'src/components/grid-row/grid-row'
 
@@ -15,9 +15,12 @@ import styles from './index.module.scss'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { RequestsVisitorFiltrationInputs } from './consts'
 import { usePagination } from 'src/hooks/usePagination/usePagination'
+import { useGetRequestsQuery } from 'src/store/events/events.api'
+import { type EventRequests } from 'src/types/events'
 
 export const RequestsElements = () => {
-	// const { id = '0' } = useParams()
+	const { id = '0' } = useParams()
+	const { data: requestsData, isLoading } = useGetRequestsQuery(id)
 	// const filterValues = useAppSelector(getFiltrationValues)
 	/*
 
@@ -42,7 +45,7 @@ export const RequestsElements = () => {
 
 	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
 		{
-			data: [],
+			data: requestsData?.requests ?? [],
 			initialPage: 1,
 			initialItemsPerPage: 100,
 		},
@@ -66,39 +69,32 @@ export const RequestsElements = () => {
 		'Регистрация',
 		'Статус заявки',
 	]
-	const formatObjectsTableData = (newsData: NewsItem[]) => {
-		return newsData.map((newsEl) => {
+	const formatObjectsTableData = (reqData: EventRequests[]) => {
+		return reqData.map((reqEl) => {
 			return {
-				rowId: newsEl.id,
+				rowId: reqEl.id,
 				cells: [
-					<p className={cn({ 'hidden-cell-icon': newsEl.hidden }, styles.titleNewsTable)} key='0'>
-						{newsEl.title}
+					<p className={cn(styles.titleNewsTable)} key='0'>
+						{reqEl.fio}
 					</p>,
-					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='1'>
-						{mainFormatDate(newsEl.date)}
+					<p key='1'>{reqEl.requesttype === 'Групповая' ? reqEl.group_name : reqEl.requesttype}</p>,
+					<p key='2'>{reqEl.event_role}</p>,
+					<p key='3'>{reqEl.region_name}</p>,
+					<p key='4' className={styles.date}>
+						<span>{`${formatDateTimeTicket(reqEl.createdate)[0]}`}</span>
+						<span>{`${formatDateTimeTicket(reqEl.createdate)[1]}`}</span>
 					</p>,
-					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='2'>
-						{newsEl.tags}
-					</p>,
-					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='3'>
-						{newsEl.tags}
-					</p>,
-					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='4'>
-						{newsEl.tags}
-					</p>,
-					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='5'>
-						{newsEl.tags}
-					</p>,
+					<p key='5'>{reqEl.statusname}</p>,
 				],
 			}
 		})
 	}
 
-	const rowClickHandler = (id: string) => {
-		navigate(`/news/news-list/${id}`)
+	const rowClickHandler = (subId: string) => {
+		navigate(`/event/event-visitors/${id}/requests/${subId}`)
 	}
 
-	// if (isLoading || !newsDataResponse?.news) return <Loader />
+	if (isLoading || !requestsData?.requests) return <Loader />
 
 	return (
 		<>
@@ -113,7 +109,7 @@ export const RequestsElements = () => {
 					rowClickHandler={rowClickHandler}
 				/>
 				<TableFooter
-					totalElements={0}
+					totalElements={requestsData?.requests.length}
 					noAdd
 					currentPage={currentPage}
 					totalPages={totalPages}

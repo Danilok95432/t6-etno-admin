@@ -18,6 +18,15 @@ div.mainSection {
 			display: flex;
 			flex-direction: column;
 			gap: 3px;
+			.author {
+				display: flex;
+				gap: 5px;
+				span {
+					font-size: 16px;
+					font-weight: 400;
+					color: #000000;
+				}
+			}
 			span {
 				font-size: 14px;
 				color: #818181;

@@ -73,6 +73,7 @@ export const formatDateTimeTicket = (
 	separator: string = '-',
 	withoutSeconds?: boolean,
 ): [string, string] => {
+	if (inputDate === '') return ['Неверный формат даты', '']
 	const date = new Date(inputDate)
 
 	// Получаем компоненты даты
