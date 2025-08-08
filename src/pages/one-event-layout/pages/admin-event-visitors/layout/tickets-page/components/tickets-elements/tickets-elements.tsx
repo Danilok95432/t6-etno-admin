@@ -15,6 +15,7 @@ import { useGetTicketsQuery } from 'src/store/events/events.api'
 import { type EventTickets } from 'src/types/events'
 import { StatusTickets } from 'src/components/status-tickets/status-tickets'
 import { formatDateTimeTicket } from 'src/helpers/utils'
+import { usePagination } from 'src/hooks/usePagination/usePagination'
 
 export const TicketsElements = () => {
 	const { id = '0' } = useParams()
@@ -25,6 +26,24 @@ export const TicketsElements = () => {
 		surname: filterValues.surname,
 		useGroup: filterValues.use_group,
 	})
+
+	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
+		{
+			data: ticketsData?.tickets ?? [],
+			initialPage: 1,
+			initialItemsPerPage: 100,
+		},
+	)
+
+	const handlePageChange = (newPage: number) => {
+		setCurrentPage(newPage)
+	}
+
+	const handleItemsPerPageChange = (value: string) => {
+		const newValue = value === 'all' ? 'all' : parseInt(value)
+		setItemsPerPage(newValue)
+		setCurrentPage(1)
+	}
 	/*
 
 	const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({
@@ -96,12 +115,21 @@ export const TicketsElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData(ticketsData?.tickets ?? [])}
+					rowData={formatObjectsTableData(paginatedData ?? [])}
 					colTitles={tableTitles}
 					sortTitles={sortTableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
-				<TableFooter totalElements={ticketsData?.tickets.length} noAdd downloadBtn ticketStyle />
+				<TableFooter
+					totalElements={ticketsData?.tickets.length}
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+					onLimitChange={handleItemsPerPageChange}
+					noAdd
+					downloadBtn
+					ticketStyle
+				/>
 			</div>
 		</>
 	)

@@ -49,26 +49,28 @@ export const VisitorsEventLayout = () => {
 	return (
 		<AdminContent $padding='0' $backgroundColor='#ffffff' className={styles.visitorsPage}>
 			<Container $padding='35px 35px 0 35px' $paddingMobile='35px'>
-				<div className={styles.headRow}>
-					<div className={styles.adminTitleTab}>
-						<h2>{getTitle() === 'Регистрация' ? 'Списки и участие' : getTitle()}</h2>
-						<TabNavigation variant='visitors' navItems={eventTabs} />
-					</div>
-					{location.pathname.includes('/pass') && (
-						<div className={styles.statBlock}>
-							<div className={styles.leftSide}>
-								<p>Куплено билетов, всего: </p>
-								<p>Прошло посетителей: </p>
-								<p>Всего неуникальных проходов: </p>
-							</div>
-							<div className={styles.rightSide}>
-								<p>{0}</p>
-								<p>{0}</p>
-								<p>{0}</p>
-							</div>
+				{!location.pathname.includes('/requests/') && (
+					<div className={styles.headRow}>
+						<div className={styles.adminTitleTab}>
+							<h2>{getTitle() === 'Регистрация' ? 'Списки и участие' : getTitle()}</h2>
+							<TabNavigation variant='visitors' navItems={eventTabs} />
 						</div>
-					)}
-				</div>
+						{location.pathname.includes('/pass') && (
+							<div className={styles.statBlock}>
+								<div className={styles.leftSide}>
+									<p>Куплено билетов, всего: </p>
+									<p>Прошло посетителей: </p>
+									<p>Всего неуникальных проходов: </p>
+								</div>
+								<div className={styles.rightSide}>
+									<p>{0}</p>
+									<p>{0}</p>
+									<p>{0}</p>
+								</div>
+							</div>
+						)}
+					</div>
+				)}
 			</Container>
 			<Outlet />
 		</AdminContent>

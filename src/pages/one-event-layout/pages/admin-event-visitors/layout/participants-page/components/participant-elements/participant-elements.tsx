@@ -15,6 +15,7 @@ import { useGetUsersQuery } from 'src/store/events/events.api'
 import { type EventParticipants } from 'src/types/events'
 import Select from 'react-dropdown-select'
 import { formatDateTimeTicket } from 'src/helpers/utils'
+import { usePagination } from 'src/hooks/usePagination/usePagination'
 
 export const ParticipantElements = () => {
 	const { id = '0' } = useParams()
@@ -39,6 +40,24 @@ export const ParticipantElements = () => {
 
   */
 
+	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
+		{
+			data: usersData?.users ?? [],
+			initialPage: 1,
+			initialItemsPerPage: 100,
+		},
+	)
+
+	const handlePageChange = (newPage: number) => {
+		setCurrentPage(newPage)
+	}
+
+	const handleItemsPerPageChange = (value: string) => {
+		const newValue = value === 'all' ? 'all' : parseInt(value)
+		setItemsPerPage(newValue)
+		setCurrentPage(1)
+	}
+
 	const navigate = useNavigate()
 
 	const tableTitles = [
@@ -60,9 +79,9 @@ export const ParticipantElements = () => {
 					<p className={cn(styles.titleNewsTable)} key='0'>
 						{userEl.fio}
 					</p>,
-					<p key='1'>{userEl.group}</p>,
+					<p key='1'>{userEl.group === 'да' || userEl.group === 'Да' ? userEl.group_name : '-'}</p>,
 					<p key='2'>{userEl.phone}</p>,
-					<p key='3'>{'-'}</p>,
+					<p key='3'>{userEl.role}</p>,
 					<p key='4'>{userEl.ticket_number}</p>,
 					<p key='5'>{userEl.ticket_type}</p>,
 					<p key='6'>{formatDateTimeTicket(userEl.createdate)}</p>,
@@ -102,11 +121,15 @@ export const ParticipantElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData(usersData?.users ?? [])}
+					rowData={formatObjectsTableData(paginatedData ?? [])}
 					colTitles={tableTitles}
 				/>
 				<TableFooter
 					totalElements={usersData?.users.length}
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+					onLimitChange={handleItemsPerPageChange}
 					downloadBtn
 					addText='Добавить участника'
 					addClickHandler={addClickHandler}

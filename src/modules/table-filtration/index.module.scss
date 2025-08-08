@@ -3,6 +3,16 @@
   font-size: 14px;
   border: 1px solid #AFAFAF;
   border-radius: 3px;
+
+  &:focus {
+    outline: 1px solid #007aff;
+  }
+}
+
+:global {
+  input.react-dropdown-select-input {
+    font-size: 14px;
+  }
 }
 
 div._select {

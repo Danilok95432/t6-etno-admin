@@ -24,6 +24,8 @@ type TableFooterProps = {
 	downloadHandler?: () => void
 	importBtn?: boolean
 	importHandler?: () => void
+	onPageChange?: (page: number) => void
+	onLimitChange?: (limit: string) => void
 }
 
 export const TableFooter: FC<TableFooterProps> = ({
@@ -40,7 +42,26 @@ export const TableFooter: FC<TableFooterProps> = ({
 	currentPage = 1,
 	totalPages = 1,
 	className,
+	onPageChange,
+	onLimitChange,
 }) => {
+	const handlePrevPage = () => {
+		if (onPageChange && currentPage > 1) {
+			onPageChange(currentPage - 1)
+		}
+	}
+
+	const handleNextPage = () => {
+		if (onPageChange && currentPage < totalPages) {
+			onPageChange(currentPage + 1)
+		}
+	}
+
+	const handleLimitChange = (value: string) => {
+    if (onLimitChange) {
+      onLimitChange(value)
+    }
+  }
 	return (
 		<div className={className ?? styles.tableFooterWrapper}>
 			<div className={cn(styles.tableFooter, { [styles.tableFooterShort]: downloadBtn })}>
@@ -52,20 +73,23 @@ export const TableFooter: FC<TableFooterProps> = ({
 							<MainSelect
 								className={styles.limitSelect}
 								items={[
-									{ label: '10', value: '10' },
+									{ label: '100', value: '100' },
 									{ label: '50', value: '50' },
+									{ label: '25', value: '25' },
+									{ label: 'Все', value: 'all' },
 								]}
+								onChange={handleLimitChange}
 							/>
 						</FlexRow>
 					</div>
 					<div className={styles.paginationControllers}>
-						<button type='button'>
+						<button type='button' onClick={handlePrevPage} disabled={currentPage <= 1}>
 							<PrevPaginationArrowSvg />
 						</button>
 						<span>
 							{currentPage} из {totalPages}
 						</span>
-						<button type='button'>
+						<button type='button' onClick={handleNextPage} disabled={currentPage >= totalPages}>
 							<NextPaginationArrowSvg />
 						</button>
 					</div>
@@ -108,3 +132,4 @@ export const TableFooter: FC<TableFooterProps> = ({
 		</div>
 	)
 }
+

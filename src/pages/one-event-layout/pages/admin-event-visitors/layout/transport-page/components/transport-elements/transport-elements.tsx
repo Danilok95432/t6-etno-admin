@@ -16,6 +16,7 @@ import styles from './index.module.scss'
 // import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { TransportFiltrationInputs } from './consts'
+import { usePagination } from 'src/hooks/usePagination/usePagination'
 
 export const TransportElements = () => {
 	// const { id = '0' } = useParams()
@@ -38,6 +39,24 @@ export const TransportElements = () => {
 	}
 
   */
+
+	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
+		{
+			data: [],
+			initialPage: 1,
+			initialItemsPerPage: 100,
+		},
+	)
+
+	const handlePageChange = (newPage: number) => {
+		setCurrentPage(newPage)
+	}
+
+	const handleItemsPerPageChange = (value: string) => {
+		const newValue = value === 'all' ? 'all' : parseInt(value)
+		setItemsPerPage(newValue)
+		setCurrentPage(1)
+	}
 
 	const navigate = useNavigate()
 
@@ -82,11 +101,20 @@ export const TransportElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData([])}
+					rowData={formatObjectsTableData(paginatedData)}
 					colTitles={tableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
-				<TableFooter totalElements={0} downloadBtn noAdd ticketStyle />
+				<TableFooter
+					totalElements={0}
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+					onLimitChange={handleItemsPerPageChange}
+					downloadBtn
+					noAdd
+					ticketStyle
+				/>
 			</div>
 		</>
 	)

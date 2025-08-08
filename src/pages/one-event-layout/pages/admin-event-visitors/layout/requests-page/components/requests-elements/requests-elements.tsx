@@ -14,6 +14,7 @@ import styles from './index.module.scss'
 // import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { RequestsVisitorFiltrationInputs } from './consts'
+import { usePagination } from 'src/hooks/usePagination/usePagination'
 
 export const RequestsElements = () => {
 	// const { id = '0' } = useParams()
@@ -38,6 +39,24 @@ export const RequestsElements = () => {
   */
 
 	const navigate = useNavigate()
+
+	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
+		{
+			data: [],
+			initialPage: 1,
+			initialItemsPerPage: 100,
+		},
+	)
+
+	const handlePageChange = (newPage: number) => {
+		setCurrentPage(newPage)
+	}
+
+	const handleItemsPerPageChange = (value: string) => {
+		const newValue = value === 'all' ? 'all' : parseInt(value)
+		setItemsPerPage(newValue)
+		setCurrentPage(1)
+	}
 
 	const tableTitles = [
 		'Автор заявки',
@@ -89,11 +108,18 @@ export const RequestsElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData([])}
+					rowData={formatObjectsTableData(paginatedData)}
 					colTitles={tableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
-				<TableFooter totalElements={0} noAdd />
+				<TableFooter
+					totalElements={0}
+					noAdd
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+					onLimitChange={handleItemsPerPageChange}
+				/>
 			</div>
 		</>
 	)

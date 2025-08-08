@@ -13,7 +13,7 @@ export const TicketsFiltrationInputs: FilterTableInput[] = [
 	},
 	{
 		name: 'use_group',
-		placeholder: 'Одиночный',
+		placeholder: 'выберите тип',
 		type: 'select',
 		options: [
 			{ label: 'Одиночный', value: '0' },

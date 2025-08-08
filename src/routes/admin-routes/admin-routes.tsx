@@ -109,6 +109,7 @@ import { TransportElements } from 'src/pages/one-event-layout/pages/admin-event-
 import { BraceletPage } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/bracelet-page/bracelet-page'
 import { BraceletElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/bracelet-page/components/bracelet-elements/bracelet-elements'
 import { LogEntersElements } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/log-enters-page/components/log-enters-elements/log-enters-elements'
+import { OneRequestList } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/requests-page/components/one-request/one-request'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -220,6 +221,7 @@ export const AdminRoutes: FC = () => {
 						</Route>
 						<Route path={`${AdminRoute.Requests}`} element={<RequestsPage />}>
 							<Route index element={<RequestsElements />} />
+							<Route path=':subId' element={<OneRequestList />} />
 						</Route>
 						<Route path={`${AdminRoute.Transport}`} element={<TransportPage />}>
 							<Route index element={<TransportElements />} />

@@ -16,6 +16,7 @@ import styles from './index.module.scss'
 // import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { BraceletFiltrationInputs } from './consts'
+import { usePagination } from 'src/hooks/usePagination/usePagination'
 
 export const BraceletElements = () => {
 	// const { id = '0' } = useParams()
@@ -38,6 +39,24 @@ export const BraceletElements = () => {
 	}
 
   */
+
+	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
+		{
+			data: [],
+			initialPage: 1,
+			initialItemsPerPage: 100,
+		},
+	)
+
+	const handlePageChange = (newPage: number) => {
+		setCurrentPage(newPage)
+	}
+
+	const handleItemsPerPageChange = (value: string) => {
+		const newValue = value === 'all' ? 'all' : parseInt(value)
+		setItemsPerPage(newValue)
+		setCurrentPage(1)
+	}
 
 	const navigate = useNavigate()
 
@@ -96,7 +115,7 @@ export const BraceletElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData([])}
+					rowData={formatObjectsTableData(paginatedData)}
 					colTitles={tableTitles}
 					sortTitles={sortTableTitles}
 					rowClickHandler={rowClickHandler}
@@ -106,6 +125,10 @@ export const BraceletElements = () => {
 					downloadBtn
 					addText='Добавить привязку'
 					addClickHandler={addClickHandler}
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+					onLimitChange={handleItemsPerPageChange}
 					ticketStyle
 					importBtn
 				/>

@@ -14,6 +14,7 @@ import { VisitorFiltrationInputs } from './consts'
 import { useGetGuestsQuery } from 'src/store/events/events.api'
 import { type EventGuests } from 'src/types/events'
 import { formatDateTimeTicket } from 'src/helpers/utils'
+import { usePagination } from 'src/hooks/usePagination/usePagination'
 
 export const VisitorElements = () => {
 	const { id = '0' } = useParams()
@@ -41,6 +42,24 @@ export const VisitorElements = () => {
   }
 
   */
+
+	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
+		{
+			data: guestsData?.guests ?? [],
+			initialPage: 1,
+			initialItemsPerPage: 100,
+		},
+	)
+
+	const handlePageChange = (newPage: number) => {
+		setCurrentPage(newPage)
+	}
+
+	const handleItemsPerPageChange = (value: string) => {
+		const newValue = value === 'all' ? 'all' : parseInt(value)
+		setItemsPerPage(newValue)
+		setCurrentPage(1)
+	}
 
 	const navigate = useNavigate()
 
@@ -89,11 +108,15 @@ export const VisitorElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData(guestsData?.guests ?? [])}
+					rowData={formatObjectsTableData(paginatedData ?? [])}
 					colTitles={tableTitles}
 				/>
 				<TableFooter
 					totalElements={guestsData?.guests.length}
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+					onLimitChange={handleItemsPerPageChange}
 					addText='Добавить гостя'
 					addClickHandler={addClickHandler}
 					downloadBtn

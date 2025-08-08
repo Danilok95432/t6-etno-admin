@@ -274,6 +274,7 @@ export type EventParticipants = {
 	fio: string
 	phone: string
 	age: string
+	role: string
 	ticket_number: string
 	createdate: string
 	group: string

@@ -68,7 +68,11 @@ export const isEmptyHtml = (value: string) => {
 	return strippedValue.length > 0
 }
 
-export const formatDateTimeTicket = (inputDate: string): [string, string] => {
+export const formatDateTimeTicket = (
+	inputDate: string,
+	separator: string = '-',
+	withoutSeconds?: boolean,
+): [string, string] => {
 	const date = new Date(inputDate)
 
 	// Получаем компоненты даты
@@ -82,7 +86,9 @@ export const formatDateTimeTicket = (inputDate: string): [string, string] => {
 	const seconds = String(date.getSeconds()).padStart(2, '0')
 
 	// Формируем итоговую строку
-	return [`${day}-${month}-${year}`, `${hours}:${minutes}:${seconds}`]
+	if (withoutSeconds)
+		return [`${day}${separator}${month}${separator}${year}`, `${hours}:${minutes}`]
+	else return [`${day}${separator}${month}${separator}${year}`, `${hours}:${minutes}:${seconds}`]
 }
 
 // функция форматирования даты с локализацией

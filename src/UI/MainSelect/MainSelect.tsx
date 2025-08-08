@@ -9,13 +9,21 @@ import { SelectArrowSvg } from 'src/UI/icons/selectArrowSVG'
 type MainSelectProps = {
 	items: SelOption[]
 	wrapperClassName?: string
-} & SelectHTMLAttributes<HTMLSelectElement>
+	onChange?: (value: string) => void
+} & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'onChange'>
 
 export const MainSelect = React.forwardRef<HTMLSelectElement, MainSelectProps>((props, ref) => {
-	const { items, wrapperClassName } = props
+	const { items, wrapperClassName, onChange, ...rest } = props
+
+	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		if (onChange) {
+			onChange(e.target.value)
+		}
+	}
+
 	return (
 		<div className={cn(styles.selectWrapper, wrapperClassName)}>
-			<select {...props} ref={ref}>
+			<select {...rest} ref={ref} onChange={handleChange}>
 				{items.map((el) => (
 					<option key={el.value} value={el.value}>
 						{el.label}
