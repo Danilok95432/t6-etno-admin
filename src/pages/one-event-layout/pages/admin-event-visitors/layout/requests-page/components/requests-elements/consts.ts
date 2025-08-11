@@ -2,12 +2,12 @@ import { type FilterTableInput } from 'src/types/global'
 
 export const RequestsVisitorFiltrationInputs: FilterTableInput[] = [
 	{
-		name: 'title',
+		name: 'surname',
 		placeholder: 'искать по фамилии и имени посетителя...',
 		type: 'text',
 	},
 	{
-		name: 'surname',
+		name: 'group',
 		placeholder: 'искать по названию группы...',
 		type: 'text',
 	},

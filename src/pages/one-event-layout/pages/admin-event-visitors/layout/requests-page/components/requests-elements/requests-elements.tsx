@@ -10,8 +10,8 @@ import { TableFooter } from 'src/components/table-footer/table-footer'
 import { GridRow } from 'src/components/grid-row/grid-row'
 
 import styles from './index.module.scss'
-// import { useAppSelector } from 'src/hooks/store'
-// import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
+import { useAppSelector } from 'src/hooks/store'
+import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { RequestsVisitorFiltrationInputs } from './consts'
 import { usePagination } from 'src/hooks/usePagination/usePagination'
@@ -20,8 +20,12 @@ import { type EventRequests } from 'src/types/events'
 
 export const RequestsElements = () => {
 	const { id = '0' } = useParams()
-	const { data: requestsData, isLoading } = useGetRequestsQuery(id)
-	// const filterValues = useAppSelector(getFiltrationValues)
+	const filterValues = useAppSelector(getFiltrationValues)
+	const { data: requestsData, isLoading } = useGetRequestsQuery({
+		id,
+		surname: filterValues.surname,
+		region: filterValues.region,
+	})
 	/*
 
 	const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({

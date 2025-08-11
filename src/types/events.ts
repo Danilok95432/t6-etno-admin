@@ -280,6 +280,9 @@ export type EventParticipants = {
 	group: string
 	group_name: string
 	ticket_type: string
+	region_name: string
+	data_zaezd: string
+	data_viezd: string
 }
 
 export type EventRequestsResponse = {
@@ -312,4 +315,19 @@ export type EventRequestItem = {
 	event_role: string
 	region_name: string
 	city_name: string
+}
+
+export type EventGroups = {
+	id: string
+	fio: string
+	phone: string
+	region_name: string
+	data_zaezd: string
+	data_viezd: string
+	createdate: string
+	group_name: string
+}
+
+export type EventGroupsResponse = {
+	groups: EventGroups[]
 }

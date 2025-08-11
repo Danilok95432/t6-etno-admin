@@ -16,6 +16,7 @@ import {
 	type EventGuestsResponse,
 	type EventRequestsResponse,
 	type EventRequestItem,
+	type EventGroupsResponse,
 } from 'src/types/events'
 import { type FieldValues } from 'react-hook-form'
 
@@ -45,6 +46,7 @@ export const eventsApi = createApi({
 		'EventGuests',
 		'EventUsers',
 		'EventRequests',
+		'EventGroups',
 	],
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
@@ -333,11 +335,16 @@ export const eventsApi = createApi({
 			}),
 			providesTags: ['EventTickets'],
 		}),
-		getRequests: build.query<EventRequestsResponse, string>({
-			query: (id) => ({
+		getRequests: build.query<
+			EventRequestsResponse,
+			{ id: string; surname?: string; region?: string }
+		>({
+			query: ({ id, surname, region }) => ({
 				url: `events/requests`,
 				params: {
 					id_event: id,
+					surname,
+					region,
 				},
 			}),
 			providesTags: ['EventRequests'],
@@ -370,6 +377,15 @@ export const eventsApi = createApi({
 				},
 			}),
 			providesTags: ['EventUsers'],
+		}),
+		getGroups: build.query<EventGroupsResponse, string>({
+			query: (id) => ({
+				url: `events/groups`,
+				params: {
+					id_event: id,
+				},
+			}),
+			providesTags: ['EventGroups'],
 		}),
 	}),
 })
@@ -410,4 +426,5 @@ export const {
 	useGetUsersQuery,
 	useGetRequestsQuery,
 	useGetRequestInfoQuery,
+	useGetGroupsQuery,
 } = eventsApi

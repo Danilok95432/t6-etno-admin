@@ -2,7 +2,7 @@
 import { type FC } from 'react'
 import styles from './index.module.scss'
 import { StatusRequestList } from 'src/components/status-request-lists/status-request-lists'
-import { formatDateTimeTicket } from 'src/helpers/utils'
+import { formatDateTimeTicket, participantInfoParser } from 'src/helpers/utils'
 import { type EventRequestItem } from 'src/types/events'
 
 type MainSectionProps = {
@@ -56,8 +56,8 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 							{data?.group_users?.map((el, ind) => {
 								return (
 									<li key={ind}>
-										<span className={styles.bold}>{el}</span>
-										<span>{ind}</span>
+										<span className={styles.bold}>{participantInfoParser(el)[0]}</span>
+										<span>{participantInfoParser(el)[1]}</span>
 									</li>
 								)
 							})}

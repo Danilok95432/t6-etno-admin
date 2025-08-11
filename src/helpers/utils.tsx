@@ -68,10 +68,38 @@ export const isEmptyHtml = (value: string) => {
 	return strippedValue.length > 0
 }
 
+export const participantInfoParser = (input: string): [string, string] => {
+	const trimmed = input.trim()
+	const matches = trimmed.match(/^(.+?)\s*\(\s*\)\s*\[(\d+)\]$/)
+
+	if (!matches || matches.length < 3) {
+		throw new Error('Неверный формат строки')
+	}
+	return [matches[1].trim(), matches[2]]
+}
+
+export const zaezdFormat = (dates: [string, string]): string => {
+	if (dates.length !== 2) {
+		throw new Error('Массив должен содержать ровно 2 даты')
+	}
+
+	const formatDate = (dateStr: string): string => {
+		const date = new Date(dateStr)
+		const day = date.getDate().toString().padStart(2, '0')
+		const month = (date.getMonth() + 1).toString().padStart(2, '0')
+		const year = date.getFullYear().toString().slice(-2)
+		return `${day}.${month}.${year}`
+	}
+
+	const [firstDate, secondDate] = dates
+	return `${formatDate(firstDate)}-${formatDate(secondDate)}`
+}
+
 export const formatDateTimeTicket = (
 	inputDate: string,
 	separator: string = '-',
 	withoutSeconds?: boolean,
+	withoutTime?: boolean,
 ): [string, string] => {
 	if (inputDate === '') return ['Неверный формат даты', '']
 	const date = new Date(inputDate)
@@ -89,6 +117,7 @@ export const formatDateTimeTicket = (
 	// Формируем итоговую строку
 	if (withoutSeconds)
 		return [`${day}${separator}${month}${separator}${year}`, `${hours}:${minutes}`]
+	if (withoutTime) return [`${day}${separator}${month}${separator}${year}`, '']
 	else return [`${day}${separator}${month}${separator}${year}`, `${hours}:${minutes}:${seconds}`]
 }
 

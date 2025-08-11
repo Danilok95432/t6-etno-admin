@@ -14,7 +14,7 @@ import { VisitorFiltrationInputs } from './consts'
 import { useGetUsersQuery } from 'src/store/events/events.api'
 import { type EventParticipants } from 'src/types/events'
 import Select from 'react-dropdown-select'
-import { formatDateTimeTicket } from 'src/helpers/utils'
+import { formatDateTimeTicket, zaezdFormat } from 'src/helpers/utils'
 import { usePagination } from 'src/hooks/usePagination/usePagination'
 
 export const ParticipantElements = () => {
@@ -83,7 +83,7 @@ export const ParticipantElements = () => {
 					<p key='2'>{userEl.phone}</p>,
 					<p key='3'>{userEl.role}</p>,
 					<p key='4'>{userEl.ticket_number}</p>,
-					<p key='5'>{userEl.ticket_type}</p>,
+					<p key='5'>{userEl.region_name}</p>,
 					<p key='6'>{formatDateTimeTicket(userEl.createdate)}</p>,
 					<p key='7' onClick={(e) => e.stopPropagation()}>
 						{
@@ -100,7 +100,9 @@ export const ParticipantElements = () => {
 							/>
 						}
 					</p>,
-					<p key='8'>{'-'}</p>,
+					<p key='8'>
+						{zaezdFormat([String(userEl.data_zaezd), String(userEl.data_viezd.toString())])}
+					</p>,
 				],
 			}
 		})

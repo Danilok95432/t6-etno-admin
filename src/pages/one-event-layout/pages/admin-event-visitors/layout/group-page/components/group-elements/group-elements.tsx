@@ -1,15 +1,11 @@
-import { type NewsItem } from 'src/types/news'
-import { useNavigate } from 'react-router-dom'
-import cn from 'classnames'
+import { useNavigate, useParams } from 'react-router-dom'
 
-import { mainFormatDate } from 'src/helpers/utils'
+import { formatDateTimeTicket, zaezdFormat } from 'src/helpers/utils'
 
 import { CustomTable } from 'src/components/custom-table/custom-table'
-// import { Loader } from 'src/components/loader/loader'
+import { Loader } from 'src/components/loader/loader'
 import { TableFooter } from 'src/components/table-footer/table-footer'
 import { GridRow } from 'src/components/grid-row/grid-row'
-import { MainCheckBox } from 'src/UI/MainCheckBox/MainCheckBox'
-import { CheckMarkSvg } from 'src/UI/icons/checkMarkSVG'
 
 import styles from './index.module.scss'
 // import { useAppSelector } from 'src/hooks/store'
@@ -17,9 +13,12 @@ import styles from './index.module.scss'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { GroupsFiltrationInputs } from './consts'
 import { usePagination } from 'src/hooks/usePagination/usePagination'
+import { useGetGroupsQuery } from 'src/store/events/events.api'
+import { type EventGroups } from 'src/types/events'
 
 export const GroupElements = () => {
-	// const { id = '0' } = useParams()
+	const { id = '0' } = useParams()
+	const { data: groupsData, isLoading } = useGetGroupsQuery(id)
 	// const filterValues = useAppSelector(getFiltrationValues)
 	/*
 
@@ -42,7 +41,7 @@ export const GroupElements = () => {
 
 	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
 		{
-			data: [],
+			data: groupsData?.groups ?? [],
 			initialPage: 1,
 			initialItemsPerPage: 100,
 		},
@@ -71,27 +70,22 @@ export const GroupElements = () => {
 		'Регистрация',
 		'Заезд и выезд',
 	]
-	const formatObjectsTableData = (newsData: NewsItem[]) => {
-		return newsData.map((newsEl) => {
+	const formatObjectsTableData = (groupsData: EventGroups[]) => {
+		return groupsData.map((groupEl) => {
 			return {
-				rowId: newsEl.id,
+				rowId: groupEl.id,
 				cells: [
-					<p className={cn({ 'hidden-cell-icon': newsEl.hidden }, styles.titleNewsTable)} key='0'>
-						{newsEl.title}
+					<p key='0'>{groupEl.group_name}</p>,
+					<p key='1'>{'-'}</p>,
+					<p key='2'>{groupEl.fio}</p>,
+					<p key='3'>{groupEl.phone}</p>,
+					<p key='4'>{'-'}</p>,
+					<p key='5'>{'-'}</p>,
+					<p key='6'>{groupEl.region_name}</p>,
+					<p key='7'>{formatDateTimeTicket(String(groupEl.createdate), '-', false, true)}</p>,
+					<p key='8'>
+						{zaezdFormat([String(groupEl.data_zaezd), String(groupEl.data_viezd.toString())])}
 					</p>,
-					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='1'>
-						{mainFormatDate(newsEl.date)}
-					</p>,
-					<p className={cn({ 'hidden-cell': newsEl.hidden })} key='2'>
-						{newsEl.tags}
-					</p>,
-					<MainCheckBox
-						key='3'
-						checked={newsEl.main}
-						disabled={true}
-						svgNode={<CheckMarkSvg />}
-						className={styles.checkBoxWrapperNews}
-					/>,
 				],
 			}
 		})
@@ -101,7 +95,7 @@ export const GroupElements = () => {
 		navigate(`/news/news-list/${id}`)
 	}
 
-	// if (isLoading || !newsDataResponse?.news) return <Loader />
+	if (isLoading || !groupsData?.groups) return <Loader />
 
 	return (
 		<>
@@ -116,7 +110,7 @@ export const GroupElements = () => {
 					rowClickHandler={rowClickHandler}
 				/>
 				<TableFooter
-					totalElements={0}
+					totalElements={groupsData?.groups.length}
 					currentPage={currentPage}
 					totalPages={totalPages}
 					onPageChange={handlePageChange}
