@@ -84,7 +84,7 @@ export const ParticipantElements = () => {
 					<p key='3'>{userEl.role}</p>,
 					<p key='4'>{userEl.ticket_number}</p>,
 					<p key='5'>{userEl.region_name}</p>,
-					<p key='6'>{formatDateTimeTicket(userEl.createdate)}</p>,
+					<p key='6'>{formatDateTimeTicket(String(userEl.createdate), '-', false, true)}</p>,
 					<p key='7' onClick={(e) => e.stopPropagation()}>
 						{
 							<Select

@@ -79,8 +79,8 @@ export const GroupElements = () => {
 					<p key='1'>{'-'}</p>,
 					<p key='2'>{groupEl.fio}</p>,
 					<p key='3'>{groupEl.phone}</p>,
-					<p key='4'>{'-'}</p>,
-					<p key='5'>{'-'}</p>,
+					<p key='4'>{groupEl.group_count}</p>,
+					<p key='5'>{groupEl.ticket_number}</p>,
 					<p key='6'>{groupEl.region_name}</p>,
 					<p key='7'>{formatDateTimeTicket(String(groupEl.createdate), '-', false, true)}</p>,
 					<p key='8'>

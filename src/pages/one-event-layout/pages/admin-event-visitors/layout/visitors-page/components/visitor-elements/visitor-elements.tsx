@@ -13,7 +13,7 @@ import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { VisitorFiltrationInputs } from './consts'
 import { useGetGuestsQuery } from 'src/store/events/events.api'
 import { type EventGuests } from 'src/types/events'
-import { formatDateTimeTicket } from 'src/helpers/utils'
+import { formatDateTimeTicket, zaezdFormat } from 'src/helpers/utils'
 import { usePagination } from 'src/hooks/usePagination/usePagination'
 
 export const VisitorElements = () => {
@@ -85,9 +85,11 @@ export const VisitorElements = () => {
 					<p key='2'>{guestEl.phone}</p>,
 					<p key='3'>{guestEl.role}</p>,
 					<p key='4'>{guestEl.ticket}</p>,
-					<p key='5'>{'-'}</p>,
-					<p key='6'>{formatDateTimeTicket(guestEl.createdate)}</p>,
-					<p key='7'>{'-'}</p>,
+					<p key='5'>{guestEl.region_name}</p>,
+					<p key='6'>{formatDateTimeTicket(String(guestEl.createdate), '-', false, true)}</p>,
+					<p key='7'>
+						{zaezdFormat([String(guestEl.data_zaezd), String(guestEl.data_viezd.toString())])}
+					</p>,
 				],
 			}
 		})

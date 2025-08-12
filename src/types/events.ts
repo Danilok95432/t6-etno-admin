@@ -263,6 +263,9 @@ export type EventGuests = {
 	role: string
 	ticket: string
 	createdate: string
+	region_name: string
+	data_zaezd: string
+	data_viezd: string
 }
 
 export type EventParticipantsResponse = {
@@ -308,7 +311,7 @@ export type EventRequestItem = {
 	statusname: string
 	statusdate: string
 	sub_events: string[]
-	cars: [{type: string, number: string, id: string}]
+	cars: [{ type: string; number: string; id: string }]
 	services: string[]
 	is_group: number
 	group_users: string[]
@@ -326,6 +329,9 @@ export type EventGroups = {
 	data_viezd: string
 	createdate: string
 	group_name: string
+	ticket_number: string
+	role_name: string
+	group_count: string
 }
 
 export type EventGroupsResponse = {
