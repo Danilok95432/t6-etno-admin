@@ -318,6 +318,7 @@ export type EventRequestItem = {
 	event_role: string
 	region_name: string
 	city_name: string
+	dopinfo: string
 }
 
 export type EventGroups = {

@@ -8,8 +8,8 @@ import { TableFooter } from 'src/components/table-footer/table-footer'
 import { GridRow } from 'src/components/grid-row/grid-row'
 
 import styles from './index.module.scss'
-// import { useAppSelector } from 'src/hooks/store'
-// import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
+import { useAppSelector } from 'src/hooks/store'
+import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { GroupsFiltrationInputs } from './consts'
 import { usePagination } from 'src/hooks/usePagination/usePagination'
@@ -18,8 +18,12 @@ import { type EventGroups } from 'src/types/events'
 
 export const GroupElements = () => {
 	const { id = '0' } = useParams()
-	const { data: groupsData, isLoading } = useGetGroupsQuery(id)
-	// const filterValues = useAppSelector(getFiltrationValues)
+	const filterValues = useAppSelector(getFiltrationValues)
+	const { data: groupsData, isLoading } = useGetGroupsQuery({
+		id,
+		phone: filterValues.phone,
+		surname: filterValues.surname,
+	})
 	/*
 
 	const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({
@@ -76,7 +80,7 @@ export const GroupElements = () => {
 				rowId: groupEl.id,
 				cells: [
 					<p key='0'>{groupEl.group_name}</p>,
-					<p key='1'>{'-'}</p>,
+					<p key='1'>{groupEl.role_name}</p>,
 					<p key='2'>{groupEl.fio}</p>,
 					<p key='3'>{groupEl.phone}</p>,
 					<p key='4'>{groupEl.group_count}</p>,

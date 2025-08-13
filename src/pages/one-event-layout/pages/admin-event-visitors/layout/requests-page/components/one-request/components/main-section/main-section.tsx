@@ -38,8 +38,26 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 					</div>
 					<div className={styles.infoWrapper}>
 						<span>Тип группы</span>
-						<p>Группа</p>
+						<p>{data?.event_role}</p>
 					</div>
+					{data?.event_role === 'Торговля' && (
+						<div className={styles.infoWrapper}>
+							<span>Описание товаров</span>
+							<p>{data?.dopinfo}</p>
+						</div>
+					)}
+					{data?.event_role === 'Пресса' && (
+						<div className={styles.infoWrapper}>
+							<span>Название издания, студии или канала</span>
+							<p>{data?.dopinfo}</p>
+						</div>
+					)}
+					{data?.event_role === 'Мастера' && (
+						<div className={styles.infoWrapper}>
+							<span>Название промысла</span>
+							<p>{data?.dopinfo}</p>
+						</div>
+					)}
 				</div>
 				<div className={styles.listBlock}>
 					<div className={styles.infoWrapper}>
@@ -115,6 +133,24 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 					<span>Выбранная роль</span>
 					<p>{data?.event_role}</p>
 				</div>
+				{data?.event_role === 'Торговля' && (
+					<div className={styles.infoWrapper}>
+						<span>Описание товаров</span>
+						<p>{data?.dopinfo}</p>
+					</div>
+				)}
+				{data?.event_role === 'Пресса' && (
+					<div className={styles.infoWrapper}>
+						<span>Название издания, студии или канала</span>
+						<p>{data?.dopinfo}</p>
+					</div>
+				)}
+				{data?.event_role === 'Мастера' && (
+					<div className={styles.infoWrapper}>
+						<span>Название промысла</span>
+						<p>{data?.dopinfo}</p>
+					</div>
+				)}
 			</div>
 			<div className={styles.listBlock}>
 				<div className={styles.infoWrapper}>

@@ -2,7 +2,7 @@ import { type FilterTableInput } from 'src/types/global'
 
 export const GroupsFiltrationInputs: FilterTableInput[] = [
 	{
-		name: 'title',
+		name: 'phone',
 		placeholder: 'искать по номеру телефона',
 		type: 'text',
 	},

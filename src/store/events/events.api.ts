@@ -378,11 +378,13 @@ export const eventsApi = createApi({
 			}),
 			providesTags: ['EventUsers'],
 		}),
-		getGroups: build.query<EventGroupsResponse, string>({
-			query: (id) => ({
+		getGroups: build.query<EventGroupsResponse, { id: string; phone?: string; surname?: string }>({
+			query: ({ id, phone, surname }) => ({
 				url: `events/groups`,
 				params: {
 					id_event: id,
+					phone,
+					surname,
 				},
 			}),
 			providesTags: ['EventGroups'],
