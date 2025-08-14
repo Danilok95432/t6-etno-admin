@@ -11,15 +11,14 @@ import styles from './index.module.scss'
 // import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { VisitorFiltrationInputs } from './consts'
-import { useGetUsersQuery } from 'src/store/events/events.api'
-import { type EventParticipants } from 'src/types/events'
-import Select from 'react-dropdown-select'
-import { formatDateTimeTicket, zaezdFormat } from 'src/helpers/utils'
+import { useGetUsersSecondRequestQuery } from 'src/store/events/events.api'
+import { type EventParticipantsSecond } from 'src/types/events'
 import { usePagination } from 'src/hooks/usePagination/usePagination'
 
 export const ParticipantElements = () => {
 	const { id = '0' } = useParams()
-	const { data: usersData, isLoading } = useGetUsersQuery(id)
+	// const { data: usersData, isLoading } = useGetUsersQuery(id)
+	const { data: usersData, isLoading } = useGetUsersSecondRequestQuery(id)
 	// const filterValues = useAppSelector(getFiltrationValues)
 	/*
 
@@ -65,13 +64,12 @@ export const ParticipantElements = () => {
 		'Группа участников',
 		'Номер телефона',
 		'Участие',
+		'Допуск',
 		'Билет',
 		'Регион',
-		'Регистрация',
-		'Допуск',
-		'Заезд и выезд',
 	]
-	const formatObjectsTableData = (users: EventParticipants[]) => {
+
+	const formatObjectsTableData = (users: EventParticipantsSecond[]) => {
 		return users.map((userEl) => {
 			return {
 				rowId: userEl.id,
@@ -81,28 +79,10 @@ export const ParticipantElements = () => {
 					</p>,
 					<p key='1'>{userEl.group === 'да' || userEl.group === 'Да' ? userEl.group_name : '-'}</p>,
 					<p key='2'>{userEl.phone}</p>,
-					<p key='3'>{userEl.role}</p>,
-					<p key='4'>{userEl.ticket_number}</p>,
-					<p key='5'>{userEl.region_name}</p>,
-					<p key='6'>{formatDateTimeTicket(String(userEl.createdate), '-', false, true)}</p>,
-					<p key='7' onClick={(e) => e.stopPropagation()}>
-						{
-							<Select
-								className={cn(styles.filterInput, styles._select)}
-								options={[
-									{ label: 'Допущен', value: '0' },
-									{ label: 'Ожидает', value: '1' },
-								]}
-								values={[{ label: 'Допущен', value: '0' }]}
-								onChange={(selectedValues) => selectedValues}
-								searchable={false}
-								dropdownPosition='auto'
-							/>
-						}
-					</p>,
-					<p key='8'>
-						{zaezdFormat([String(userEl.data_zaezd), String(userEl.data_viezd.toString())])}
-					</p>,
+					<p key='3'>{userEl.roles}</p>,
+					<p key='4'>{userEl.dopusk}</p>,
+					<p key='5'>{userEl.ticket_number}</p>,
+					<p key='6'>{userEl.region_name}</p>,
 				],
 			}
 		})

@@ -3,6 +3,9 @@
 		minmax(300px, 300px)
 		minmax(300px, 300px)
 		minmax(300px, 300px);
+	@media (max-width: 1440px) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
 }
 
 .newsTable {

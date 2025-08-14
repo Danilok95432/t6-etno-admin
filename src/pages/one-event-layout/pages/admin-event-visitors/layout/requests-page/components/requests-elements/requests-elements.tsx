@@ -25,6 +25,7 @@ export const RequestsElements = () => {
 		id,
 		surname: filterValues.surname,
 		region: filterValues.region,
+		roleName: filterValues.role_name,
 	})
 	/*
 

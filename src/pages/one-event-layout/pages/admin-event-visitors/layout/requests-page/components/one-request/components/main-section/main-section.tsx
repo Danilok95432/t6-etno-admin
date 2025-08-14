@@ -29,6 +29,12 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 						</p>
 					</div>
 					<div className={styles.infoWrapper}>
+						<span>Номер телефона автора заявки</span>
+						<p className={styles.author}>
+							<p>{data?.phone}</p>
+						</p>
+					</div>
+					<div className={styles.infoWrapper}>
 						<span>Название события</span>
 						<p>{data.event}</p>
 					</div>
@@ -123,6 +129,12 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 					<p className={styles.author}>
 						<strong>{data?.fio}</strong>
 						<span>{data?.id_reg_user}</span>
+					</p>
+				</div>
+				<div className={styles.infoWrapper}>
+					<span>Номер телефона автора заявки</span>
+					<p className={styles.author}>
+						<p>{data?.phone}</p>
 					</p>
 				</div>
 				<div className={styles.infoWrapper}>

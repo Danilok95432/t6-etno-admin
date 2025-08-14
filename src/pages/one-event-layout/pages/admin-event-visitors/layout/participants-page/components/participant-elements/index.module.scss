@@ -6,19 +6,20 @@
   minmax(215px, 1fr)
   minmax(215px, 1fr)
   minmax(300px, 1fr);
+  @media (max-width: 1440px) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
 }
 
 .newsTable {
   grid-template-columns:
   minmax(250px, 1fr)
   minmax(224px, 1fr)
-  minmax(126px, 126px)
-  minmax(115px, 115px)
-  minmax(100px, 100px)
-  minmax(180px, 1fr)
-  minmax(104px, 1fr)
-  minmax(124px, 1fr)
-  minmax(124px, 1fr);
+  minmax(126px, 1fr)
+  minmax(115px, 1fr)
+  minmax(125px, 1fr)
+  minmax(100px, 1fr)
+  minmax(180px, 1fr);
   .checkBoxWrapperNews {
     margin: 14px auto auto 25px;
   }
@@ -38,6 +39,7 @@ div._select {
   border-radius: 3px;
   max-height: 34px;
   min-height: 34px;
+  min-width: 125px;
 }
 
 .eventNewsContainer {

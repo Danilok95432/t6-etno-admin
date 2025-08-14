@@ -286,6 +286,25 @@ export type EventParticipants = {
 	region_name: string
 	data_zaezd: string
 	data_viezd: string
+	status: string
+	id_reg_status: string
+	sub_event: string
+}
+
+export type EventParticipantsResponseSecond = {
+	users: EventParticipantsSecond[]
+}
+
+export type EventParticipantsSecond = {
+	id: string
+	fio: string
+	group_name: string
+	group: string
+	phone: string
+	roles: string
+	dopusk: string
+	ticket_number: string
+	region_name: string
 }
 
 export type EventRequestsResponse = {
@@ -319,6 +338,7 @@ export type EventRequestItem = {
 	region_name: string
 	city_name: string
 	dopinfo: string
+	phone: string
 }
 
 export type EventGroups = {

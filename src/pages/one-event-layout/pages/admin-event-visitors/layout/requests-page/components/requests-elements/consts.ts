@@ -18,10 +18,19 @@ export const RequestsVisitorFiltrationInputs: FilterTableInput[] = [
 		options: [{ label: 'Не выбран', value: '0' }],
 	},
 	{
-		name: 'turniket',
-		placeholder: 'тип группы',
+		name: 'role_name',
+		placeholder: 'тип участия',
 		type: 'select',
-		options: [{ label: 'Не выбран', value: '0' }],
+		options: [
+			{ label: 'Не выбран', value: '0' },
+			{ label: 'Этноспорт', value: '2' },
+			{ label: 'Фольклор', value: '4' },
+			{ label: 'Мастера', value: '7' },
+			{ label: 'Торговля', value: '8' },
+			{ label: 'Волонтеры', value: '6' },
+			{ label: 'Организаторы', value: '3' },
+			{ label: 'Пресса', value: '5' },
+		],
 	},
 	{
 		name: 'region',

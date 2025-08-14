@@ -17,6 +17,7 @@ import {
 	type EventRequestsResponse,
 	type EventRequestItem,
 	type EventGroupsResponse,
+	type EventParticipantsResponseSecond,
 } from 'src/types/events'
 import { type FieldValues } from 'react-hook-form'
 
@@ -46,6 +47,7 @@ export const eventsApi = createApi({
 		'EventGuests',
 		'EventUsers',
 		'EventRequests',
+		'EventRequestInfo',
 		'EventGroups',
 	],
 	baseQuery: baseQueryWithReauth,
@@ -337,14 +339,15 @@ export const eventsApi = createApi({
 		}),
 		getRequests: build.query<
 			EventRequestsResponse,
-			{ id: string; surname?: string; region?: string }
+			{ id: string; surname?: string; region?: string; roleName?: string }
 		>({
-			query: ({ id, surname, region }) => ({
+			query: ({ id, surname, region, roleName }) => ({
 				url: `events/requests`,
 				params: {
 					id_event: id,
 					surname,
 					region,
+					id_event_role: roleName,
 				},
 			}),
 			providesTags: ['EventRequests'],
@@ -356,7 +359,25 @@ export const eventsApi = createApi({
 					id_request: id,
 				},
 			}),
-			providesTags: ['EventRequests'],
+			providesTags: ['EventRequests', 'EventRequestInfo'],
+		}),
+		getAcceptStatusRequest: build.mutation<{ status?: string }, string>({
+			query: (id) => ({
+				url: `events/request_accept`,
+				params: {
+					id_request: id,
+				},
+			}),
+			invalidatesTags: ['EventRequests', 'EventRequestInfo'],
+		}),
+		getDeclineStatusRequest: build.mutation<{ status?: string }, string>({
+			query: (id) => ({
+				url: `events/request_decline`,
+				params: {
+					id_request: id,
+				},
+			}),
+			invalidatesTags: ['EventRequests', 'EventRequestInfo'],
 		}),
 		getGuests: build.query<EventGuestsResponse, { id: string; phone?: string; surname?: string }>({
 			query: ({ id, phone, surname }) => ({
@@ -372,6 +393,15 @@ export const eventsApi = createApi({
 		getUsers: build.query<EventParticipantsResponse, string>({
 			query: (id) => ({
 				url: `events/users`,
+				params: {
+					id_event: id,
+				},
+			}),
+			providesTags: ['EventUsers'],
+		}),
+		getUsersSecondRequest: build.query<EventParticipantsResponseSecond, string>({
+			query: (id) => ({
+				url: `events/users_new`,
 				params: {
 					id_event: id,
 				},
@@ -429,4 +459,7 @@ export const {
 	useGetRequestsQuery,
 	useGetRequestInfoQuery,
 	useGetGroupsQuery,
+	useGetAcceptStatusRequestMutation,
+	useGetDeclineStatusRequestMutation,
+	useGetUsersSecondRequestQuery,
 } = eventsApi
