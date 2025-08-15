@@ -64,6 +64,7 @@ export const ParticipantElements = () => {
 		'Группа участников',
 		'Номер телефона',
 		'Участие',
+		'Вид',
 		'Допуск',
 		'Билет',
 		'Регион',
@@ -80,9 +81,10 @@ export const ParticipantElements = () => {
 					<p key='1'>{userEl.group === 'да' || userEl.group === 'Да' ? userEl.group_name : '-'}</p>,
 					<p key='2'>{userEl.phone}</p>,
 					<p key='3'>{userEl.roles}</p>,
-					<p key='4'>{userEl.dopusk}</p>,
-					<p key='5'>{userEl.ticket_number}</p>,
-					<p key='6'>{userEl.region_name}</p>,
+					<p key='4'>{userEl.vids ?? '-'}</p>,
+					<p key='5'>{userEl.dopusk}</p>,
+					<p key='6'>{userEl.ticket_number}</p>,
+					<p key='7'>{userEl.region_name}</p>,
 				],
 			}
 		})
@@ -90,7 +92,11 @@ export const ParticipantElements = () => {
 
 	const addClickHandler = () => {
 		// const newId = await addNews()
-		navigate(`/event/event-visitors/1/participants/1`)
+		navigate(`/event/event-visitors/${id}/participants/new`)
+	}
+
+	const rowClickHandler = (subId: string) => {
+		navigate(`/event/event-visitors/${id}/participants/${subId}`)
 	}
 
 	if (isLoading || !usersData?.users) return <Loader />
@@ -105,6 +111,7 @@ export const ParticipantElements = () => {
 					className={styles.newsTable}
 					rowData={formatObjectsTableData(paginatedData ?? [])}
 					colTitles={tableTitles}
+					rowClickHandler={rowClickHandler}
 				/>
 				<TableFooter
 					totalElements={usersData?.users.length}

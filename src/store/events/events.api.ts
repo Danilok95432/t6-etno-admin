@@ -18,6 +18,7 @@ import {
 	type EventRequestItem,
 	type EventGroupsResponse,
 	type EventParticipantsResponseSecond,
+	type EventGuestCardResponse,
 } from 'src/types/events'
 import { type FieldValues } from 'react-hook-form'
 
@@ -390,6 +391,15 @@ export const eventsApi = createApi({
 			}),
 			providesTags: ['EventGuests'],
 		}),
+		getGuestInfo: build.query<EventGuestCardResponse, string>({
+			query: (id) => ({
+				url: `events/guest_card`,
+				params: {
+					id_guest_user: id,
+				},
+			}),
+			providesTags: ['EventGuests'],
+		}),
 		getUsers: build.query<EventParticipantsResponse, string>({
 			query: (id) => ({
 				url: `events/users`,
@@ -462,4 +472,5 @@ export const {
 	useGetAcceptStatusRequestMutation,
 	useGetDeclineStatusRequestMutation,
 	useGetUsersSecondRequestQuery,
+	useGetGuestInfoQuery,
 } = eventsApi

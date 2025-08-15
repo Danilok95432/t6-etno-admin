@@ -112,7 +112,7 @@ export const OneGroup = () => {
 							</AdminButton>
 							<AdminButton
 								as='route'
-								to={`/${AdminRoute.AdminEventLayout}/${AdminRoute.AdminEventsList}`}
+								to={`/${AdminRoute.AdminEvent}/${AdminRoute.AdminEventVisitors}/${id}/${AdminRoute.Groups}`}
 								$variant='cancel'
 							>
 								Отменить изменения

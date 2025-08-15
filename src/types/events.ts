@@ -254,6 +254,10 @@ export type EventGuestsResponse = {
 	guests: EventGuests[]
 }
 
+export type EventGuestCardResponse = {
+	guest: EventGuests
+}
+
 export type EventGuests = {
 	id: string
 	fio: string
@@ -265,7 +269,12 @@ export type EventGuests = {
 	createdate: string
 	region_name: string
 	data_zaezd: string
+	event: string
 	data_viezd: string
+	cars: string[]
+	id_guest_user: string
+	use_group: string
+	group_name: string
 }
 
 export type EventParticipantsResponse = {
@@ -305,6 +314,9 @@ export type EventParticipantsSecond = {
 	dopusk: string
 	ticket_number: string
 	region_name: string
+	cars: [{ type: string; number: string; id: string }]
+	sub_events: string[]
+	vids: string
 }
 
 export type EventRequestsResponse = {
@@ -320,6 +332,7 @@ export type EventRequests = {
 	createdate: string
 	statusname: string
 	event_role: string
+	vid: string
 }
 
 export type EventRequestItem = {
@@ -339,6 +352,7 @@ export type EventRequestItem = {
 	city_name: string
 	dopinfo: string
 	phone: string
+	vid: string
 }
 
 export type EventGroups = {
@@ -357,4 +371,15 @@ export type EventGroups = {
 
 export type EventGroupsResponse = {
 	groups: EventGroups[]
+}
+
+export type EventInspectors = {
+	id: string
+	fio: string
+	points: string
+	comment: string
+}
+
+export type EventInspectorsResponse = {
+	inspectors: EventInspectors[]
 }

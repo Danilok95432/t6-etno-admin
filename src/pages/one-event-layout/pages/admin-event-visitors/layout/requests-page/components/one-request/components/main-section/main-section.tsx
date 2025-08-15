@@ -35,6 +35,12 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 						</p>
 					</div>
 					<div className={styles.infoWrapper}>
+						<span>Регион</span>
+						<p className={styles.author}>
+							<p>{data?.region_name}</p>
+						</p>
+					</div>
+					<div className={styles.infoWrapper}>
 						<span>Название события</span>
 						<p>{data.event}</p>
 					</div>
@@ -66,48 +72,50 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 					)}
 				</div>
 				<div className={styles.listBlock}>
+					{data?.sub_events && data?.sub_events.length > 0 && (
+						<div className={styles.infoWrapper}>
+							<span className={styles.listTitle}>Выбранные подсобытия</span>
+							<ul className={styles.list}>
+								{data?.sub_events.map((el, ind) => {
+									return <li key={ind}>{el}</li>
+								})}
+							</ul>
+						</div>
+					)}
 					<div className={styles.infoWrapper}>
-						<span className={styles.listTitle}>Выбранные подсобытия</span>
-						<ul className={styles.list}>
-							{data?.sub_events.map((el, ind) => {
-								return <li key={ind}>{el}</li>
-							})}
-						</ul>
+						<span className={styles.listTitle}>Вид</span>
+						<p>{data?.vid ?? '-'}</p>
 					</div>
-					<div className={styles.infoWrapper}>
-						<span className={styles.listTitle}>Выбранные участники</span>
-						<ul className={styles.list}>
-							{data?.group_users?.map((el, ind) => {
-								return (
-									<li key={ind}>
-										<span className={styles.bold}>{participantInfoParser(el)[0]}</span>
-										<span>{participantInfoParser(el)[1]}</span>
-									</li>
-								)
-							})}
-						</ul>
-					</div>
-					<div className={styles.infoWrapper}>
-						<span className={styles.listTitle}>Транспортные средства</span>
-						<ul className={styles.list}>
-							{data?.cars?.map((el) => {
-								return (
-									<li key={el.id}>
-										<span className={styles.bold}>{el.type}</span>
-										<span>{el.number}</span>
-									</li>
-								)
-							})}
-						</ul>
-					</div>
-					<div className={styles.infoWrapper}>
-						<span className={styles.listTitle}>Выбранные сервисы</span>
-						<ul className={styles.list}>
-							{data?.services?.map((el, ind) => {
-								return <li key={ind}>{el}</li>
-							})}
-						</ul>
-					</div>
+					{data?.group_users && data?.group_users.length > 0 && (
+						<div className={styles.infoWrapper}>
+							<span className={styles.listTitle}>Выбранные участники</span>
+							<ul className={styles.list}>
+								{data?.group_users?.map((el, ind) => {
+									return (
+										<li key={ind}>
+											<span className={styles.bold}>{participantInfoParser(el)[0]}</span>
+											<span>{participantInfoParser(el)[1]}</span>
+										</li>
+									)
+								})}
+							</ul>
+						</div>
+					)}
+					{data?.cars && data?.cars.length > 0 && (
+						<div className={styles.infoWrapper}>
+							<span className={styles.listTitle}>Транспортные средства</span>
+							<ul className={styles.list}>
+								{data?.cars.map((el) => {
+									return (
+										<li key={el.id}>
+											<span className={styles.bold}>{el.type}</span>
+											<span>{el.number}</span>
+										</li>
+									)
+								})}
+							</ul>
+						</div>
+					)}
 					<div className={styles.infoWrapper}>
 						<span>Заявка подана:</span>
 						<div className={styles.createdate}>
@@ -138,6 +146,12 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 					</p>
 				</div>
 				<div className={styles.infoWrapper}>
+					<span>Регион</span>
+					<p className={styles.author}>
+						<p>{data?.region_name}</p>
+					</p>
+				</div>
+				<div className={styles.infoWrapper}>
 					<span>Название события</span>
 					<p>{data?.event}</p>
 				</div>
@@ -165,35 +179,35 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 				)}
 			</div>
 			<div className={styles.listBlock}>
+				{data?.sub_events && data?.sub_events.length > 0 && (
+					<div className={styles.infoWrapper}>
+						<span className={styles.listTitle}>Выбранные подсобытия</span>
+						<ul className={styles.list}>
+							{data?.sub_events.map((el, ind) => {
+								return <li key={ind}>{el}</li>
+							})}
+						</ul>
+					</div>
+				)}
 				<div className={styles.infoWrapper}>
-					<span className={styles.listTitle}>Выбранные подсобытия</span>
-					<ul className={styles.list}>
-						{data?.sub_events.map((el, ind) => {
-							return <li key={ind}>{el}</li>
-						})}
-					</ul>
+					<span className={styles.listTitle}>Вид</span>
+					<p>{data?.vid ?? '-'}</p>
 				</div>
-				<div className={styles.infoWrapper}>
-					<span className={styles.listTitle}>Транспортные средства</span>
-					<ul className={styles.list}>
-						{data?.cars.map((el) => {
-							return (
-								<li key={el.id}>
-									<span className={styles.bold}>{el.type}</span>
-									<span>{el.number}</span>
-								</li>
-							)
-						})}
-					</ul>
-				</div>
-				<div className={styles.infoWrapper}>
-					<span className={styles.listTitle}>Выбранные сервисы</span>
-					<ul className={styles.list}>
-						{data?.services?.map((el, ind) => {
-							return <li key={ind}>{el}</li>
-						})}
-					</ul>
-				</div>
+				{data?.cars && data?.cars.length > 0 && (
+					<div className={styles.infoWrapper}>
+						<span className={styles.listTitle}>Транспортные средства</span>
+						<ul className={styles.list}>
+							{data?.cars.map((el) => {
+								return (
+									<li key={el.id}>
+										<span className={styles.bold}>{el.type}</span>
+										<span>{el.number}</span>
+									</li>
+								)
+							})}
+						</ul>
+					</div>
+				)}
 				<div className={styles.infoWrapper}>
 					<span>Заявка подана:</span>
 					<div className={styles.createdate}>

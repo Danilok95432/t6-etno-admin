@@ -23,6 +23,12 @@ export const VisitorFiltrationInputs: FilterTableInput[] = [
 		options: [{ label: 'Не выбран', value: '0' }],
 	},
 	{
+		name: 'vid',
+		placeholder: 'выбрать вид',
+		type: 'select',
+		options: [{ label: 'Не выбран', value: '0' }],
+	},
+	{
 		name: 'turniket',
 		placeholder: 'выбрать статус',
 		type: 'select',

@@ -110,6 +110,11 @@ import { BraceletPage } from 'src/pages/one-event-layout/pages/admin-event-visit
 import { BraceletElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/bracelet-page/components/bracelet-elements/bracelet-elements'
 import { LogEntersElements } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/log-enters-page/components/log-enters-elements/log-enters-elements'
 import { OneRequestList } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/requests-page/components/one-request/one-request'
+import { ParticipantView } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/participants-page/components/participant-view/participant-view'
+import { GuestView } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/visitors-page/components/guest-view/guest-view'
+import { InspectorsElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/inspectors-page/components/inspectors-elements/inspectors-elements'
+import { OneInspector } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/inspectors-page/components/one-inspector/one-inspector'
+import { InspectorsVisitPage } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/inspectors-page/inspectors-page'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -206,11 +211,13 @@ export const AdminRoutes: FC = () => {
 						</Route>
 						<Route path={`${AdminRoute.Guests}`} element={<VisitorPage />}>
 							<Route index element={<VisitorElements />} />
-							<Route path=':subId' element={<OneVisitor />} />
+							<Route path='new' element={<OneVisitor />} />
+							<Route path=':subId' element={<GuestView />} />
 						</Route>
 						<Route path={`${AdminRoute.Participants}`} element={<VisitorPage />}>
 							<Route index element={<ParticipantElements />} />
-							<Route path=':subId' element={<OneParticipant />} />
+							<Route path='new' element={<OneParticipant />} />
+							<Route path=':subId' element={<ParticipantView />} />
 						</Route>
 						<Route path={`${AdminRoute.Groups}`} element={<GroupPage />}>
 							<Route index element={<GroupElements />} />
@@ -228,6 +235,10 @@ export const AdminRoutes: FC = () => {
 						</Route>
 						<Route path={`${AdminRoute.Bracelets}`} element={<BraceletPage />}>
 							<Route index element={<BraceletElements />} />
+						</Route>
+						<Route path={`${AdminRoute.Inspectors}`} element={<InspectorsVisitPage />}>
+							<Route index element={<InspectorsElements />} />
+							<Route path=':subId' element={<OneInspector />} />
 						</Route>
 					</Route>
 					<Route path={`${AdminRoute.AdminEventServices}/:id`} element={<ServicesEventLayout />}>

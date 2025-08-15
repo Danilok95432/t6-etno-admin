@@ -97,7 +97,11 @@ export const VisitorElements = () => {
 
 	const addClickHandler = () => {
 		// const newId = await addNews()
-		navigate(`/event/event-visitors/1/guests/1`)
+		navigate(`/event/event-visitors/${id}/guests/new`)
+	}
+
+	const rowClickHandler = (subId: string) => {
+		navigate(`/event/event-visitors/${id}/guests/${subId}`)
 	}
 
 	if (isLoading || !guestsData?.guests) return <Loader />
@@ -112,6 +116,7 @@ export const VisitorElements = () => {
 					className={styles.newsTable}
 					rowData={formatObjectsTableData(paginatedData ?? [])}
 					colTitles={tableTitles}
+					rowClickHandler={rowClickHandler}
 				/>
 				<TableFooter
 					totalElements={guestsData?.guests.length}

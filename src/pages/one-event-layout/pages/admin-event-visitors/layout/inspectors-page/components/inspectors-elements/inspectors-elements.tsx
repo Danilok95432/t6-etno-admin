@@ -1,0 +1,123 @@
+import { useNavigate, useParams } from 'react-router-dom'
+
+import { CustomTable } from 'src/components/custom-table/custom-table'
+// import { Loader } from 'src/components/loader/loader'
+import { TableFooter } from 'src/components/table-footer/table-footer'
+import { GridRow } from 'src/components/grid-row/grid-row'
+
+import styles from './index.module.scss'
+// import { useAppSelector } from 'src/hooks/store'
+// import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
+import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
+import { InspectorFiltrationInputs } from './consts'
+import { usePagination } from 'src/hooks/usePagination/usePagination'
+import { type EventInspectors } from 'src/types/events'
+import { RowController } from 'src/components/row-controller/row-controller'
+
+export const InspectorsElements = () => {
+	const { id = '0' } = useParams()
+	// const filterValues = useAppSelector(getFiltrationValues)
+	// const { data: groupsData, isLoading } = useGetGroupsQuery({
+	//	id,
+	//	phone: filterValues.phone,
+	//	surname: filterValues.surname,
+	// })
+	/*
+
+	const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({
+		idEvent: id,
+		title: filterValues.title,
+		date: filterValues.date,
+		tags: filterValues.tags,
+	})
+	const { refetch: getNewId } = useGetNewIdNewsQuery({ idEvent: id, idObject: '' })
+	const [deleteNewsById] = useDeleteNewsByIdMutation()
+	const [hideNewsById] = useHideNewsByIdMutation()
+
+	const addNews = async () => {
+		const newIdResponse = await getNewId().unwrap()
+		return newIdResponse.id
+	}
+
+  */
+
+	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
+		{
+			data: [],
+			initialPage: 1,
+			initialItemsPerPage: 100,
+		},
+	)
+
+	const handlePageChange = (newPage: number) => {
+		setCurrentPage(newPage)
+	}
+
+	const handleItemsPerPageChange = (value: string) => {
+		const newValue = value === 'all' ? 'all' : parseInt(value)
+		setItemsPerPage(newValue)
+		setCurrentPage(1)
+	}
+
+	const navigate = useNavigate()
+
+	const hideHandler = (id: string) => {
+		return id
+	}
+
+	const deleteHandler = (id: string) => {
+		return id
+	}
+
+	const tableTitles = ['Наименование', 'Пропускные пункты', 'Комментарий', '']
+	const formatObjectsTableData = (inspectorsData: EventInspectors[]) => {
+		return inspectorsData.map((inspectorEl) => {
+			return {
+				rowId: inspectorEl.id,
+				cells: [
+					<p key='0'>{inspectorEl.fio}</p>,
+					<p key='1'>{inspectorEl.points}</p>,
+					<p key='2'>{inspectorEl.comment}</p>,
+					<RowController
+						hideHandler={hideHandler}
+						removeHandler={deleteHandler}
+						id={inspectorEl.id}
+						textOfHidden='Параметры'
+						key='3'
+					/>,
+				],
+			}
+		})
+	}
+
+	const addClickHandler = () => {
+		// const newId = await addNews()
+		navigate(`/event/event-visitors/${id}/inspectors/new`)
+	}
+
+	// if (isLoading || !groupsData?.groups) return <Loader />
+
+	return (
+		<>
+			<div className={styles.eventNewsContainer}>
+				<GridRow $margin='0 0 15px 0' $padding='0 29px' className={styles.searchRow}>
+					<TableFiltration filterInputs={InspectorFiltrationInputs} />
+				</GridRow>
+				<CustomTable
+					className={styles.newsTable}
+					rowData={formatObjectsTableData(paginatedData)}
+					colTitles={tableTitles}
+				/>
+				<TableFooter
+					totalElements={0}
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+					onLimitChange={handleItemsPerPageChange}
+					addClickHandler={addClickHandler}
+					addText='Добавить инспектора'
+				/>
+			</div>
+		</>
+	)
+}

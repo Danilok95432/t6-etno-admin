@@ -70,6 +70,7 @@ export const RequestsElements = () => {
 		'Автор заявки',
 		'Заявка и группа',
 		'Тип участия',
+		'Вид',
 		'Регион',
 		'Регистрация',
 		'Статус заявки',
@@ -84,12 +85,13 @@ export const RequestsElements = () => {
 					</p>,
 					<p key='1'>{reqEl.requesttype === 'Групповая' ? reqEl.group_name : reqEl.requesttype}</p>,
 					<p key='2'>{reqEl.event_role}</p>,
-					<p key='3'>{reqEl.region_name}</p>,
-					<p key='4' className={styles.date}>
+					<p key='3'>{reqEl.vid ?? '-'}</p>,
+					<p key='4'>{reqEl.region_name}</p>,
+					<p key='5' className={styles.date}>
 						<span>{`${formatDateTimeTicket(reqEl.createdate)[0]}`}</span>
 						<span>{`${formatDateTimeTicket(reqEl.createdate)[1]}`}</span>
 					</p>,
-					<p key='5'>{reqEl.statusname}</p>,
+					<p key='6'>{reqEl.statusname}</p>,
 				],
 			}
 		})

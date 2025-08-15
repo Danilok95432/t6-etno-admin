@@ -12,8 +12,8 @@ export const RequestsVisitorFiltrationInputs: FilterTableInput[] = [
 		type: 'text',
 	},
 	{
-		name: 'status',
-		placeholder: 'группа?',
+		name: 'vid',
+		placeholder: 'Вид',
 		type: 'select',
 		options: [{ label: 'Не выбран', value: '0' }],
 	},
