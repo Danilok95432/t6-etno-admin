@@ -7,45 +7,22 @@ import { TableFooter } from 'src/components/table-footer/table-footer'
 import { GridRow } from 'src/components/grid-row/grid-row'
 
 import styles from './index.module.scss'
-// import { useAppSelector } from 'src/hooks/store'
-// import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { VisitorFiltrationInputs } from './consts'
 import { useGetUsersSecondRequestQuery } from 'src/store/events/events.api'
 import { type EventParticipantsSecond } from 'src/types/events'
-import { usePagination } from 'src/hooks/usePagination/usePagination'
+import { useState } from 'react'
 
 export const ParticipantElements = () => {
 	const { id = '0' } = useParams()
-	// const { data: usersData, isLoading } = useGetUsersQuery(id)
-	const { data: usersData, isLoading } = useGetUsersSecondRequestQuery(id)
-	// const filterValues = useAppSelector(getFiltrationValues)
-	/*
+	const [currentPage, setCurrentPage] = useState(1)
+	const [itemsPerPage, setItemsPerPage] = useState<number | 'all'>(100)
 
-  const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({
-    idEvent: id,
-    title: filterValues.title,
-    date: filterValues.date,
-    tags: filterValues.tags,
-  })
-  const { refetch: getNewId } = useGetNewIdNewsQuery({ idEvent: id, idObject: '' })
-  const [deleteNewsById] = useDeleteNewsByIdMutation()
-  const [hideNewsById] = useHideNewsByIdMutation()
-
-  const addNews = async () => {
-    const newIdResponse = await getNewId().unwrap()
-    return newIdResponse.id
-  }
-
-  */
-
-	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
-		{
-			data: usersData?.users ?? [],
-			initialPage: 1,
-			initialItemsPerPage: 100,
-		},
-	)
+	const { data: usersData, isLoading } = useGetUsersSecondRequestQuery({
+		id,
+		limit: itemsPerPage === 'all' ? undefined : itemsPerPage,
+		page: itemsPerPage === 'all' ? undefined : currentPage,
+	})
 
 	const handlePageChange = (newPage: number) => {
 		setCurrentPage(newPage)
@@ -71,27 +48,30 @@ export const ParticipantElements = () => {
 	]
 
 	const formatObjectsTableData = (users: EventParticipantsSecond[]) => {
-		return users.map((userEl) => {
-			return {
-				rowId: userEl.id,
-				cells: [
-					<p className={cn(styles.titleNewsTable)} key='0'>
-						{userEl.fio}
-					</p>,
-					<p key='1'>{userEl.group === 'да' || userEl.group === 'Да' ? userEl.group_name : '-'}</p>,
-					<p key='2'>{userEl.phone}</p>,
-					<p key='3'>{userEl.roles}</p>,
-					<p key='4'>{userEl.vids ?? '-'}</p>,
-					<p key='5'>{userEl.dopusk}</p>,
-					<p key='6'>{userEl.ticket_number}</p>,
-					<p key='7'>{userEl.region_name}</p>,
-				],
-			}
-		})
+		return (
+			users?.map((userEl) => {
+				return {
+					rowId: userEl.id,
+					cells: [
+						<p className={cn(styles.titleNewsTable)} key='0'>
+							{userEl.fio}
+						</p>,
+						<p key='1'>
+							{userEl.group === 'да' || userEl.group === 'Да' ? userEl.group_name : '-'}
+						</p>,
+						<p key='2'>{userEl.phone}</p>,
+						<p key='3'>{userEl.roles}</p>,
+						<p key='4'>{userEl.vids ?? '-'}</p>,
+						<p key='5'>{userEl.dopusk}</p>,
+						<p key='6'>{userEl.ticket_number}</p>,
+						<p key='7'>{userEl.region_name}</p>,
+					],
+				}
+			}) ?? []
+		)
 	}
 
 	const addClickHandler = () => {
-		// const newId = await addNews()
 		navigate(`/event/event-visitors/${id}/participants/new`)
 	}
 
@@ -109,14 +89,17 @@ export const ParticipantElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData(paginatedData ?? [])}
+					rowData={formatObjectsTableData(usersData.users)}
 					colTitles={tableTitles}
 					rowClickHandler={rowClickHandler}
 				/>
 				<TableFooter
-					totalElements={usersData?.users.length}
+					totalElements={Number(usersData?.total)}
 					currentPage={currentPage}
-					totalPages={totalPages}
+					totalPages={Math.ceil(
+						Number(usersData.total) /
+							(itemsPerPage === 'all' ? Number(usersData.total) : itemsPerPage),
+					)}
 					onPageChange={handlePageChange}
 					onLimitChange={handleItemsPerPageChange}
 					downloadBtn

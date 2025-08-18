@@ -330,15 +330,26 @@ export const eventsApi = createApi({
 		// <--------------- Списки и регистрации --------------->
 		getTickets: build.query<
 			EventTicketsResponse,
-			{ id: string; telphone?: string; surname?: string; useGroup?: string }
+			{
+				id: string
+				telphone?: string
+				surname?: string
+				useGroup?: string
+				limit?: number
+				step?: number
+				page?: number
+			}
 		>({
-			query: ({ id, telphone, surname, useGroup }) => ({
+			query: ({ id, telphone, surname, useGroup, limit, step, page }) => ({
 				url: `events/tickets`,
 				params: {
 					id_event: id,
 					telphone,
 					surname,
 					use_group: useGroup,
+					limit,
+					step,
+					page,
 				},
 			}),
 			providesTags: ['EventTickets'],
@@ -385,13 +396,19 @@ export const eventsApi = createApi({
 			}),
 			invalidatesTags: ['EventRequests', 'EventRequestInfo'],
 		}),
-		getGuests: build.query<EventGuestsResponse, { id: string; phone?: string; surname?: string }>({
-			query: ({ id, phone, surname }) => ({
+		getGuests: build.query<
+			EventGuestsResponse,
+			{ id: string; phone?: string; surname?: string; limit?: number; step?: number; page?: number }
+		>({
+			query: ({ id, phone, surname, limit, step, page }) => ({
 				url: `events/guests`,
 				params: {
 					id_event: id,
 					phone,
 					surname,
+					limit,
+					step,
+					page,
 				},
 			}),
 			providesTags: ['EventGuests'],
@@ -414,11 +431,17 @@ export const eventsApi = createApi({
 			}),
 			providesTags: ['EventUsers'],
 		}),
-		getUsersSecondRequest: build.query<EventParticipantsResponseSecond, string>({
-			query: (id) => ({
+		getUsersSecondRequest: build.query<
+			EventParticipantsResponseSecond,
+			{ id: string; limit?: number; step?: number; page?: number }
+		>({
+			query: ({ id, limit, step, page }) => ({
 				url: `events/users_new`,
 				params: {
 					id_event: id,
+					limit,
+					step,
+					page,
 				},
 			}),
 			providesTags: ['EventUsers'],

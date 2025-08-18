@@ -252,6 +252,7 @@ export type EventTickets = {
 
 export type EventGuestsResponse = {
 	guests: EventGuests[]
+	total: string
 }
 
 export type EventGuestCardResponse = {
@@ -325,6 +326,7 @@ export type EventParticipants = {
 
 export type EventParticipantsResponseSecond = {
 	users: EventParticipantsSecond[]
+	total: string
 }
 
 export type EventParticipantsSecond = {

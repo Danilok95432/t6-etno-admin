@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import cn from 'classnames'
+import { useState } from 'react'
 
 import { CustomTable } from 'src/components/custom-table/custom-table'
 import { Loader } from 'src/components/loader/loader'
@@ -14,42 +15,20 @@ import { VisitorFiltrationInputs } from './consts'
 import { useGetGuestsQuery } from 'src/store/events/events.api'
 import { type EventGuests } from 'src/types/events'
 import { formatDateTimeTicket, zaezdFormat } from 'src/helpers/utils'
-import { usePagination } from 'src/hooks/usePagination/usePagination'
 
 export const VisitorElements = () => {
 	const { id = '0' } = useParams()
 	const filterValues = useAppSelector(getFiltrationValues)
+	const [currentPage, setCurrentPage] = useState(1)
+	const [itemsPerPage, setItemsPerPage] = useState<number | 'all'>(100)
+
 	const { data: guestsData, isLoading } = useGetGuestsQuery({
 		id,
 		phone: filterValues.phone,
 		surname: filterValues.surname,
+		limit: itemsPerPage === 'all' ? undefined : itemsPerPage,
+		page: itemsPerPage === 'all' ? undefined : currentPage,
 	})
-	/*
-
-  const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({
-    idEvent: id,
-    title: filterValues.title,
-    date: filterValues.date,
-    tags: filterValues.tags,
-  })
-  const { refetch: getNewId } = useGetNewIdNewsQuery({ idEvent: id, idObject: '' })
-  const [deleteNewsById] = useDeleteNewsByIdMutation()
-  const [hideNewsById] = useHideNewsByIdMutation()
-
-  const addNews = async () => {
-    const newIdResponse = await getNewId().unwrap()
-    return newIdResponse.id
-  }
-
-  */
-
-	const { currentPage, paginatedData, totalPages, setCurrentPage, setItemsPerPage } = usePagination(
-		{
-			data: guestsData?.guests ?? [],
-			initialPage: 1,
-			initialItemsPerPage: 100,
-		},
-	)
 
 	const handlePageChange = (newPage: number) => {
 		setCurrentPage(newPage)
@@ -73,30 +52,32 @@ export const VisitorElements = () => {
 		'Регистрация',
 		'Заезд и выезд',
 	]
+
 	const formatObjectsTableData = (guests: EventGuests[]) => {
-		return guests.map((guestEl) => {
-			return {
-				rowId: guestEl.id,
-				cells: [
-					<p className={cn(styles.titleNewsTable)} key='0'>
-						{guestEl.fio}
-					</p>,
-					<p key='1'>{'-'}</p>,
-					<p key='2'>{guestEl.phone}</p>,
-					<p key='3'>{guestEl.role}</p>,
-					<p key='4'>{guestEl.ticket}</p>,
-					<p key='5'>{guestEl.region_name}</p>,
-					<p key='6'>{formatDateTimeTicket(String(guestEl.createdate), '-', false, true)}</p>,
-					<p key='7'>
-						{zaezdFormat([String(guestEl.data_zaezd), String(guestEl.data_viezd.toString())])}
-					</p>,
-				],
-			}
-		})
+		return (
+			guests?.map((guestEl) => {
+				return {
+					rowId: guestEl.id,
+					cells: [
+						<p className={cn(styles.titleNewsTable)} key='0'>
+							{guestEl.fio}
+						</p>,
+						<p key='1'>{'-'}</p>,
+						<p key='2'>{guestEl.phone}</p>,
+						<p key='3'>{guestEl.role}</p>,
+						<p key='4'>{guestEl.ticket}</p>,
+						<p key='5'>{guestEl.region_name}</p>,
+						<p key='6'>{formatDateTimeTicket(String(guestEl.createdate), '-', false, true)}</p>,
+						<p key='7'>
+							{zaezdFormat([String(guestEl.data_zaezd), String(guestEl.data_viezd.toString())])}
+						</p>,
+					],
+				}
+			}) ?? []
+		)
 	}
 
 	const addClickHandler = () => {
-		// const newId = await addNews()
 		navigate(`/event/event-visitors/${id}/guests/new`)
 	}
 
@@ -107,28 +88,29 @@ export const VisitorElements = () => {
 	if (isLoading || !guestsData?.guests) return <Loader />
 
 	return (
-		<>
-			<div className={styles.eventNewsContainer}>
-				<GridRow $margin='0 0 15px 0' $padding='0 29px' className={styles.searchRow}>
-					<TableFiltration filterInputs={VisitorFiltrationInputs} />
-				</GridRow>
-				<CustomTable
-					className={styles.newsTable}
-					rowData={formatObjectsTableData(paginatedData ?? [])}
-					colTitles={tableTitles}
-					rowClickHandler={rowClickHandler}
-				/>
-				<TableFooter
-					totalElements={guestsData?.guests.length}
-					currentPage={currentPage}
-					totalPages={totalPages}
-					onPageChange={handlePageChange}
-					onLimitChange={handleItemsPerPageChange}
-					addText='Добавить гостя'
-					addClickHandler={addClickHandler}
-					downloadBtn
-				/>
-			</div>
-		</>
+		<div className={styles.eventNewsContainer}>
+			<GridRow $margin='0 0 15px 0' $padding='0 29px' className={styles.searchRow}>
+				<TableFiltration filterInputs={VisitorFiltrationInputs} />
+			</GridRow>
+			<CustomTable
+				className={styles.newsTable}
+				rowData={formatObjectsTableData(guestsData.guests)}
+				colTitles={tableTitles}
+				rowClickHandler={rowClickHandler}
+			/>
+			<TableFooter
+				totalElements={Number(guestsData.total)}
+				currentPage={currentPage}
+				totalPages={Math.ceil(
+					Number(guestsData.total) /
+						(itemsPerPage === 'all' ? Number(guestsData.total) : itemsPerPage),
+				)}
+				onPageChange={handlePageChange}
+				onLimitChange={handleItemsPerPageChange}
+				addText='Добавить гостя'
+				addClickHandler={addClickHandler}
+				downloadBtn
+			/>
+		</div>
 	)
 }
