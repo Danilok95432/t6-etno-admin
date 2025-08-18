@@ -1,4 +1,4 @@
-import { type FieldValues, FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
+import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { Container } from 'src/UI/Container/Container'
@@ -9,27 +9,37 @@ import { FlexRow } from 'src/components/flex-row/flex-row'
 import { MainSection } from './components/main-section/main-section'
 
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
+import { useGetInspectorInfoQuery } from 'src/store/events/events.api'
+import { type OneInspectorInputs, oneInspectorSchema } from './schema'
+import { yupResolver } from '@hookform/resolvers/yup'
 export const OneInspector = () => {
-	const { id = '' } = useParams()
-	// const { data: reqData } = useGetRequestInfoQuery(subId)
+	const { id = '', subId = '' } = useParams()
+	const { data: inspectorData } = useGetInspectorInfoQuery(subId)
 	// const [sendAcceptRequest] = useGetAcceptStatusRequestMutation()
 	// const [sendDeclineRequest] = useGetDeclineStatusRequestMutation()
 	const [, setAction] = useState<'apply' | 'save'>('apply')
 
 	const navigate = useNavigate()
 
-	const methods = useForm<FieldValues>({
+	const methods = useForm<OneInspectorInputs>({
 		mode: 'onBlur',
+		resolver: yupResolver(oneInspectorSchema),
 	})
 	const { isSent } = useIsSent(methods.control)
-	const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+	const onSubmit: SubmitHandler<OneInspectorInputs> = async (data) => {
 		console.log(data)
 		navigate(
 			`/${AdminRoute.AdminEvent}/${AdminRoute.AdminEventVisitors}/${id}/${AdminRoute.Inspectors}`,
 		)
 	}
+
+	useEffect(() => {
+		if (inspectorData) {
+			methods.reset({ ...inspectorData })
+		}
+	}, [inspectorData])
 
 	return (
 		<>
@@ -42,7 +52,11 @@ export const OneInspector = () => {
 				</Link>
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
-						<MainSection />
+						<MainSection
+							inspectorEnterZones={inspectorData?.inspector_enter_zones}
+							inspectorPitaniePlace={inspectorData?.inspector_pitanie_place}
+							inspectorTypesList={inspectorData?.inspector_types_list}
+						/>
 						<FlexRow $margin='0 0 40px 0' $maxWidth='1140px'>
 							<AdminButton as='button' type='submit' onClick={() => setAction('save')}>
 								Сохранить и выйти

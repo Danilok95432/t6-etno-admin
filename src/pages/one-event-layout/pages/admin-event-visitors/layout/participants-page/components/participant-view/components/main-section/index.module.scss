@@ -38,6 +38,11 @@ div.mainSection {
 			}
 		}
 	}
+	.groupBlock {
+    border-top: none;
+    margin: 0 0 15px 0;
+    padding: 0 0 25px 0;
+  }
   .infoBlock:last-child {
     border-bottom: none;
   }
@@ -50,6 +55,19 @@ div.mainSection {
 			display: flex;
 			flex-direction: column;
 			gap: 8px;
+			.author {
+				display: flex;
+				gap: 5px;
+				span {
+					font-size: 16px;
+					font-weight: 400;
+					color: #000000;
+				}
+			}
+			span {
+				font-size: 14px;
+				color: #818181;
+			}
 			.createdate {
 				display: flex;
 				align-items: center;
@@ -79,6 +97,7 @@ div.mainSection {
 					.bold {
 						font-weight: 600;
 						font-size: 14px;
+						color: #000;
 					}
 				}
 			}

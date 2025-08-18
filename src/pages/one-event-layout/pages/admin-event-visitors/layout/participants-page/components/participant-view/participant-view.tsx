@@ -9,9 +9,10 @@ import { AdminButton } from 'src/UI/AdminButton/AdminButton'
 import { FlexRow } from 'src/components/flex-row/flex-row'
 
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
+import { useGetUserInfoQuery } from 'src/store/events/events.api'
 export const ParticipantView = () => {
-	const { id = '' } = useParams()
-	// const { data: reqData } = useGetRequestInfoQuery(subId)
+	const { id = '', subId = '' } = useParams()
+	const { data: userData } = useGetUserInfoQuery(subId)
 	// const [sendAcceptRequest] = useGetAcceptStatusRequestMutation()
 	// const [sendDeclineRequest] = useGetDeclineStatusRequestMutation()
 	const navigate = useNavigate()
@@ -37,7 +38,7 @@ export const ParticipantView = () => {
 				</Link>
 				<FormProvider {...methods}>
 					<form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
-						<MainSection />
+						<MainSection data={userData?.user} />
 						<FlexRow $margin='0 0 40px 0' $maxWidth='1140px'>
 							<AdminButton as='button' type='button'>
 								Редактировать

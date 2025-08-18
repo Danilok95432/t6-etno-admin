@@ -19,6 +19,9 @@ import {
 	type EventGroupsResponse,
 	type EventParticipantsResponseSecond,
 	type EventGuestCardResponse,
+	type EventParticipantCardResponse,
+	type EventInspectorsResponse,
+	type EventInspectorInfo,
 } from 'src/types/events'
 import { type FieldValues } from 'react-hook-form'
 
@@ -50,6 +53,8 @@ export const eventsApi = createApi({
 		'EventRequests',
 		'EventRequestInfo',
 		'EventGroups',
+		'EventInspectors',
+		'EventInspectorInfo',
 	],
 	baseQuery: baseQueryWithReauth,
 	endpoints: (build) => ({
@@ -418,6 +423,15 @@ export const eventsApi = createApi({
 			}),
 			providesTags: ['EventUsers'],
 		}),
+		getUserInfo: build.query<EventParticipantCardResponse, string>({
+			query: (id) => ({
+				url: `events/user_card`,
+				params: {
+					id_reg_list: id,
+				},
+			}),
+			providesTags: ['EventUsers'],
+		}),
 		getGroups: build.query<EventGroupsResponse, { id: string; phone?: string; surname?: string }>({
 			query: ({ id, phone, surname }) => ({
 				url: `events/groups`,
@@ -428,6 +442,49 @@ export const eventsApi = createApi({
 				},
 			}),
 			providesTags: ['EventGroups'],
+		}),
+		getInspectors: build.query<EventInspectorsResponse, string>({
+			query: (id) => ({
+				url: `events/inspectors`,
+				params: {
+					id_event: id,
+				},
+			}),
+			providesTags: ['EventInspectors'],
+		}),
+		getInspectorInfo: build.query<EventInspectorInfo, string>({
+			query: (id) => ({
+				url: `events/edit_inspector`,
+				params: {
+					id,
+				},
+			}),
+			providesTags: ['EventInspectors', 'EventInspectorInfo'],
+		}),
+		getNewIdInspector: build.query<{ status: string; id: string }, string>({
+			query: (id) => ({
+				url: `events/getnew_inspector`,
+				params: {
+					id_event: id,
+				},
+			}),
+			providesTags: ['EventInspectorInfo'],
+		}),
+		deleteInspectorById: build.mutation<null, string>({
+			query: (inspectorId) => ({
+				url: `events/delete_inspector`,
+				method: 'DELETE',
+				body: { id: inspectorId },
+			}),
+			invalidatesTags: ['EventInspectors'],
+		}),
+		hideInspectorById: build.mutation<null, string>({
+			query: (inspectorId) => ({
+				url: `events/hide_inspector`,
+				method: 'POST',
+				body: { id: inspectorId },
+			}),
+			invalidatesTags: ['EventInspectors'],
 		}),
 	}),
 })
@@ -473,4 +530,10 @@ export const {
 	useGetDeclineStatusRequestMutation,
 	useGetUsersSecondRequestQuery,
 	useGetGuestInfoQuery,
+	useGetUserInfoQuery,
+	useGetInspectorsQuery,
+	useGetInspectorInfoQuery,
+	useGetNewIdInspectorQuery,
+	useDeleteInspectorByIdMutation,
+	useHideInspectorByIdMutation,
 } = eventsApi

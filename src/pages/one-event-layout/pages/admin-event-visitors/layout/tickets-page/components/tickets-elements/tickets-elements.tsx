@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import cn from 'classnames'
 
 import { CustomTable } from 'src/components/custom-table/custom-table'
@@ -63,8 +63,6 @@ export const TicketsElements = () => {
 
   */
 
-	const navigate = useNavigate()
-
 	const tableTitles = [
 		'Статус',
 		'Номер билета',
@@ -101,10 +99,6 @@ export const TicketsElements = () => {
 		})
 	}
 
-	const rowClickHandler = (id: string) => {
-		navigate(`/event/event-visitors/1/tickets/${id}`)
-	}
-
 	if (isLoading || !ticketsData?.tickets) return <Loader />
 
 	return (
@@ -118,7 +112,6 @@ export const TicketsElements = () => {
 					rowData={formatObjectsTableData(paginatedData ?? [])}
 					colTitles={tableTitles}
 					sortTitles={sortTableTitles}
-					rowClickHandler={rowClickHandler}
 				/>
 				<TableFooter
 					totalElements={ticketsData?.tickets.length}

@@ -1,25 +1,26 @@
 import { type FC } from 'react'
 import styles from './index.module.scss'
 import { formatDateTimeTicket } from 'src/helpers/utils'
-import { type EventParticipantsSecond } from 'src/types/events'
+import { type EventParticipantCard } from 'src/types/events'
 import { useParams } from 'react-router-dom'
 import { useGetEventInfoQuery } from 'src/store/events/events.api'
+import cn from 'classnames'
 
 type MainSectionProps = {
-	data?: EventParticipantsSecond
+	data?: EventParticipantCard
 }
 
 export const MainSection: FC<MainSectionProps> = ({ data }) => {
-	const { id = '' } = useParams()
+	const { id = '', subId = '' } = useParams()
 	const { data: eventData } = useGetEventInfoQuery(id)
 	return (
 		<div className={styles.mainSection}>
-			<h1>{`${data?.fio} (${data?.id})`}</h1>
+			<h1>{`${data?.fio} (${subId})`}</h1>
 			<div className={styles.infoBlock}>
 				<div className={styles.infoWrapper}>
 					<span>Участник</span>
 					<p className={styles.author}>
-						<strong>{`${data?.fio}, ID ${data?.id}`}</strong>
+						<strong>{`${data?.fio}, ID ${subId}`}</strong>
 					</p>
 				</div>
 				<div className={styles.infoWrapper}>
@@ -36,26 +37,26 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 				</div>
 				<div className={styles.infoWrapper}>
 					<span>Доступ</span>
-					<p>{data?.id}</p>
+					<p>{data?.dopusk}</p>
 				</div>
 				<div className={styles.infoWrapper}>
 					<span>Билет</span>
-					<p>{data?.ticket_number}</p>
+					<p>{data?.ticket}</p>
 				</div>
 				<div className={styles.infoWrapper}>
 					<span>Регион</span>
 					<p>{data?.region_name}</p>
 				</div>
 			</div>
-			{(data?.group === 'Да' || data?.group === 'да') && (
-				<div className={styles.infoBlock}>
+			{data?.use_group === '1' && (
+				<div className={cn(styles.infoBlock, styles.groupBlock)}>
 					<div className={styles.infoWrapper}>
 						<span>Группа</span>
 						<p>{data?.group_name}</p>
 					</div>
 					<div className={styles.infoWrapper}>
 						<span>Роль в группе</span>
-						<p>{data?.roles}</p>
+						<p>{data?.group_role}</p>
 					</div>
 				</div>
 			)}
@@ -72,17 +73,31 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 				)}
 				<div className={styles.infoWrapper}>
 					<span>Виды участия</span>
-					<p>{data?.roles}</p>
+					<p>{data?.roles_list}</p>
 				</div>
-				<div className={styles.infoWrapper}>
-					<span>Описание товаров</span>
-					<p>{data?.roles}</p>
-				</div>
+				{data?.trader_name && data?.trader_name !== '' && (
+					<div className={styles.infoWrapper}>
+						<span>Описание товаров</span>
+						<p>{data?.trader_name}</p>
+					</div>
+				)}
+				{data?.master_name && data?.master_name !== '' && (
+					<div className={styles.infoWrapper}>
+						<span>Название промыслов</span>
+						<p>{data?.master_name}</p>
+					</div>
+				)}
+				{data?.journal_name && data?.journal_name !== '' && (
+					<div className={styles.infoWrapper}>
+						<span>Журнал, канал или издание</span>
+						<p>{data?.journal_name}</p>
+					</div>
+				)}
 				<div className={styles.infoWrapper}>
 					<span>Дата и время регистрации:</span>
 					<div className={styles.createdate}>
-						<p>{formatDateTimeTicket('', '.', true)[0]}</p>
-						<p>{formatDateTimeTicket('', '.', true)[1]}</p>
+						<p>{formatDateTimeTicket(data?.createdate ?? '', '.', true)[0]}</p>
+						<p>{formatDateTimeTicket(data?.createdate ?? '', '.', true)[1]}</p>
 					</div>
 				</div>
 				{data?.cars && data?.cars?.length > 0 && (
@@ -90,11 +105,10 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 						<div className={styles.infoWrapper}>
 							<span className={styles.listTitle}>Транспортные средства</span>
 							<ul className={styles.list}>
-								{data?.cars.map((el) => {
+								{data?.cars.map((el, ind) => {
 									return (
-										<li key={el.id}>
-											<span className={styles.bold}>{el.type}</span>
-											<span>{el.number}</span>
+										<li key={ind}>
+											<span className={styles.bold}>{el}</span>
 										</li>
 									)
 								})}

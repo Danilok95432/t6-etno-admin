@@ -1,7 +1,7 @@
 import { type FileItem } from './files'
 import { type PartnerCheckBoxesInfo } from './partners'
 import { type ImageItemWithText } from './photos'
-import { type SelOption } from './select'
+import { type MultiSelOption, type SelOption } from './select'
 
 export type EventItem = {
 	id: string
@@ -281,6 +281,29 @@ export type EventParticipantsResponse = {
 	users: EventParticipants[]
 }
 
+export type EventParticipantCardResponse = {
+	user: EventParticipantCard
+}
+
+export type EventParticipantCard = {
+	fio: string
+	phone: string
+	event: string
+	dopusk: string
+	ticket: string
+	use_group: string
+	group_name: string
+	group_role: string
+	sub_events: string[]
+	roles_list: string[]
+	trader_name: string
+	master_name: string
+	journal_name: string
+	createdate: string
+	cars: string[]
+	region_name: string
+}
+
 export type EventParticipants = {
 	id: string
 	fio: string
@@ -375,9 +398,24 @@ export type EventGroupsResponse = {
 
 export type EventInspectors = {
 	id: string
+	inspector_type: string
+	pitanie_place: string
+	enter_zone: string
 	fio: string
-	points: string
-	comment: string
+	user_name: string
+	telphone: string
+	description: string
+	active: boolean
+}
+
+export type EventInspectorInfo = {
+	fio: string
+	telphone: string
+	description: string
+	user_name: string
+	inspector_types_list: MultiSelOption[]
+	inspector_pitanie_place: SelOption[]
+	inspector_enter_zones: SelOption[]
 }
 
 export type EventInspectorsResponse = {
