@@ -433,15 +433,17 @@ export const eventsApi = createApi({
 		}),
 		getUsersSecondRequest: build.query<
 			EventParticipantsResponseSecond,
-			{ id: string; limit?: number; step?: number; page?: number }
+			{ id: string; phone?: string; surname?: string; limit?: number; step?: number; page?: number }
 		>({
-			query: ({ id, limit, step, page }) => ({
+			query: ({ id, limit, step, page, phone, surname }) => ({
 				url: `events/users_new`,
 				params: {
 					id_event: id,
 					limit,
 					step,
 					page,
+					phone,
+					surname,
 				},
 			}),
 			providesTags: ['EventUsers'],
@@ -509,6 +511,14 @@ export const eventsApi = createApi({
 			}),
 			invalidatesTags: ['EventInspectors'],
 		}),
+		saveInspectorInfo: build.mutation<string, FieldValues>({
+			query: (FormData) => ({
+				url: `events/save_inspector`,
+				method: 'POST',
+				body: FormData,
+			}),
+			invalidatesTags: ['EventInspectors'],
+		}),
 	}),
 })
 
@@ -559,4 +569,5 @@ export const {
 	useGetNewIdInspectorQuery,
 	useDeleteInspectorByIdMutation,
 	useHideInspectorByIdMutation,
+	useSaveInspectorInfoMutation,
 } = eventsApi

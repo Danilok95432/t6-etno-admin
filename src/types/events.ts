@@ -368,7 +368,7 @@ export type EventRequestItem = {
 	statusname: string
 	statusdate: string
 	sub_events: string[]
-	cars: [{ type: string; number: string; id: string }]
+	cars: string[]
 	services: string[]
 	is_group: number
 	group_users: string[]
@@ -408,6 +408,7 @@ export type EventInspectors = {
 	telphone: string
 	description: string
 	active: boolean
+	hidden: boolean
 }
 
 export type EventInspectorInfo = {

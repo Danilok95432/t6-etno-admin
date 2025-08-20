@@ -11,15 +11,15 @@ import { MainSection } from './components/main-section/main-section'
 import adminStyles from 'src/routes/admin-layout/index.module.scss'
 import { useEffect, useState } from 'react'
 import { useIsSent } from 'src/hooks/sent-mark/sent-mark'
-import { useGetInspectorInfoQuery } from 'src/store/events/events.api'
+import { useGetInspectorInfoQuery, useSaveInspectorInfoMutation } from 'src/store/events/events.api'
 import { type OneInspectorInputs, oneInspectorSchema } from './schema'
 import { yupResolver } from '@hookform/resolvers/yup'
 export const OneInspector = () => {
 	const { id = '', subId = '' } = useParams()
 	const { data: inspectorData } = useGetInspectorInfoQuery(subId)
-	// const [sendAcceptRequest] = useGetAcceptStatusRequestMutation()
+	const [saveFormInfo] = useSaveInspectorInfoMutation()
 	// const [sendDeclineRequest] = useGetDeclineStatusRequestMutation()
-	const [, setAction] = useState<'apply' | 'save'>('apply')
+	const [action, setAction] = useState<'apply' | 'save'>('apply')
 
 	const navigate = useNavigate()
 
@@ -27,12 +27,48 @@ export const OneInspector = () => {
 		mode: 'onBlur',
 		resolver: yupResolver(oneInspectorSchema),
 	})
-	const { isSent } = useIsSent(methods.control)
+	const { isSent, markAsSent } = useIsSent(methods.control)
 	const onSubmit: SubmitHandler<OneInspectorInputs> = async (data) => {
-		console.log(data)
-		navigate(
-			`/${AdminRoute.AdminEvent}/${AdminRoute.AdminEventVisitors}/${id}/${AdminRoute.Inspectors}`,
+		const formData = new FormData()
+		formData.append('id', subId)
+		formData.append('fio', data.fio)
+		formData.append('user_name', data.user_name ?? '')
+		formData.append('user_pass', data.user_pass ?? '')
+		formData.append('description', data.description ?? '')
+		formData.append('telphone', data.telphone ?? '')
+		formData.append(
+			'id_inspector_type',
+			typeof data.inspector_types_list === 'string'
+				? data.inspector_types_list
+				: data.inspector_types_list
+					? data.inspector_types_list[0].value
+					: '0',
 		)
+		formData.append(
+			'id_pitanie_place',
+			typeof data.inspector_pitanie_place === 'string'
+				? data.inspector_pitanie_place
+				: data.inspector_pitanie_place
+					? data.inspector_pitanie_place[0].value
+					: '0',
+		)
+		formData.append(
+			'id_enter_zone',
+			typeof data.inspector_enter_zones === 'string'
+				? data.inspector_enter_zones
+				: data.inspector_enter_zones
+					? data.inspector_enter_zones[0].value
+					: '0',
+		)
+		const res = await saveFormInfo(formData)
+		if (res) {
+			markAsSent(true)
+			if (action === 'save') {
+				navigate(
+					`/${AdminRoute.AdminEvent}/${AdminRoute.AdminEventVisitors}/${id}/${AdminRoute.Inspectors}`,
+				)
+			}
+		}
 	}
 
 	useEffect(() => {

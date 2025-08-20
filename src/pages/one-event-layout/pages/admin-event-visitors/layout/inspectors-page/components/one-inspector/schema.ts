@@ -6,6 +6,7 @@ export type OneInspectorInputs = {
 	telphone: string
 	description?: string
 	user_name?: string
+	user_pass?: string
 	inspector_types_list?: string | SelOption[]
 	inspector_pitanie_place?: string | SelOption[]
 	inspector_enter_zones?: string | SelOption[]

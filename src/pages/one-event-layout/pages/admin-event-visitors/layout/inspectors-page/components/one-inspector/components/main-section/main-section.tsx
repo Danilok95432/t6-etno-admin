@@ -74,7 +74,7 @@ export const MainSection: FC<MainSectionProps> = ({
 			<GridRow $template='auto/1fr 1fr' $width='auto' $alignItems='start' $margin='0 0 20px 0'>
 				<ControlledInput name='user_name' label='Логин инспектора' placeholder='Логин инспектора' />
 				<div className={styles.inputWrapper}>
-					<ControlledInput name='password' label='Пароль' type='password' placeholder='****' />
+					<ControlledInput name='user_pass' label='Пароль' type='password' placeholder='****' />
 					<span>Вводите для изменения!</span>
 				</div>
 			</GridRow>

@@ -19,6 +19,7 @@ import {
 	useHideInspectorByIdMutation,
 } from 'src/store/events/events.api'
 import { type FilterTableInput } from 'src/types/global'
+import cn from 'classnames'
 
 const inspectorFiltrationInputs: FilterTableInput[] = [
 	{
@@ -82,9 +83,15 @@ export const InspectorsElements = () => {
 			return {
 				rowId: inspectorEl.id,
 				cells: [
-					<p key='0'>{inspectorEl.fio}</p>,
-					<p key='1'>{inspectorEl.enter_zone}</p>,
-					<p key='2'>{inspectorEl.description}</p>,
+					<p key='0' className={cn({ 'hidden-cell-icon': inspectorEl.hidden })}>
+						{inspectorEl.fio}
+					</p>,
+					<p key='1' className={cn({ 'hidden-cell': inspectorEl.hidden })}>
+						{inspectorEl.enter_zone}
+					</p>,
+					<p key='2' className={cn({ 'hidden-cell': inspectorEl.hidden })}>
+						{inspectorEl.description}
+					</p>,
 					<RowController
 						hideHandler={hideHandler}
 						removeHandler={deleteHandler}

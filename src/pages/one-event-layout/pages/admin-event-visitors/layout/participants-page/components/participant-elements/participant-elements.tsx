@@ -12,16 +12,21 @@ import { VisitorFiltrationInputs } from './consts'
 import { useGetUsersSecondRequestQuery } from 'src/store/events/events.api'
 import { type EventParticipantsSecond } from 'src/types/events'
 import { useState } from 'react'
+import { useAppSelector } from 'src/hooks/store'
+import { getFiltrationValues } from 'src/modules/table-filtration/store/table-filtration.selectors'
 
 export const ParticipantElements = () => {
 	const { id = '0' } = useParams()
 	const [currentPage, setCurrentPage] = useState(1)
 	const [itemsPerPage, setItemsPerPage] = useState<number | 'all'>(100)
+	const filterValues = useAppSelector(getFiltrationValues)
 
 	const { data: usersData, isLoading } = useGetUsersSecondRequestQuery({
 		id,
 		limit: itemsPerPage === 'all' ? undefined : itemsPerPage,
 		page: itemsPerPage === 'all' ? undefined : currentPage,
+		phone: filterValues.phone,
+		surname: filterValues.surname,
 	})
 
 	const handlePageChange = (newPage: number) => {

@@ -101,19 +101,20 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 							</ul>
 						</div>
 					)}
-					{data?.cars && data?.cars.length > 0 && (
-						<div className={styles.infoWrapper}>
-							<span className={styles.listTitle}>Транспортные средства</span>
-							<ul className={styles.list}>
-								{data?.cars.map((el) => {
-									return (
-										<li key={el.id}>
-											<span className={styles.bold}>{el.type}</span>
-											<span>{el.number}</span>
-										</li>
-									)
-								})}
-							</ul>
+					{data?.cars && data?.cars?.length > 0 && (
+						<div className={styles.infoBlock}>
+							<div className={styles.infoWrapper}>
+								<span className={styles.listTitle}>Транспортные средства</span>
+								<ul className={styles.list}>
+									{data?.cars.map((el, ind) => {
+										return (
+											<li key={ind}>
+												<span className={styles.bold}>{el}</span>
+											</li>
+										)
+									})}
+								</ul>
+							</div>
 						</div>
 					)}
 					<div className={styles.infoWrapper}>
@@ -193,19 +194,20 @@ export const MainSection: FC<MainSectionProps> = ({ data }) => {
 					<span className={styles.listTitle}>Вид</span>
 					<p>{data?.vid ?? '-'}</p>
 				</div>
-				{data?.cars && data?.cars.length > 0 && (
-					<div className={styles.infoWrapper}>
-						<span className={styles.listTitle}>Транспортные средства</span>
-						<ul className={styles.list}>
-							{data?.cars.map((el) => {
-								return (
-									<li key={el.id}>
-										<span className={styles.bold}>{el.type}</span>
-										<span>{el.number}</span>
-									</li>
-								)
-							})}
-						</ul>
+				{data?.cars && data?.cars?.length > 0 && (
+					<div className={styles.infoBlock}>
+						<div className={styles.infoWrapper}>
+							<span className={styles.listTitle}>Транспортные средства</span>
+							<ul className={styles.list}>
+								{data?.cars.map((el, ind) => {
+									return (
+										<li key={ind}>
+											<span className={styles.bold}>{el}</span>
+										</li>
+									)
+								})}
+							</ul>
+						</div>
 					</div>
 				)}
 				<div className={styles.infoWrapper}>

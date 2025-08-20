@@ -8,7 +8,7 @@ export const VisitorFiltrationInputs: FilterTableInput[] = [
 	},
 	{
 		name: 'surname',
-		placeholder: 'искать по фамилии и имени',
+		placeholder: 'искать по фамилии',
 		type: 'text',
 	},
 	{
@@ -17,20 +17,8 @@ export const VisitorFiltrationInputs: FilterTableInput[] = [
 		type: 'text',
 	},
 	{
-		name: 'status',
-		placeholder: 'выбрать роль',
-		type: 'select',
-		options: [{ label: 'Не выбран', value: '0' }],
-	},
-	{
 		name: 'vid',
 		placeholder: 'выбрать вид',
-		type: 'select',
-		options: [{ label: 'Не выбран', value: '0' }],
-	},
-	{
-		name: 'turniket',
-		placeholder: 'выбрать статус',
 		type: 'select',
 		options: [{ label: 'Не выбран', value: '0' }],
 	},

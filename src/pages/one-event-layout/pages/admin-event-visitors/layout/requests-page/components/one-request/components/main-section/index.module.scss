@@ -52,6 +52,10 @@ div.mainSection {
 				align-items: center;
 				gap: 10px;
 			}
+			.listTitleBlack {
+				font-size: 14px;
+				color: #000;
+			}
 			.listTitle {
 				font-size: 14px;
 				color: #818181;
@@ -76,6 +80,7 @@ div.mainSection {
 					.bold {
 						font-weight: 600;
 						font-size: 14px;
+						color: #000;
 					}
 				}
 			}
