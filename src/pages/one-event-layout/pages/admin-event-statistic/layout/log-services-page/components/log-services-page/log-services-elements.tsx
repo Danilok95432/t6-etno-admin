@@ -12,16 +12,16 @@ import { getFiltrationValues } from 'src/modules/table-filtration/store/table-fi
 import { TableFiltration } from 'src/modules/table-filtration/table-filtration'
 import { TicketsFiltrationInputs } from './consts'
 import { formatDateTimeTicket } from 'src/helpers/utils'
-import { type LogEnters } from 'src/types/statistic'
-import { useGetAllLogsEnterQuery } from 'src/store/statistic/statistic.api'
+import { type LogServices } from 'src/types/statistic'
+import { useGetAllLogsServiceQuery } from 'src/store/statistic/statistic.api'
 import { useState } from 'react'
 
-export const LogEntersElements = () => {
+export const LogServicesElements = () => {
 	const filterValues = useAppSelector(getFiltrationValues)
 	const { id = '' } = useParams()
 	const [currentPage, setCurrentPage] = useState(1)
 	const [itemsPerPage, setItemsPerPage] = useState<number | 'all'>(100)
-	const { data: logEntersData, isLoading } = useGetAllLogsEnterQuery({
+	const { data: logServiceData, isLoading } = useGetAllLogsServiceQuery({
 		id,
 		surname: filterValues.surname,
 		telphone: filterValues.telphone,
@@ -40,48 +40,59 @@ export const LogEntersElements = () => {
 	}
 	/*
 
-	const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({
-		idEvent: id,
-		title: filterValues.title,
-		date: filterValues.date,
-		tags: filterValues.tags,
-	})
-	const { refetch: getNewId } = useGetNewIdNewsQuery({ idEvent: id, idObject: '' })
-	const [deleteNewsById] = useDeleteNewsByIdMutation()
-	const [hideNewsById] = useHideNewsByIdMutation()
+  const { data: newsDataResponse, isLoading } = useGetAllNewsQuery({
+    idEvent: id,
+    title: filterValues.title,
+    date: filterValues.date,
+    tags: filterValues.tags,
+  })
+  const { refetch: getNewId } = useGetNewIdNewsQuery({ idEvent: id, idObject: '' })
+  const [deleteNewsById] = useDeleteNewsByIdMutation()
+  const [hideNewsById] = useHideNewsByIdMutation()
 
-	const addNews = async () => {
-		const newIdResponse = await getNewId().unwrap()
-		return newIdResponse.id
-	}
+  const addNews = async () => {
+    const newIdResponse = await getNewId().unwrap()
+    return newIdResponse.id
+  }
 
   */
 
 	const tableTitles = [
-		'Фамилия, имя, отчество',
-		'Номер телефона',
-		'Роль',
-		'Билет',
-		'Турникет / инспектор',
-		'Статус попытки',
-		'Дата и время попытки',
+		'ID',
+		'Название',
+		'Ворота / инспектор',
+		'ФИО персоны',
+		'Точка сервисов',
+		'Статус',
+		'Дата и время',
 	]
-	const sortTableTitles = ['Турникет / инспектор', 'Статус попытки', 'Дата и время продажи']
-	const formatObjectsTableData = (logEnters: LogEnters[]) => {
-		return logEnters.map((logEl) => {
+	const formatObjectsTableData = (logServices: LogServices[]) => {
+		return logServices.map((logEl) => {
 			return {
 				rowId: logEl.id,
 				cells: [
-					<p className={cn(styles.titleNewsTable)} key='0'>
+					<p className={styles.title} key='0'>
+						{logEl.id}
+					</p>,
+					<p key='1'>{logEl.service_name}</p>,
+					<p key='2'>{logEl.inspector}</p>,
+					<p key='3' className={styles.center}>
 						{logEl.fio}
 					</p>,
-					<p key='1'>{logEl.telphone}</p>,
-					<p key='2'>{logEl.role}</p>,
-					<p key='3' className={styles.center}>
-						{logEl.ticket}
+					<p key='4'>{logEl.place_name}</p>,
+					<p
+						key='5'
+						className={cn({
+							[styles.error]:
+								logEl.status_code === '_not-valid' ||
+								logEl.status_code === '_not-in-base' ||
+								logEl.status_code === '_no-pitanie',
+							[styles.repeat]: logEl.status_code === '_cooldown',
+							[styles.ok]: logEl.status_code === '_guest',
+						})}
+					>
+						{logEl.status_code === '_no-pitanie' ? 'Вне периода' : logEl.status}
 					</p>,
-					<p key='4'>{logEl.inspector}</p>,
-					<p key='5'>{logEl.status}</p>,
 					<p key='6' className={styles.date}>
 						<span>{`${formatDateTimeTicket(logEl.scandate)[0]}`}</span>
 						<span>{`${formatDateTimeTicket(logEl.scandate)[1]}`}</span>
@@ -91,7 +102,7 @@ export const LogEntersElements = () => {
 		})
 	}
 
-	if (isLoading || !logEntersData?.log) return <Loader />
+	if (isLoading || !logServiceData?.log) return <Loader />
 
 	return (
 		<>
@@ -101,16 +112,15 @@ export const LogEntersElements = () => {
 				</GridRow>
 				<CustomTable
 					className={styles.newsTable}
-					rowData={formatObjectsTableData(logEntersData?.log)}
+					rowData={formatObjectsTableData(logServiceData?.log)}
 					colTitles={tableTitles}
-					sortTitles={sortTableTitles}
 				/>
 				<TableFooter
-					totalElements={Number(logEntersData?.total)}
+					totalElements={Number(logServiceData?.total)}
 					currentPage={currentPage}
 					totalPages={Math.ceil(
-						Number(logEntersData.total) /
-							(itemsPerPage === 'all' ? Number(logEntersData.total) : itemsPerPage),
+						Number(logServiceData.total) /
+							(itemsPerPage === 'all' ? Number(logServiceData.total) : itemsPerPage),
 					)}
 					onPageChange={handlePageChange}
 					onLimitChange={handleItemsPerPageChange}

@@ -14,7 +14,7 @@ export type RouteBlock = {
 export type FilterTableInput = {
 	name: string
 	placeholder: string
-	type: 'text' | 'date' | 'select'
+	type: 'text' | 'date' | 'select' | 'special-select'
 	options?: SelOption[]
 }
 

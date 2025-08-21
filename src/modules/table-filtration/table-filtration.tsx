@@ -62,6 +62,28 @@ export const TableFiltration: FC<TableFiltrationProps> = ({ filterInputs }) => {
 							dropdownPosition='auto'
 						/>
 					)
+				} else if (type === 'special-select') {
+					return (
+						<Select
+							className={cn(styles.filterInput, styles._specialSelect)}
+							key={name}
+							placeholder={placeholder}
+							options={options.map((option) => ({
+								value: option.value,
+								label: option.label,
+							}))}
+							values={[]}
+							onChange={(selectedValues) => {
+								if (selectedValues.length > 0) {
+									handleChangeFiltration(name, selectedValues[0].value)
+								} else {
+									handleChangeFiltration(name, '')
+								}
+							}}
+							searchable={false}
+							dropdownPosition='auto'
+						/>
+					)
 				}
 				return (
 					<input

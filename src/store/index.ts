@@ -22,6 +22,7 @@ import { uploadFilesApi } from './uploadFiles/uploadFiles.api'
 import { faqApi } from './faq/faq.api'
 import { gamesApi } from './games/games.api'
 import { vidsApi } from './vids/vids.api'
+import { statisticApi } from './statistic/statistic.api'
 
 export const store = configureStore({
 	reducer: {
@@ -43,6 +44,7 @@ export const store = configureStore({
 		[faqApi.reducerPath]: faqApi.reducer,
 		[gamesApi.reducerPath]: gamesApi.reducer,
 		[vidsApi.reducerPath]: vidsApi.reducer,
+		[statisticApi.reducerPath]: statisticApi.reducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }).concat(
@@ -61,6 +63,7 @@ export const store = configureStore({
 			faqApi.middleware,
 			gamesApi.middleware,
 			vidsApi.middleware,
+			statisticApi.middleware,
 			rtkQueryErrorLogger,
 		),
 })

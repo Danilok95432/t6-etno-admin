@@ -115,6 +115,7 @@ import { GuestView } from 'src/pages/one-event-layout/pages/admin-event-visitors
 import { InspectorsElements } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/inspectors-page/components/inspectors-elements/inspectors-elements'
 import { OneInspector } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/inspectors-page/components/one-inspector/one-inspector'
 import { InspectorsVisitPage } from 'src/pages/one-event-layout/pages/admin-event-visitors/layout/inspectors-page/inspectors-page'
+import { LogServicesElements } from 'src/pages/one-event-layout/pages/admin-event-statistic/layout/log-services-page/components/log-services-page/log-services-elements'
 
 export const AdminRoutes: FC = () => {
 	return (
@@ -251,7 +252,9 @@ export const AdminRoutes: FC = () => {
 						<Route path={`${AdminRoute.LogEnters}`} element={<LogEntersPage />}>
 							<Route index element={<LogEntersElements />} />
 						</Route>
-						<Route path={`${AdminRoute.LogServices}`} element={<LogServicesPage />} />
+						<Route path={`${AdminRoute.LogServices}`} element={<LogServicesPage />}>
+							<Route index element={<LogServicesElements />} />
+						</Route>
 						<Route path={`${AdminRoute.LogPayments}`} element={<LogPaymentsPage />} />
 						<Route path={`${AdminRoute.UniquePersons}`} element={<UniquePersonsPage />} />
 						<Route path={`${AdminRoute.Inspectors}`} element={<InspectorsPage />} />

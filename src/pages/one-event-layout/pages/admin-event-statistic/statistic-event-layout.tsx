@@ -6,9 +6,11 @@ import type { TabNavigationItem } from 'src/types/navigation'
 
 import styles from './index.module.scss'
 import { Container } from 'src/UI/Container/Container'
+import { useGetAllLogsEnterQuery } from 'src/store/statistic/statistic.api'
 
 export const StatisticEventLayout = () => {
 	const { id = '' } = useParams()
+	const { data: statistic } = useGetAllLogsEnterQuery({ id })
 	const eventTabs: TabNavigationItem[] = [
 		{
 			title: 'Лог входов',
@@ -57,14 +59,14 @@ export const StatisticEventLayout = () => {
 					{location.pathname.includes('/log-enters') && (
 						<div className={styles.statBlock}>
 							<div className={styles.leftSide}>
-								<p>Куплено билетов, всего: </p>
-								<p>Прошло посетителей: </p>
-								<p>Всего неуникальных проходов: </p>
+								<p>Куплено билетов, всего:</p>
+								<p>Прошло посетителей:</p>
+								<p>Всего неуникальных проходов:</p>
 							</div>
 							<div className={styles.rightSide}>
-								<p>{0}</p>
-								<p>{0}</p>
-								<p>{0}</p>
+								<p>{statistic?.tickets_total}</p>
+								<p>{statistic?.people_total}</p>
+								<p>{statistic?.prohod_total}</p>
 							</div>
 						</div>
 					)}

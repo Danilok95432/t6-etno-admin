@@ -2,7 +2,7 @@ import { type FilterTableInput } from 'src/types/global'
 
 export const TicketsFiltrationInputs: FilterTableInput[] = [
 	{
-		name: 'title',
+		name: 'telphone',
 		placeholder: 'искать по номеру телефона',
 		type: 'text',
 	},
@@ -12,7 +12,7 @@ export const TicketsFiltrationInputs: FilterTableInput[] = [
 		type: 'text',
 	},
 	{
-		name: 'turniket',
+		name: 'status',
 		placeholder: 'выбрать статус попытки',
 		type: 'select',
 		options: [{ label: 'Не выбран', value: '0' }],
@@ -20,7 +20,7 @@ export const TicketsFiltrationInputs: FilterTableInput[] = [
 	{
 		name: 'turniket',
 		placeholder: 'выбрать турникет или инспектора',
-		type: 'select',
+		type: 'special-select',
 		options: [{ label: 'Не выбран', value: '0' }],
 	},
 ]
